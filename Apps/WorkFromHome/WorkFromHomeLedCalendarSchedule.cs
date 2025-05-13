@@ -67,12 +67,12 @@ public class WorkFromHomeLedCalendarSchedule
     private void CheckBusyStatus()
     {
         var isBusy = IsCurrentlyBusy();
-        if (currentlyBusy == isBusy)
+        if (currentlyBusy != isBusy)
         {
-            return;
+            logger.LogDebug("Currently busy state changed to: {CurrentlyBusy}", isBusy);
+            currentlyBusy = isBusy;
         }
-        logger.LogDebug("Currently busy state changed to: {CurrentlyBusy}", isBusy);
-        currentlyBusy = isBusy;
+        
         AdjustLedToBusyState(isBusy);
     }
 
