@@ -73,6 +73,8 @@ public class WorkFromHomeLedCalendarSchedule
             currentlyBusy = isBusy;
         }
         
+        logger.LogDebug("Current busy state: {CurrentlyBusy}", isBusy ? "busy" : "idle");
+        
         AdjustLedToBusyState(isBusy);
     }
 
@@ -90,10 +92,12 @@ public class WorkFromHomeLedCalendarSchedule
     {
         if (isBusy)
         {
+            logger.LogDebug("Adjusting led to busy state");
             entities.Light.LedStripOfficeLight.TurnOn(brightnessPct:80, rgbColor: [255, 0, 0]);
         }
         else
         {
+            logger.LogDebug("Adjusting led to idle state");
             entities.Light.LedStripOfficeLight.TurnOn(brightnessPct: 10, rgbColor: [0, 0, 255]);
         }
     }
