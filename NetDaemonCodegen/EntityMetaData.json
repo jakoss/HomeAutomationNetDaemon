@@ -7,6 +7,11 @@
           "id": "light.led_strip_office_light",
           "friendlyName": "LED strip Office  Light",
           "cSharpName": "LedStripOfficeLight"
+        },
+        {
+          "id": "light.office_desk_lamp",
+          "friendlyName": "Office desk lamp",
+          "cSharpName": "OfficeDeskLamp"
         }
       ],
       "attributes": [
@@ -177,7 +182,7 @@
         },
         {
           "id": "media_player.mi_box_airplay",
-          "friendlyName": "Mi Box\u002B (AirPlay)",
+          "friendlyName": null,
           "cSharpName": "MiBoxAirplay"
         },
         {
@@ -192,7 +197,7 @@
         },
         {
           "id": "media_player.smart_tv_pro",
-          "friendlyName": "Salon",
+          "friendlyName": null,
           "cSharpName": "SmartTvPro"
         },
         {
@@ -455,6 +460,11 @@
           "cSharpName": "AutomaticHaRestartOnNetatmoUnavailability"
         },
         {
+          "id": "automation.automatic_light_in_office",
+          "friendlyName": "Automatic light in office ",
+          "cSharpName": "AutomaticLightInOffice"
+        },
+        {
           "id": "automation.automatic_working_at_home_status_based_on_desk_presence",
           "friendlyName": "Automatic working at home status based on desk presence",
           "cSharpName": "AutomaticWorkingAtHomeStatusBasedOnDeskPresence"
@@ -498,6 +508,11 @@
           "id": "automation.start_working_day_notification",
           "friendlyName": "Start working day notification ",
           "cSharpName": "StartWorkingDayNotification"
+        },
+        {
+          "id": "automation.synchronize_desk_light_with_working_mode",
+          "friendlyName": "Synchronize desk light with working mode",
+          "cSharpName": "SynchronizeDeskLightWithWorkingMode"
         },
         {
           "id": "automation.synchronize_garage_outside_lights",
@@ -698,17 +713,17 @@
         },
         {
           "id": "binary_sensor.lnlinkha_e04b410156c6000000000000d6ac0000",
-          "friendlyName": "eMotion Max 2 (e04b410156c6) zone_all_area",
+          "friendlyName": "eMotion Max 2 (e04b410156c6) Any Presence",
           "cSharpName": "LnlinkhaE04b410156c6000000000000d6ac0000"
         },
         {
           "id": "binary_sensor.lnlinkha_e04b410156c6000000000000d6ac0000_4",
-          "friendlyName": "eMotion Max 2 (e04b410156c6) zone_3",
+          "friendlyName": "eMotion Max 2 (e04b410156c6) Zone 3 Presence",
           "cSharpName": "LnlinkhaE04b410156c6000000000000d6ac00004"
         },
         {
           "id": "binary_sensor.lnlinkha_e04b410156c6000000000000d6ac0000_5",
-          "friendlyName": "eMotion Max 2 (e04b410156c6) zone_4",
+          "friendlyName": "eMotion Max 2 (e04b410156c6) Zone 4 Presence",
           "cSharpName": "LnlinkhaE04b410156c6000000000000d6ac00005"
         },
         {
@@ -900,12 +915,12 @@
       "entities": [
         {
           "id": "button.ap_gora_restart",
-          "friendlyName": "AP G\u00F3ra Restart",
+          "friendlyName": "Restart",
           "cSharpName": "ApGoraRestart"
         },
         {
           "id": "button.ap_kuchnia_restart",
-          "friendlyName": "AP Kuchnia Restart",
+          "friendlyName": "Restart",
           "cSharpName": "ApKuchniaRestart"
         },
         {
@@ -940,28 +955,18 @@
         },
         {
           "id": "button.dream_router_home_port_3_power_cycle",
-          "friendlyName": "Dream Router Home Port 3 Power Cycle",
+          "friendlyName": "Port 3 Power Cycle",
           "cSharpName": "DreamRouterHomePort3PowerCycle"
         },
         {
           "id": "button.dream_router_home_port_4_power_cycle",
-          "friendlyName": "Dream Router Home Port 4 Power Cycle",
+          "friendlyName": "Port 4 Power Cycle",
           "cSharpName": "DreamRouterHomePort4PowerCycle"
         },
         {
           "id": "button.dream_router_home_restart",
-          "friendlyName": "Dream Router Home Restart",
+          "friendlyName": "Restart",
           "cSharpName": "DreamRouterHomeRestart"
-        },
-        {
-          "id": "button.dreame_de_1063030855_p2114a_play_sound_a_7_2",
-          "friendlyName": "Czesio * audio play-sound",
-          "cSharpName": "DreameDe1063030855P2114aPlaySoundA72"
-        },
-        {
-          "id": "button.dreame_de_1063030855_p2114a_position_a_7_1",
-          "friendlyName": "Czesio * audio position",
-          "cSharpName": "DreameDe1063030855P2114aPositionA71"
         },
         {
           "id": "button.dreame_de_1063030855_p2114a_reset_brush_life_a_10_1",
@@ -989,14 +994,9 @@
           "cSharpName": "DreameDe1063030855P2114aStartChargeA31"
         },
         {
-          "id": "button.dreame_de_1063030855_p2114a_start_collect_a_15_1",
-          "friendlyName": "Czesio * collect-dust start-collect",
-          "cSharpName": "DreameDe1063030855P2114aStartCollectA151"
-        },
-        {
-          "id": "button.dreame_de_1063030855_p2114a_stop_clean_a_4_2",
-          "friendlyName": "Czesio * vacuum-extend stop-clean",
-          "cSharpName": "DreameDe1063030855P2114aStopCleanA42"
+          "id": "button.gledopto_gl_lb_001p_identify",
+          "friendlyName": "Office desk lamp Identify",
+          "cSharpName": "GledoptoGlLb001pIdentify"
         },
         {
           "id": "button.led_strip_office_identify",
@@ -1030,98 +1030,108 @@
         },
         {
           "id": "button.switch_gabinet_port_1_power_cycle",
-          "friendlyName": "Switch Gabinet Port 1 Power Cycle",
+          "friendlyName": "Port 1 Power Cycle",
           "cSharpName": "SwitchGabinetPort1PowerCycle"
         },
         {
           "id": "button.switch_gabinet_port_2_power_cycle",
-          "friendlyName": "Switch Gabinet Port 2 Power Cycle",
+          "friendlyName": "Port 2 Power Cycle",
           "cSharpName": "SwitchGabinetPort2PowerCycle"
         },
         {
           "id": "button.switch_gabinet_port_3_power_cycle",
-          "friendlyName": "Switch Gabinet Port 3 Power Cycle",
+          "friendlyName": "Port 3 Power Cycle",
           "cSharpName": "SwitchGabinetPort3PowerCycle"
         },
         {
           "id": "button.switch_gabinet_port_4_power_cycle",
-          "friendlyName": "Switch Gabinet Port 4 Power Cycle",
+          "friendlyName": "Port 4 Power Cycle",
           "cSharpName": "SwitchGabinetPort4PowerCycle"
         },
         {
           "id": "button.switch_gabinet_restart",
-          "friendlyName": "Switch Gabinet Restart",
+          "friendlyName": "Restart",
           "cSharpName": "SwitchGabinetRestart"
         },
         {
           "id": "button.switch_strych_port_1_power_cycle",
-          "friendlyName": "Switch Strych Port 1 Power Cycle",
+          "friendlyName": "Port 1 Power Cycle",
           "cSharpName": "SwitchStrychPort1PowerCycle"
         },
         {
           "id": "button.switch_strych_port_2_power_cycle",
-          "friendlyName": "Switch Strych Port 2 Power Cycle",
+          "friendlyName": "Port 2 Power Cycle",
           "cSharpName": "SwitchStrychPort2PowerCycle"
         },
         {
           "id": "button.switch_strych_port_3_power_cycle",
-          "friendlyName": "Switch Strych Port 3 Power Cycle",
+          "friendlyName": "Port 3 Power Cycle",
           "cSharpName": "SwitchStrychPort3PowerCycle"
         },
         {
           "id": "button.switch_strych_port_4_power_cycle",
-          "friendlyName": "Switch Strych Port 4 Power Cycle",
+          "friendlyName": "Port 4 Power Cycle",
           "cSharpName": "SwitchStrychPort4PowerCycle"
         },
         {
           "id": "button.switch_strych_restart",
-          "friendlyName": "Switch Strych Restart",
+          "friendlyName": "Restart",
           "cSharpName": "SwitchStrychRestart"
         },
         {
           "id": "button.switch_stryszek_port_1_power_cycle",
-          "friendlyName": "Switch Stryszek Port 1 Power Cycle",
+          "friendlyName": "Port 1 Power Cycle",
           "cSharpName": "SwitchStryszekPort1PowerCycle"
         },
         {
           "id": "button.switch_stryszek_port_2_power_cycle",
-          "friendlyName": "Switch Stryszek Port 2 Power Cycle",
+          "friendlyName": "Port 2 Power Cycle",
           "cSharpName": "SwitchStryszekPort2PowerCycle"
         },
         {
           "id": "button.switch_stryszek_port_3_power_cycle",
-          "friendlyName": "Switch Stryszek Port 3 Power Cycle",
+          "friendlyName": "Port 3 Power Cycle",
           "cSharpName": "SwitchStryszekPort3PowerCycle"
         },
         {
           "id": "button.switch_stryszek_port_4_power_cycle",
-          "friendlyName": "Switch Stryszek Port 4 Power Cycle",
+          "friendlyName": "Port 4 Power Cycle",
           "cSharpName": "SwitchStryszekPort4PowerCycle"
         },
         {
           "id": "button.switch_stryszek_port_5_power_cycle",
-          "friendlyName": "Switch Stryszek Port 5 Power Cycle",
+          "friendlyName": "Port 5 Power Cycle",
           "cSharpName": "SwitchStryszekPort5PowerCycle"
         },
         {
           "id": "button.switch_stryszek_port_6_power_cycle",
-          "friendlyName": "Switch Stryszek Port 6 Power Cycle",
+          "friendlyName": "Port 6 Power Cycle",
           "cSharpName": "SwitchStryszekPort6PowerCycle"
         },
         {
           "id": "button.switch_stryszek_port_7_power_cycle",
-          "friendlyName": "Switch Stryszek Port 7 Power Cycle",
+          "friendlyName": "Port 7 Power Cycle",
           "cSharpName": "SwitchStryszekPort7PowerCycle"
         },
         {
           "id": "button.switch_stryszek_port_8_power_cycle",
-          "friendlyName": "Switch Stryszek Port 8 Power Cycle",
+          "friendlyName": "Port 8 Power Cycle",
           "cSharpName": "SwitchStryszekPort8PowerCycle"
         },
         {
           "id": "button.switch_stryszek_restart",
-          "friendlyName": "Switch Stryszek Restart",
+          "friendlyName": "Restart",
           "cSharpName": "SwitchStryszekRestart"
+        },
+        {
+          "id": "button.tz3000_ti0npywk_ts0001_identify",
+          "friendlyName": "Switch office main Identify",
+          "cSharpName": "Tz3000Ti0npywkTs0001Identify"
+        },
+        {
+          "id": "button.tz3000_ti0npywk_ts0001_identify_2",
+          "friendlyName": "Switch office desk Identify",
+          "cSharpName": "Tz3000Ti0npywkTs0001Identify2"
         },
         {
           "id": "button.zmywarka_do_naczyn_stop_program",
@@ -1301,6 +1311,16 @@
           "jsonName": "calibration_points",
           "cSharpName": "CalibrationPoints",
           "clrType": "System.Collections.Generic.IReadOnlyList\u00601[System.Object]"
+        },
+        {
+          "jsonName": "active_segments",
+          "cSharpName": "ActiveSegments",
+          "clrType": "System.Collections.Generic.IReadOnlyList\u00601[System.Double]"
+        },
+        {
+          "jsonName": "obstacles",
+          "cSharpName": "Obstacles",
+          "clrType": "System.Collections.Generic.IReadOnlyList\u00601[System.Object]"
         }
       ]
     },
@@ -1344,7 +1364,7 @@
         },
         {
           "id": "climate.klima_pokoj_oliwii",
-          "friendlyName": "Klima pok\u00F3j Oliwii",
+          "friendlyName": null,
           "cSharpName": "KlimaPokojOliwii"
         },
         {
@@ -1702,6 +1722,16 @@
           "jsonName": "radio_proto",
           "cSharpName": "RadioProto",
           "clrType": "System.String"
+        },
+        {
+          "jsonName": "restored",
+          "cSharpName": "Restored",
+          "clrType": "System.Boolean"
+        },
+        {
+          "jsonName": "supported_features",
+          "cSharpName": "SupportedFeatures",
+          "clrType": "System.Double"
         }
       ]
     },
@@ -1709,29 +1739,9 @@
       "domain": "event",
       "entities": [
         {
-          "id": "event.dreame_de_1063030855_p2114a_cleanup_completed_e_4_1",
-          "friendlyName": "Czesio * vacuum-extend Cleanup Completed",
-          "cSharpName": "DreameDe1063030855P2114aCleanupCompletedE41"
-        },
-        {
-          "id": "event.dreame_de_1063030855_p2114a_exception_occurred_e_18_1",
-          "friendlyName": "Czesio * mop exception-occurred",
-          "cSharpName": "DreameDe1063030855P2114aExceptionOccurredE181"
-        },
-        {
-          "id": "event.dreame_de_1063030855_p2114a_exception_occurred_e_18_2",
-          "friendlyName": "Czesio * mop exception-occurred",
-          "cSharpName": "DreameDe1063030855P2114aExceptionOccurredE182"
-        },
-        {
-          "id": "event.dreame_de_1063030855_p2114a_finish_clean_e_4_3",
-          "friendlyName": "Czesio * vacuum-extend finish-clean",
-          "cSharpName": "DreameDe1063030855P2114aFinishCleanE43"
-        },
-        {
-          "id": "event.dreame_de_1063030855_p2114a_finish_withwaternox_e_4_2",
-          "friendlyName": "Czesio * vacuum-extend finish-withwaternox",
-          "cSharpName": "DreameDe1063030855P2114aFinishWithwaternoxE42"
+          "id": "event.backup_automatic_backup",
+          "friendlyName": "Backup Automatic backup",
+          "cSharpName": "BackupAutomaticBackup"
         },
         {
           "id": "event.dreame_de_1063030855_p2114a_low_battery_e_3_1",
@@ -1764,6 +1774,16 @@
           "jsonName": "event_type",
           "cSharpName": "EventType",
           "clrType": "System.String"
+        },
+        {
+          "jsonName": "backup_stage",
+          "cSharpName": "BackupStage",
+          "clrType": null
+        },
+        {
+          "jsonName": "failed_reason",
+          "cSharpName": "FailedReason",
+          "clrType": null
         }
       ]
     },
@@ -1836,26 +1856,6 @@
       "domain": "notify",
       "entities": [
         {
-          "id": "notify.dreame_de_1063030855_p2114a_delete_timer_a_8_1",
-          "friendlyName": "Czesio * time delete-timer",
-          "cSharpName": "DreameDe1063030855P2114aDeleteTimerA81"
-        },
-        {
-          "id": "notify.dreame_de_1063030855_p2114a_map_req_a_6_1",
-          "friendlyName": "Czesio * map map-req",
-          "cSharpName": "DreameDe1063030855P2114aMapReqA61"
-        },
-        {
-          "id": "notify.dreame_de_1063030855_p2114a_start_clean_a_4_1",
-          "friendlyName": "Czesio * vacuum-extend start-clean",
-          "cSharpName": "DreameDe1063030855P2114aStartCleanA41"
-        },
-        {
-          "id": "notify.dreame_de_1063030855_p2114a_start_room_sweep_a_2_3",
-          "friendlyName": "Czesio  Robot Cleaner Start Room Sweep",
-          "cSharpName": "DreameDe1063030855P2114aStartRoomSweepA23"
-        },
-        {
           "id": "notify.dreame_de_1063030855_p2114a_update_map_a_6_2",
           "friendlyName": "Czesio * map update-map",
           "cSharpName": "DreameDe1063030855P2114aUpdateMapA62"
@@ -1889,19 +1889,29 @@
       "isNumeric": true,
       "entities": [
         {
-          "id": "number.dreame_de_1063030855_p2114a_clean_rags_tip_p_4_16",
-          "friendlyName": "Czesio * vacuum-extend clean-rags-tip",
-          "cSharpName": "DreameDe1063030855P2114aCleanRagsTipP416"
+          "id": "number.gledopto_gl_lb_001p_start_up_color_temperature",
+          "friendlyName": "Office desk lamp Start-up color temperature",
+          "cSharpName": "GledoptoGlLb001pStartUpColorTemperature"
         },
         {
-          "id": "number.dreame_de_1063030855_p2114a_clean_times_p_15_2",
-          "friendlyName": "Czesio * collect-dust clean-times",
-          "cSharpName": "DreameDe1063030855P2114aCleanTimesP152"
+          "id": "number.gledopto_gl_lb_001p_start_up_current_level",
+          "friendlyName": "Office desk lamp Start-up current level",
+          "cSharpName": "GledoptoGlLb001pStartUpCurrentLevel"
         },
         {
-          "id": "number.dreame_de_1063030855_p2114a_volume_p_7_1",
-          "friendlyName": "Czesio * audio volume",
-          "cSharpName": "DreameDe1063030855P2114aVolumeP71"
+          "id": "number.lnlinkha_e04b410156c6000000000000d6ac0000_config_l",
+          "friendlyName": "eMotion Max 2 (e04b410156c6) Brightness change threshold (lux)",
+          "cSharpName": "LnlinkhaE04b410156c6000000000000d6ac0000ConfigL"
+        },
+        {
+          "id": "number.lnlinkha_e04b410156c6000000000000d6ac0000_config_opt_i",
+          "friendlyName": "eMotion Max 2 (e04b410156c6) Brightness update frequency (sec)",
+          "cSharpName": "LnlinkhaE04b410156c6000000000000d6ac0000ConfigOptI"
+        },
+        {
+          "id": "number.lnlinkha_e04b410156c6000000000000d6ac0000_config_radar_i",
+          "friendlyName": "eMotion Max 2 (e04b410156c6) Radar target update frequency (sec)",
+          "cSharpName": "LnlinkhaE04b410156c6000000000000d6ac0000ConfigRadarI"
         },
         {
           "id": "number.zmywarka_do_naczyn_start_in_relative",
@@ -2009,7 +2019,7 @@
         },
         {
           "id": "remote.smart_tv_pro",
-          "friendlyName": "Salon",
+          "friendlyName": null,
           "cSharpName": "SmartTvPro"
         }
       ],
@@ -2179,34 +2189,9 @@
       "domain": "select",
       "entities": [
         {
-          "id": "select.czesio_drying_time",
-          "friendlyName": "Czesio Drying Time",
-          "cSharpName": "CzesioDryingTime"
-        },
-        {
           "id": "select.domek",
           "friendlyName": "Domek",
           "cSharpName": "Domek"
-        },
-        {
-          "id": "select.dreame_de_1063030855_p2114a_auto_collect_p_15_1",
-          "friendlyName": "Czesio * collect-dust auto-collect",
-          "cSharpName": "DreameDe1063030855P2114aAutoCollectP151"
-        },
-        {
-          "id": "select.dreame_de_1063030855_p2114a_break_point_restart_p_4_11",
-          "friendlyName": "Czesio * vacuum-extend break-point-restart",
-          "cSharpName": "DreameDe1063030855P2114aBreakPointRestartP411"
-        },
-        {
-          "id": "select.dreame_de_1063030855_p2114a_carpet_press_p_4_12",
-          "friendlyName": "Czesio * vacuum-extend carpet-press",
-          "cSharpName": "DreameDe1063030855P2114aCarpetPressP412"
-        },
-        {
-          "id": "select.dreame_de_1063030855_p2114a_laser_switch_p_4_21",
-          "friendlyName": "Czesio * vacuum-extend laser-switch",
-          "cSharpName": "DreameDe1063030855P2114aLaserSwitchP421"
         },
         {
           "id": "select.dreame_de_1063030855_p2114a_mode_p_2_3",
@@ -2214,9 +2199,9 @@
           "cSharpName": "DreameDe1063030855P2114aModeP23"
         },
         {
-          "id": "select.dreame_de_1063030855_p2114a_mop_mode_p_4_5",
-          "friendlyName": "Czesio * vacuum-extend mop-mode",
-          "cSharpName": "DreameDe1063030855P2114aMopModeP45"
+          "id": "select.gledopto_gl_lb_001p_start_up_behavior",
+          "friendlyName": "Office desk lamp Start-up behavior",
+          "cSharpName": "GledoptoGlLb001pStartUpBehavior"
         },
         {
           "id": "select.plug_01_backlight_mode",
@@ -2347,38 +2332,43 @@
       "entities": [
         {
           "id": "sensor.ap_gora_state",
-          "friendlyName": "AP G\u00F3ra State",
+          "friendlyName": "State",
           "cSharpName": "ApGoraState"
         },
         {
           "id": "sensor.ap_gora_uplink_mac",
-          "friendlyName": "AP G\u00F3ra Uplink MAC",
+          "friendlyName": "Uplink MAC",
           "cSharpName": "ApGoraUplinkMac"
         },
         {
           "id": "sensor.ap_gora_uptime",
-          "friendlyName": "AP G\u00F3ra Uptime",
+          "friendlyName": "Uptime",
           "cSharpName": "ApGoraUptime"
         },
         {
           "id": "sensor.ap_kuchnia_state",
-          "friendlyName": "AP Kuchnia State",
+          "friendlyName": "State",
           "cSharpName": "ApKuchniaState"
         },
         {
           "id": "sensor.ap_kuchnia_uplink_mac",
-          "friendlyName": "AP Kuchnia Uplink MAC",
+          "friendlyName": "Uplink MAC",
           "cSharpName": "ApKuchniaUplinkMac"
         },
         {
           "id": "sensor.ap_kuchnia_uptime",
-          "friendlyName": "AP Kuchnia Uptime",
+          "friendlyName": "Uptime",
           "cSharpName": "ApKuchniaUptime"
         },
         {
           "id": "sensor.backup_backup_manager_state",
           "friendlyName": "Backup Backup Manager state",
           "cSharpName": "BackupBackupManagerState"
+        },
+        {
+          "id": "sensor.backup_last_attempted_automatic_backup",
+          "friendlyName": "Backup Last attempted automatic backup",
+          "cSharpName": "BackupLastAttemptedAutomaticBackup"
         },
         {
           "id": "sensor.backup_last_successful_automatic_backup",
@@ -2401,19 +2391,9 @@
           "cSharpName": "CzesioChargingStatus"
         },
         {
-          "id": "sensor.czesio_cleaning_history",
-          "friendlyName": "Czesio Cleaning History",
-          "cSharpName": "CzesioCleaningHistory"
-        },
-        {
           "id": "sensor.czesio_current_room",
           "friendlyName": "Czesio Current Room",
           "cSharpName": "CzesioCurrentRoom"
-        },
-        {
-          "id": "sensor.czesio_dust_collection",
-          "friendlyName": "Czesio Dust Collection",
-          "cSharpName": "CzesioDustCollection"
         },
         {
           "id": "sensor.czesio_error",
@@ -2432,12 +2412,12 @@
         },
         {
           "id": "sensor.dream_router_home_state",
-          "friendlyName": "Dream Router Home State",
+          "friendlyName": "State",
           "cSharpName": "DreamRouterHomeState"
         },
         {
           "id": "sensor.dream_router_home_uptime",
-          "friendlyName": "Dream Router Home Uptime",
+          "friendlyName": "Uptime",
           "cSharpName": "DreamRouterHomeUptime"
         },
         {
@@ -2446,44 +2426,9 @@
           "cSharpName": "DreameDe1063030855P2114aChargingStateP32"
         },
         {
-          "id": "sensor.dreame_de_1063030855_p2114a_clean_log_filename_p_4_9",
-          "friendlyName": "Czesio * vacuum-extend clean-log-filename",
-          "cSharpName": "DreameDe1063030855P2114aCleanLogFilenameP49"
-        },
-        {
-          "id": "sensor.dreame_de_1063030855_p2114a_clean_start_time_p_4_8",
-          "friendlyName": "Czesio * vacuum-extend clean-start-time",
-          "cSharpName": "DreameDe1063030855P2114aCleanStartTimeP48"
-        },
-        {
-          "id": "sensor.dreame_de_1063030855_p2114a_cleaning_area_p_4_3",
-          "friendlyName": "Czesio * vacuum-extend cleaning-area",
-          "cSharpName": "DreameDe1063030855P2114aCleaningAreaP43"
-        },
-        {
-          "id": "sensor.dreame_de_1063030855_p2114a_cleaning_mode_p_4_4",
-          "friendlyName": "Czesio * vacuum-extend Cleanup Mode",
-          "cSharpName": "DreameDe1063030855P2114aCleaningModeP44"
-        },
-        {
-          "id": "sensor.dreame_de_1063030855_p2114a_dust_enable_p_15_3",
-          "friendlyName": "Czesio * collect-dust dust-enable",
-          "cSharpName": "DreameDe1063030855P2114aDustEnableP153"
-        },
-        {
           "id": "sensor.dreame_de_1063030855_p2114a_fault_p_2_2",
           "friendlyName": "Czesio  Robot Cleaner Error",
           "cSharpName": "DreameDe1063030855P2114aFaultP22"
-        },
-        {
-          "id": "sensor.dreame_de_1063030855_p2114a_faults_p_4_18",
-          "friendlyName": "Czesio * vacuum-extend faults",
-          "cSharpName": "DreameDe1063030855P2114aFaultsP418"
-        },
-        {
-          "id": "sensor.dreame_de_1063030855_p2114a_first_clean_time_p_12_1",
-          "friendlyName": "Czesio * clean-logs first-clean-time",
-          "cSharpName": "DreameDe1063030855P2114aFirstCleanTimeP121"
         },
         {
           "id": "sensor.dreame_de_1063030855_p2114a_map_data_p_6_1",
@@ -2496,19 +2441,9 @@
           "cSharpName": "DreameDe1063030855P2114aMultMapInfoP68"
         },
         {
-          "id": "sensor.dreame_de_1063030855_p2114a_nation_matched_p_4_19",
-          "friendlyName": "Czesio * vacuum-extend nation-matched",
-          "cSharpName": "DreameDe1063030855P2114aNationMatchedP419"
-        },
-        {
           "id": "sensor.dreame_de_1063030855_p2114a_object_name_p_6_3",
           "friendlyName": "Czesio * map object-name",
           "cSharpName": "DreameDe1063030855P2114aObjectNameP63"
-        },
-        {
-          "id": "sensor.dreame_de_1063030855_p2114a_relocation_status_p_4_20",
-          "friendlyName": "Czesio * vacuum-extend relocation-status",
-          "cSharpName": "DreameDe1063030855P2114aRelocationStatusP420"
         },
         {
           "id": "sensor.dreame_de_1063030855_p2114a_result_code_p_6_6",
@@ -2519,46 +2454,6 @@
           "id": "sensor.dreame_de_1063030855_p2114a_robot_time_p_6_5",
           "friendlyName": "Czesio * map robot-time",
           "cSharpName": "DreameDe1063030855P2114aRobotTimeP65"
-        },
-        {
-          "id": "sensor.dreame_de_1063030855_p2114a_serial_number_p_4_14",
-          "friendlyName": "Czesio * vacuum-extend serial-number",
-          "cSharpName": "DreameDe1063030855P2114aSerialNumberP414"
-        },
-        {
-          "id": "sensor.dreame_de_1063030855_p2114a_task_status_p_4_7",
-          "friendlyName": "Czesio * vacuum-extend task-status",
-          "cSharpName": "DreameDe1063030855P2114aTaskStatusP47"
-        },
-        {
-          "id": "sensor.dreame_de_1063030855_p2114a_time_zone_p_8_1",
-          "friendlyName": "Czesio * time time-zone",
-          "cSharpName": "DreameDe1063030855P2114aTimeZoneP81"
-        },
-        {
-          "id": "sensor.dreame_de_1063030855_p2114a_total_clean_area_p_12_4",
-          "friendlyName": "Czesio * clean-logs total-clean-area",
-          "cSharpName": "DreameDe1063030855P2114aTotalCleanAreaP124"
-        },
-        {
-          "id": "sensor.dreame_de_1063030855_p2114a_total_clean_times_p_12_3",
-          "friendlyName": "Czesio * clean-logs total-clean-times",
-          "cSharpName": "DreameDe1063030855P2114aTotalCleanTimesP123"
-        },
-        {
-          "id": "sensor.dreame_de_1063030855_p2114a_voice_change_state_p_7_3",
-          "friendlyName": "Czesio * audio voice-change-state",
-          "cSharpName": "DreameDe1063030855P2114aVoiceChangeStateP73"
-        },
-        {
-          "id": "sensor.dreame_de_1063030855_p2114a_waterbox_status_p_4_6",
-          "friendlyName": "Czesio * vacuum-extend waterbox-status",
-          "cSharpName": "DreameDe1063030855P2114aWaterboxStatusP46"
-        },
-        {
-          "id": "sensor.dreame_de_1063030855_p2114a_work_mode_p_4_1",
-          "friendlyName": "Czesio * vacuum-extend work-mode",
-          "cSharpName": "DreameDe1063030855P2114aWorkModeP41"
         },
         {
           "id": "sensor.hl_l2370dn_status",
@@ -2681,6 +2576,26 @@
           "cSharpName": "LnlinkhaE04b410156c6000000000000d6ac00002"
         },
         {
+          "id": "sensor.lnlinkha_e04b410156c6000000000000d6ac0000_3",
+          "friendlyName": "eMotion Max 2 (e04b410156c6) Zone 1 Target Counts",
+          "cSharpName": "LnlinkhaE04b410156c6000000000000d6ac00003"
+        },
+        {
+          "id": "sensor.lnlinkha_e04b410156c6000000000000d6ac0000_4",
+          "friendlyName": "eMotion Max 2 (e04b410156c6) Zone 2 Target Counts",
+          "cSharpName": "LnlinkhaE04b410156c6000000000000d6ac00004"
+        },
+        {
+          "id": "sensor.lnlinkha_e04b410156c6000000000000d6ac0000_5",
+          "friendlyName": "eMotion Max 2 (e04b410156c6) Zone 3 Target Counts",
+          "cSharpName": "LnlinkhaE04b410156c6000000000000d6ac00005"
+        },
+        {
+          "id": "sensor.lnlinkha_e04b410156c6000000000000d6ac0000_6",
+          "friendlyName": "eMotion Max 2 (e04b410156c6) Zone 4 Target Counts",
+          "cSharpName": "LnlinkhaE04b410156c6000000000000d6ac00006"
+        },
+        {
           "id": "sensor.power_highest_peak_time_today",
           "friendlyName": "Solar production forecast Highest power peak time - today",
           "cSharpName": "PowerHighestPeakTimeToday"
@@ -2697,22 +2612,22 @@
         },
         {
           "id": "sensor.s_guest",
-          "friendlyName": "S_Guest",
+          "friendlyName": null,
           "cSharpName": "SGuest"
         },
         {
           "id": "sensor.s_iot",
-          "friendlyName": "S_IoT",
+          "friendlyName": null,
           "cSharpName": "SIot"
         },
         {
           "id": "sensor.s_main",
-          "friendlyName": "S_Main",
+          "friendlyName": null,
           "cSharpName": "SMain"
         },
         {
           "id": "sensor.s_tv",
-          "friendlyName": "S_TV",
+          "friendlyName": null,
           "cSharpName": "STv"
         },
         {
@@ -2786,16 +2701,6 @@
           "cSharpName": "SmG990bVolumeLevelRinger"
         },
         {
-          "id": "sensor.smart_meter_ts_65a_3_meter_location",
-          "friendlyName": "Smart Meter TS 65A-3 Meter location",
-          "cSharpName": "SmartMeterTs65a3MeterLocation"
-        },
-        {
-          "id": "sensor.smart_meter_ts_65a_3_meter_location_description",
-          "friendlyName": "Smart Meter TS 65A-3 Meter location description",
-          "cSharpName": "SmartMeterTs65a3MeterLocationDescription"
-        },
-        {
           "id": "sensor.smart_meter_ts_65a_3_power_factor",
           "friendlyName": "Smart Meter TS 65A-3 Power factor",
           "cSharpName": "SmartMeterTs65a3PowerFactor"
@@ -2837,47 +2742,47 @@
         },
         {
           "id": "sensor.switch_gabinet_state",
-          "friendlyName": "Switch Gabinet State",
+          "friendlyName": "State",
           "cSharpName": "SwitchGabinetState"
         },
         {
           "id": "sensor.switch_gabinet_uplink_mac",
-          "friendlyName": "Switch Gabinet Uplink MAC",
+          "friendlyName": "Uplink MAC",
           "cSharpName": "SwitchGabinetUplinkMac"
         },
         {
           "id": "sensor.switch_gabinet_uptime",
-          "friendlyName": "Switch Gabinet Uptime",
+          "friendlyName": "Uptime",
           "cSharpName": "SwitchGabinetUptime"
         },
         {
           "id": "sensor.switch_strych_state",
-          "friendlyName": "Switch Strych State",
+          "friendlyName": "State",
           "cSharpName": "SwitchStrychState"
         },
         {
           "id": "sensor.switch_strych_uplink_mac",
-          "friendlyName": "Switch Strych Uplink MAC",
+          "friendlyName": "Uplink MAC",
           "cSharpName": "SwitchStrychUplinkMac"
         },
         {
           "id": "sensor.switch_strych_uptime",
-          "friendlyName": "Switch Strych Uptime",
+          "friendlyName": "Uptime",
           "cSharpName": "SwitchStrychUptime"
         },
         {
           "id": "sensor.switch_stryszek_state",
-          "friendlyName": "Switch Stryszek State",
+          "friendlyName": "State",
           "cSharpName": "SwitchStryszekState"
         },
         {
           "id": "sensor.switch_stryszek_uplink_mac",
-          "friendlyName": "Switch Stryszek Uplink MAC",
+          "friendlyName": "Uplink MAC",
           "cSharpName": "SwitchStryszekUplinkMac"
         },
         {
           "id": "sensor.switch_stryszek_uptime",
-          "friendlyName": "Switch Stryszek Uptime",
+          "friendlyName": "Uptime",
           "cSharpName": "SwitchStryszekUptime"
         },
         {
@@ -2932,7 +2837,7 @@
         },
         {
           "id": "sensor.zmywarka_do_naczyn_program_aborted",
-          "friendlyName": "Program aborted",
+          "friendlyName": "Zmywarka do naczy\u0144 Program aborted",
           "cSharpName": "ZmywarkaDoNaczynProgramAborted"
         },
         {
@@ -2947,12 +2852,12 @@
         },
         {
           "id": "sensor.zmywarka_do_naczyn_rinse_aid_nearly_empty",
-          "friendlyName": "Rinse aid nearly empty",
+          "friendlyName": "Zmywarka do naczy\u0144 Rinse aid nearly empty",
           "cSharpName": "ZmywarkaDoNaczynRinseAidNearlyEmpty"
         },
         {
           "id": "sensor.zmywarka_do_naczyn_salt_nearly_empty",
-          "friendlyName": "Salt nearly empty",
+          "friendlyName": "Zmywarka do naczy\u0144 Salt nearly empty",
           "cSharpName": "ZmywarkaDoNaczynSaltNearlyEmpty"
         }
       ],
@@ -3320,22 +3225,22 @@
       "entities": [
         {
           "id": "sensor.ap_gora_cpu_utilization",
-          "friendlyName": "AP G\u00F3ra CPU utilization",
+          "friendlyName": "CPU utilization",
           "cSharpName": "ApGoraCpuUtilization"
         },
         {
           "id": "sensor.ap_gora_memory_utilization",
-          "friendlyName": "AP G\u00F3ra Memory utilization",
+          "friendlyName": "Memory utilization",
           "cSharpName": "ApGoraMemoryUtilization"
         },
         {
           "id": "sensor.ap_kuchnia_cpu_utilization",
-          "friendlyName": "AP Kuchnia CPU utilization",
+          "friendlyName": "CPU utilization",
           "cSharpName": "ApKuchniaCpuUtilization"
         },
         {
           "id": "sensor.ap_kuchnia_memory_utilization",
-          "friendlyName": "AP Kuchnia Memory utilization",
+          "friendlyName": "Memory utilization",
           "cSharpName": "ApKuchniaMemoryUtilization"
         },
         {
@@ -3399,18 +3304,13 @@
           "cSharpName": "CzesioBatteryLevel"
         },
         {
-          "id": "sensor.czesio_cleaned_area",
-          "friendlyName": "Czesio Cleaned Area",
-          "cSharpName": "CzesioCleanedArea"
-        },
-        {
           "id": "sensor.dream_router_home_cpu_utilization",
-          "friendlyName": "Dream Router Home CPU utilization",
+          "friendlyName": "CPU utilization",
           "cSharpName": "DreamRouterHomeCpuUtilization"
         },
         {
           "id": "sensor.dream_router_home_memory_utilization",
-          "friendlyName": "Dream Router Home Memory utilization",
+          "friendlyName": "Memory utilization",
           "cSharpName": "DreamRouterHomeMemoryUtilization"
         },
         {
@@ -3434,11 +3334,6 @@
           "cSharpName": "DreameDe1063030855P2114aBrushLifeLevelP92"
         },
         {
-          "id": "sensor.dreame_de_1063030855_p2114a_cleaning_time_p_4_2",
-          "friendlyName": "Czesio * vacuum-extend Cleaning Time",
-          "cSharpName": "DreameDe1063030855P2114aCleaningTimeP42"
-        },
-        {
           "id": "sensor.dreame_de_1063030855_p2114a_filter_left_time_p_11_2",
           "friendlyName": "Czesio  Filter Filter Left Time",
           "cSharpName": "DreameDe1063030855P2114aFilterLeftTimeP112"
@@ -3449,11 +3344,6 @@
           "cSharpName": "DreameDe1063030855P2114aFilterLifeLevelP111"
         },
         {
-          "id": "sensor.dreame_de_1063030855_p2114a_keep_sweeper_time_p_4_17",
-          "friendlyName": "Czesio * vacuum-extend keep-sweeper-time",
-          "cSharpName": "DreameDe1063030855P2114aKeepSweeperTimeP417"
-        },
-        {
           "id": "sensor.dreame_de_1063030855_p2114a_mop_left_time_p_18_2",
           "friendlyName": "Czesio * mop mop-left-time",
           "cSharpName": "DreameDe1063030855P2114aMopLeftTimeP182"
@@ -3462,11 +3352,6 @@
           "id": "sensor.dreame_de_1063030855_p2114a_mop_life_level_p_18_1",
           "friendlyName": "Czesio * mop mop-life-level",
           "cSharpName": "DreameDe1063030855P2114aMopLifeLevelP181"
-        },
-        {
-          "id": "sensor.dreame_de_1063030855_p2114a_total_clean_time_p_12_2",
-          "friendlyName": "Czesio * clean-logs total-clean-time",
-          "cSharpName": "DreameDe1063030855P2114aTotalCleanTimeP122"
         },
         {
           "id": "sensor.energy_current_hour",
@@ -3869,9 +3754,94 @@
           "cSharpName": "JakubSyty612kwpTotalEnergy"
         },
         {
+          "id": "sensor.lnlinkha_e04b410156c6000000000000d6ac0000_10",
+          "friendlyName": "eMotion Max 2 (e04b410156c6) Target 1 Distance",
+          "cSharpName": "LnlinkhaE04b410156c6000000000000d6ac000010"
+        },
+        {
+          "id": "sensor.lnlinkha_e04b410156c6000000000000d6ac0000_11",
+          "friendlyName": "eMotion Max 2 (e04b410156c6) Target 2 X",
+          "cSharpName": "LnlinkhaE04b410156c6000000000000d6ac000011"
+        },
+        {
+          "id": "sensor.lnlinkha_e04b410156c6000000000000d6ac0000_12",
+          "friendlyName": "eMotion Max 2 (e04b410156c6) Target 2 Y",
+          "cSharpName": "LnlinkhaE04b410156c6000000000000d6ac000012"
+        },
+        {
+          "id": "sensor.lnlinkha_e04b410156c6000000000000d6ac0000_13",
+          "friendlyName": "eMotion Max 2 (e04b410156c6) Target 2 Speed",
+          "cSharpName": "LnlinkhaE04b410156c6000000000000d6ac000013"
+        },
+        {
+          "id": "sensor.lnlinkha_e04b410156c6000000000000d6ac0000_14",
+          "friendlyName": "eMotion Max 2 (e04b410156c6) Target 2 Distance",
+          "cSharpName": "LnlinkhaE04b410156c6000000000000d6ac000014"
+        },
+        {
+          "id": "sensor.lnlinkha_e04b410156c6000000000000d6ac0000_15",
+          "friendlyName": "eMotion Max 2 (e04b410156c6) Target 3 X",
+          "cSharpName": "LnlinkhaE04b410156c6000000000000d6ac000015"
+        },
+        {
+          "id": "sensor.lnlinkha_e04b410156c6000000000000d6ac0000_16",
+          "friendlyName": "eMotion Max 2 (e04b410156c6) Target 3 Y",
+          "cSharpName": "LnlinkhaE04b410156c6000000000000d6ac000016"
+        },
+        {
+          "id": "sensor.lnlinkha_e04b410156c6000000000000d6ac0000_17",
+          "friendlyName": "eMotion Max 2 (e04b410156c6) Target 3 Speed",
+          "cSharpName": "LnlinkhaE04b410156c6000000000000d6ac000017"
+        },
+        {
+          "id": "sensor.lnlinkha_e04b410156c6000000000000d6ac0000_18",
+          "friendlyName": "eMotion Max 2 (e04b410156c6) Target 3 Distance",
+          "cSharpName": "LnlinkhaE04b410156c6000000000000d6ac000018"
+        },
+        {
+          "id": "sensor.lnlinkha_e04b410156c6000000000000d6ac0000_19",
+          "friendlyName": "eMotion Max 2 (e04b410156c6) Target 4 X",
+          "cSharpName": "LnlinkhaE04b410156c6000000000000d6ac000019"
+        },
+        {
+          "id": "sensor.lnlinkha_e04b410156c6000000000000d6ac0000_20",
+          "friendlyName": "eMotion Max 2 (e04b410156c6) Target 4 Y",
+          "cSharpName": "LnlinkhaE04b410156c6000000000000d6ac000020"
+        },
+        {
+          "id": "sensor.lnlinkha_e04b410156c6000000000000d6ac0000_21",
+          "friendlyName": "eMotion Max 2 (e04b410156c6) Target 4 Speed",
+          "cSharpName": "LnlinkhaE04b410156c6000000000000d6ac000021"
+        },
+        {
+          "id": "sensor.lnlinkha_e04b410156c6000000000000d6ac0000_22",
+          "friendlyName": "eMotion Max 2 (e04b410156c6) Target 4 Distance",
+          "cSharpName": "LnlinkhaE04b410156c6000000000000d6ac000022"
+        },
+        {
+          "id": "sensor.lnlinkha_e04b410156c6000000000000d6ac0000_7",
+          "friendlyName": "eMotion Max 2 (e04b410156c6) Target 1 X",
+          "cSharpName": "LnlinkhaE04b410156c6000000000000d6ac00007"
+        },
+        {
+          "id": "sensor.lnlinkha_e04b410156c6000000000000d6ac0000_8",
+          "friendlyName": "eMotion Max 2 (e04b410156c6) Target 1 Y",
+          "cSharpName": "LnlinkhaE04b410156c6000000000000d6ac00008"
+        },
+        {
+          "id": "sensor.lnlinkha_e04b410156c6000000000000d6ac0000_9",
+          "friendlyName": "eMotion Max 2 (e04b410156c6) Target 1 Speed",
+          "cSharpName": "LnlinkhaE04b410156c6000000000000d6ac00009"
+        },
+        {
           "id": "sensor.lnlinkha_e04b410156c6000000000000d6ac0000_l",
           "friendlyName": "eMotion Max 2 (e04b410156c6) brightness",
           "cSharpName": "LnlinkhaE04b410156c6000000000000d6ac0000L"
+        },
+        {
+          "id": "sensor.lnlinkha_e04b410156c6000000000000d6ac0000_w_rssi",
+          "friendlyName": "eMotion Max 2 (e04b410156c6) wifi rssi",
+          "cSharpName": "LnlinkhaE04b410156c6000000000000d6ac0000WRssi"
         },
         {
           "id": "sensor.ninebot_de_blt_4_19j7immuogk00_v4_ble_battery_level_p_2_1",
@@ -3960,17 +3930,17 @@
         },
         {
           "id": "sensor.power_production_next_12hours",
-          "friendlyName": "Solar production forecast Estimated power production - next 12 hours",
+          "friendlyName": "Solar production forecast Estimated power production - in 12 hours",
           "cSharpName": "PowerProductionNext12hours"
         },
         {
           "id": "sensor.power_production_next_24hours",
-          "friendlyName": "Solar production forecast Estimated power production - next 24 hours",
+          "friendlyName": "Solar production forecast Estimated power production - in 24 hours",
           "cSharpName": "PowerProductionNext24hours"
         },
         {
           "id": "sensor.power_production_next_hour",
-          "friendlyName": "Solar production forecast Estimated power production - next hour",
+          "friendlyName": "Solar production forecast Estimated power production - in 1 hour",
           "cSharpName": "PowerProductionNextHour"
         },
         {
@@ -4085,32 +4055,32 @@
         },
         {
           "id": "sensor.switch_gabinet_cpu_utilization",
-          "friendlyName": "Switch Gabinet CPU utilization",
+          "friendlyName": "CPU utilization",
           "cSharpName": "SwitchGabinetCpuUtilization"
         },
         {
           "id": "sensor.switch_gabinet_memory_utilization",
-          "friendlyName": "Switch Gabinet Memory utilization",
+          "friendlyName": "Memory utilization",
           "cSharpName": "SwitchGabinetMemoryUtilization"
         },
         {
           "id": "sensor.switch_strych_cpu_utilization",
-          "friendlyName": "Switch Strych CPU utilization",
+          "friendlyName": "CPU utilization",
           "cSharpName": "SwitchStrychCpuUtilization"
         },
         {
           "id": "sensor.switch_strych_memory_utilization",
-          "friendlyName": "Switch Strych Memory utilization",
+          "friendlyName": "Memory utilization",
           "cSharpName": "SwitchStrychMemoryUtilization"
         },
         {
           "id": "sensor.switch_stryszek_cpu_utilization",
-          "friendlyName": "Switch Stryszek CPU utilization",
+          "friendlyName": "CPU utilization",
           "cSharpName": "SwitchStryszekCpuUtilization"
         },
         {
           "id": "sensor.switch_stryszek_memory_utilization",
-          "friendlyName": "Switch Stryszek Memory utilization",
+          "friendlyName": "Memory utilization",
           "cSharpName": "SwitchStryszekMemoryUtilization"
         },
         {
@@ -4535,11 +4505,6 @@
           "cSharpName": "CzesioResumeCleaning"
         },
         {
-          "id": "switch.dreame_de_1063030855_p2114a_enable_p_5_1",
-          "friendlyName": "Czesio * do-not-disturb enable",
-          "cSharpName": "DreameDe1063030855P2114aEnableP51"
-        },
-        {
           "id": "switch.garaz_otworz",
           "friendlyName": "Garage open",
           "cSharpName": "GarazOtworz"
@@ -4551,23 +4516,28 @@
         },
         {
           "id": "switch.klima_pokoj_oliwii_fresh_air",
-          "friendlyName": "Klima pok\u00F3j Oliwii Fresh air",
+          "friendlyName": "Fresh air",
           "cSharpName": "KlimaPokojOliwiiFreshAir"
         },
         {
           "id": "switch.klima_pokoj_oliwii_panel_light",
-          "friendlyName": "Klima pok\u00F3j Oliwii Panel light",
+          "friendlyName": "Panel light",
           "cSharpName": "KlimaPokojOliwiiPanelLight"
         },
         {
           "id": "switch.klima_pokoj_oliwii_quiet",
-          "friendlyName": "Klima pok\u00F3j Oliwii Quiet mode",
+          "friendlyName": "Quiet mode",
           "cSharpName": "KlimaPokojOliwiiQuiet"
         },
         {
           "id": "switch.klima_pokoj_oliwii_xfan",
-          "friendlyName": "Klima pok\u00F3j Oliwii Xtra fan",
+          "friendlyName": "Xtra fan",
           "cSharpName": "KlimaPokojOliwiiXfan"
+        },
+        {
+          "id": "switch.lnlinkha_e04b410156c6000000000000d6ac0000_config_radar_x",
+          "friendlyName": "eMotion Max 2 (e04b410156c6) Reverse x-axis",
+          "cSharpName": "LnlinkhaE04b410156c6000000000000d6ac0000ConfigRadarX"
         },
         {
           "id": "switch.plug_01_child_lock",
@@ -4611,22 +4581,22 @@
         },
         {
           "id": "switch.s_guest",
-          "friendlyName": "S_Guest",
+          "friendlyName": null,
           "cSharpName": "SGuest"
         },
         {
           "id": "switch.s_iot",
-          "friendlyName": "S_IoT",
+          "friendlyName": null,
           "cSharpName": "SIot"
         },
         {
           "id": "switch.s_main",
-          "friendlyName": "S_Main",
+          "friendlyName": null,
           "cSharpName": "SMain"
         },
         {
           "id": "switch.s_tv",
-          "friendlyName": "S_TV",
+          "friendlyName": null,
           "cSharpName": "STv"
         },
         {
@@ -4635,1459 +4605,24 @@
           "cSharpName": "SonoffSwitchGarageOutside"
         },
         {
-          "id": "switch.unifi_network_allow_all_traffic_from_internal_to_sensitive",
-          "friendlyName": "UniFi Network Allow all traffic from internal to sensitive",
-          "cSharpName": "UnifiNetworkAllowAllTrafficFromInternalToSensitive"
+          "id": "switch.switch_office_desk",
+          "friendlyName": "Switch office desk",
+          "cSharpName": "SwitchOfficeDesk"
         },
         {
-          "id": "switch.unifi_network_allow_traffic_homeassistant_denon",
-          "friendlyName": "UniFi Network Allow traffic HomeAssistant -\u003E Denon",
-          "cSharpName": "UnifiNetworkAllowTrafficHomeassistantDenon"
-        },
-        {
-          "id": "switch.unifi_network_allow_traffic_homeassistant_homeserver",
-          "friendlyName": "UniFi Network Allow traffic HomeAssistant -\u003E HomeServer",
-          "cSharpName": "UnifiNetworkAllowTrafficHomeassistantHomeserver"
-        },
-        {
-          "id": "switch.unifi_network_allow_traffic_homeassistant_nas",
-          "friendlyName": "UniFi Network Allow traffic HomeAssistant -\u003E NAS",
-          "cSharpName": "UnifiNetworkAllowTrafficHomeassistantNas"
-        },
-        {
-          "id": "switch.unifi_network_allow_traffic_homeassistant_printer",
-          "friendlyName": "UniFi Network Allow traffic HomeAssistant -\u003E Printer",
-          "cSharpName": "UnifiNetworkAllowTrafficHomeassistantPrinter"
+          "id": "switch.switch_office_main",
+          "friendlyName": "Switch office main",
+          "cSharpName": "SwitchOfficeMain"
         },
         {
           "id": "switch.unifi_network_home_assistant_to_home_security_network",
-          "friendlyName": "UniFi Network Home Assistant to Home Security Network",
+          "friendlyName": "Home Assistant to Home Security Network",
           "cSharpName": "UnifiNetworkHomeAssistantToHomeSecurityNetwork"
         },
         {
           "id": "switch.unifi_network_iot_access_to_home_security_network",
           "friendlyName": "IoT Access to Home Security Network",
           "cSharpName": "UnifiNetworkIotAccessToHomeSecurityNetwork"
-        },
-        {
-          "id": "switch.unifi_network_ips_block_traffic_from_192_168_1_10_to_51_158_154_169",
-          "friendlyName": "IPS Block Traffic from 192.168.1.10 to 51.158.154.169",
-          "cSharpName": "UnifiNetworkIpsBlockTrafficFrom192168110To51158154169"
-        },
-        {
-          "id": "switch.unifi_network_ips_block_traffic_from_192_168_1_10_to_51_158_154_169_2",
-          "friendlyName": "IPS Block Traffic from 192.168.1.10 to 51.158.154.169",
-          "cSharpName": "UnifiNetworkIpsBlockTrafficFrom192168110To511581541692"
-        },
-        {
-          "id": "switch.unifi_network_ips_block_traffic_from_192_168_1_10_to_51_158_154_169_3",
-          "friendlyName": "IPS Block Traffic from 192.168.1.10 to 51.158.154.169",
-          "cSharpName": "UnifiNetworkIpsBlockTrafficFrom192168110To511581541693"
-        },
-        {
-          "id": "switch.unifi_network_ips_block_traffic_from_192_168_1_10_to_51_158_154_169_4",
-          "friendlyName": "IPS Block Traffic from 192.168.1.10 to 51.158.154.169",
-          "cSharpName": "UnifiNetworkIpsBlockTrafficFrom192168110To511581541694"
-        },
-        {
-          "id": "switch.unifi_network_ips_block_traffic_from_51_158_154_169_to_192_168_1_10",
-          "friendlyName": "IPS Block Traffic from 51.158.154.169 to 192.168.1.10",
-          "cSharpName": "UnifiNetworkIpsBlockTrafficFrom51158154169To192168110"
-        },
-        {
-          "id": "switch.unifi_network_ips_block_traffic_from_51_158_154_169_to_192_168_1_10_2",
-          "friendlyName": "IPS Block Traffic from 51.158.154.169 to 192.168.1.10",
-          "cSharpName": "UnifiNetworkIpsBlockTrafficFrom51158154169To1921681102"
-        },
-        {
-          "id": "switch.unifi_network_ips_block_traffic_from_51_158_154_169_to_192_168_1_10_3",
-          "friendlyName": "IPS Block Traffic from 51.158.154.169 to 192.168.1.10",
-          "cSharpName": "UnifiNetworkIpsBlockTrafficFrom51158154169To1921681103"
-        },
-        {
-          "id": "switch.unifi_network_ips_block_traffic_from_51_158_154_169_to_192_168_1_10_4",
-          "friendlyName": "IPS Block Traffic from 51.158.154.169 to 192.168.1.10",
-          "cSharpName": "UnifiNetworkIpsBlockTrafficFrom51158154169To1921681104"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_103_193_179_46",
-          "friendlyName": "IPS Deny List 103.193.179.46",
-          "cSharpName": "UnifiNetworkIpsDenyList10319317946"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_103_193_179_46_2",
-          "friendlyName": "IPS Deny List 103.193.179.46",
-          "cSharpName": "UnifiNetworkIpsDenyList103193179462"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_103_193_179_46_3",
-          "friendlyName": "IPS Deny List 103.193.179.46",
-          "cSharpName": "UnifiNetworkIpsDenyList103193179463"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_103_193_179_46_4",
-          "friendlyName": "IPS Deny List 103.193.179.46",
-          "cSharpName": "UnifiNetworkIpsDenyList103193179464"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_103_193_179_46_5",
-          "friendlyName": "IPS Deny List 103.193.179.46",
-          "cSharpName": "UnifiNetworkIpsDenyList103193179465"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_103_193_179_46_6",
-          "friendlyName": "IPS Deny List 103.193.179.46",
-          "cSharpName": "UnifiNetworkIpsDenyList103193179466"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_103_193_179_46_7",
-          "friendlyName": "IPS Deny List 103.193.179.46",
-          "cSharpName": "UnifiNetworkIpsDenyList103193179467"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_103_193_179_46_8",
-          "friendlyName": "IPS Deny List 103.193.179.46",
-          "cSharpName": "UnifiNetworkIpsDenyList103193179468"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_111_59_56_6",
-          "friendlyName": "IPS Deny List 111.59.56.6",
-          "cSharpName": "UnifiNetworkIpsDenyList11159566"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_111_59_56_6_2",
-          "friendlyName": "IPS Deny List 111.59.56.6",
-          "cSharpName": "UnifiNetworkIpsDenyList111595662"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_111_59_56_6_3",
-          "friendlyName": "IPS Deny List 111.59.56.6",
-          "cSharpName": "UnifiNetworkIpsDenyList111595663"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_111_59_56_6_4",
-          "friendlyName": "IPS Deny List 111.59.56.6",
-          "cSharpName": "UnifiNetworkIpsDenyList111595664"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_111_59_56_6_5",
-          "friendlyName": "IPS Deny List 111.59.56.6",
-          "cSharpName": "UnifiNetworkIpsDenyList111595665"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_111_59_56_6_6",
-          "friendlyName": "IPS Deny List 111.59.56.6",
-          "cSharpName": "UnifiNetworkIpsDenyList111595666"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_111_59_56_6_7",
-          "friendlyName": "IPS Deny List 111.59.56.6",
-          "cSharpName": "UnifiNetworkIpsDenyList111595667"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_111_59_56_6_8",
-          "friendlyName": "IPS Deny List 111.59.56.6",
-          "cSharpName": "UnifiNetworkIpsDenyList111595668"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_117_206_143_7",
-          "friendlyName": "IPS Deny List 117.206.143.7",
-          "cSharpName": "UnifiNetworkIpsDenyList1172061437"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_117_206_143_7_2",
-          "friendlyName": "IPS Deny List 117.206.143.7",
-          "cSharpName": "UnifiNetworkIpsDenyList11720614372"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_117_206_143_7_3",
-          "friendlyName": "IPS Deny List 117.206.143.7",
-          "cSharpName": "UnifiNetworkIpsDenyList11720614373"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_117_206_143_7_4",
-          "friendlyName": "IPS Deny List 117.206.143.7",
-          "cSharpName": "UnifiNetworkIpsDenyList11720614374"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_117_206_143_7_5",
-          "friendlyName": "IPS Deny List 117.206.143.7",
-          "cSharpName": "UnifiNetworkIpsDenyList11720614375"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_117_206_143_7_6",
-          "friendlyName": "IPS Deny List 117.206.143.7",
-          "cSharpName": "UnifiNetworkIpsDenyList11720614376"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_117_206_143_7_7",
-          "friendlyName": "IPS Deny List 117.206.143.7",
-          "cSharpName": "UnifiNetworkIpsDenyList11720614377"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_117_206_143_7_8",
-          "friendlyName": "IPS Deny List 117.206.143.7",
-          "cSharpName": "UnifiNetworkIpsDenyList11720614378"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_117_30_38_75",
-          "friendlyName": "IPS Deny List 117.30.38.75",
-          "cSharpName": "UnifiNetworkIpsDenyList117303875"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_117_30_38_75_2",
-          "friendlyName": "IPS Deny List 117.30.38.75",
-          "cSharpName": "UnifiNetworkIpsDenyList1173038752"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_117_30_38_75_3",
-          "friendlyName": "IPS Deny List 117.30.38.75",
-          "cSharpName": "UnifiNetworkIpsDenyList1173038753"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_117_30_38_75_4",
-          "friendlyName": "IPS Deny List 117.30.38.75",
-          "cSharpName": "UnifiNetworkIpsDenyList1173038754"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_117_30_38_75_5",
-          "friendlyName": "IPS Deny List 117.30.38.75",
-          "cSharpName": "UnifiNetworkIpsDenyList1173038755"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_117_30_38_75_6",
-          "friendlyName": "IPS Deny List 117.30.38.75",
-          "cSharpName": "UnifiNetworkIpsDenyList1173038756"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_117_30_38_75_7",
-          "friendlyName": "IPS Deny List 117.30.38.75",
-          "cSharpName": "UnifiNetworkIpsDenyList1173038757"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_117_30_38_75_8",
-          "friendlyName": "IPS Deny List 117.30.38.75",
-          "cSharpName": "UnifiNetworkIpsDenyList1173038758"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_120_85_114_91",
-          "friendlyName": "IPS Deny List 120.85.114.91",
-          "cSharpName": "UnifiNetworkIpsDenyList1208511491"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_120_85_114_91_2",
-          "friendlyName": "IPS Deny List 120.85.114.91",
-          "cSharpName": "UnifiNetworkIpsDenyList12085114912"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_120_85_114_91_3",
-          "friendlyName": "IPS Deny List 120.85.114.91",
-          "cSharpName": "UnifiNetworkIpsDenyList12085114913"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_120_85_114_91_4",
-          "friendlyName": "IPS Deny List 120.85.114.91",
-          "cSharpName": "UnifiNetworkIpsDenyList12085114914"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_120_85_114_91_5",
-          "friendlyName": "IPS Deny List 120.85.114.91",
-          "cSharpName": "UnifiNetworkIpsDenyList12085114915"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_120_85_114_91_6",
-          "friendlyName": "IPS Deny List 120.85.114.91",
-          "cSharpName": "UnifiNetworkIpsDenyList12085114916"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_120_85_114_91_7",
-          "friendlyName": "IPS Deny List 120.85.114.91",
-          "cSharpName": "UnifiNetworkIpsDenyList12085114917"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_120_85_114_91_8",
-          "friendlyName": "IPS Deny List 120.85.114.91",
-          "cSharpName": "UnifiNetworkIpsDenyList12085114918"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_137_226_34_46",
-          "friendlyName": "IPS Deny List 137.226.34.46",
-          "cSharpName": "UnifiNetworkIpsDenyList1372263446"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_137_226_34_46_2",
-          "friendlyName": "IPS Deny List 137.226.34.46",
-          "cSharpName": "UnifiNetworkIpsDenyList13722634462"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_137_226_34_46_3",
-          "friendlyName": "IPS Deny List 137.226.34.46",
-          "cSharpName": "UnifiNetworkIpsDenyList13722634463"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_137_226_34_46_4",
-          "friendlyName": "IPS Deny List 137.226.34.46",
-          "cSharpName": "UnifiNetworkIpsDenyList13722634464"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_137_226_34_46_5",
-          "friendlyName": "IPS Deny List 137.226.34.46",
-          "cSharpName": "UnifiNetworkIpsDenyList13722634465"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_137_226_34_46_6",
-          "friendlyName": "IPS Deny List 137.226.34.46",
-          "cSharpName": "UnifiNetworkIpsDenyList13722634466"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_137_226_34_46_7",
-          "friendlyName": "IPS Deny List 137.226.34.46",
-          "cSharpName": "UnifiNetworkIpsDenyList13722634467"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_137_226_34_46_8",
-          "friendlyName": "IPS Deny List 137.226.34.46",
-          "cSharpName": "UnifiNetworkIpsDenyList13722634468"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_141_98_11_82",
-          "friendlyName": "IPS Deny List 141.98.11.82",
-          "cSharpName": "UnifiNetworkIpsDenyList141981182"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_141_98_11_82_2",
-          "friendlyName": "IPS Deny List 141.98.11.82",
-          "cSharpName": "UnifiNetworkIpsDenyList1419811822"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_141_98_11_82_3",
-          "friendlyName": "IPS Deny List 141.98.11.82",
-          "cSharpName": "UnifiNetworkIpsDenyList1419811823"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_141_98_11_82_4",
-          "friendlyName": "IPS Deny List 141.98.11.82",
-          "cSharpName": "UnifiNetworkIpsDenyList1419811824"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_141_98_11_82_5",
-          "friendlyName": "IPS Deny List 141.98.11.82",
-          "cSharpName": "UnifiNetworkIpsDenyList1419811825"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_141_98_11_82_6",
-          "friendlyName": "IPS Deny List 141.98.11.82",
-          "cSharpName": "UnifiNetworkIpsDenyList1419811826"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_141_98_11_82_7",
-          "friendlyName": "IPS Deny List 141.98.11.82",
-          "cSharpName": "UnifiNetworkIpsDenyList1419811827"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_141_98_11_82_8",
-          "friendlyName": "IPS Deny List 141.98.11.82",
-          "cSharpName": "UnifiNetworkIpsDenyList1419811828"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_141_98_83_197",
-          "friendlyName": "IPS Deny List 141.98.83.197",
-          "cSharpName": "UnifiNetworkIpsDenyList1419883197"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_141_98_83_197_2",
-          "friendlyName": "IPS Deny List 141.98.83.197",
-          "cSharpName": "UnifiNetworkIpsDenyList14198831972"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_141_98_83_197_3",
-          "friendlyName": "IPS Deny List 141.98.83.197",
-          "cSharpName": "UnifiNetworkIpsDenyList14198831973"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_141_98_83_197_4",
-          "friendlyName": "IPS Deny List 141.98.83.197",
-          "cSharpName": "UnifiNetworkIpsDenyList14198831974"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_141_98_83_197_5",
-          "friendlyName": "IPS Deny List 141.98.83.197",
-          "cSharpName": "UnifiNetworkIpsDenyList14198831975"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_141_98_83_197_6",
-          "friendlyName": "IPS Deny List 141.98.83.197",
-          "cSharpName": "UnifiNetworkIpsDenyList14198831976"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_141_98_83_197_7",
-          "friendlyName": "IPS Deny List 141.98.83.197",
-          "cSharpName": "UnifiNetworkIpsDenyList14198831977"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_141_98_83_197_8",
-          "friendlyName": "IPS Deny List 141.98.83.197",
-          "cSharpName": "UnifiNetworkIpsDenyList14198831978"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_143_64_42_231",
-          "friendlyName": "IPS Deny List 143.64.42.231",
-          "cSharpName": "UnifiNetworkIpsDenyList1436442231"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_143_64_42_231_2",
-          "friendlyName": "IPS Deny List 143.64.42.231",
-          "cSharpName": "UnifiNetworkIpsDenyList14364422312"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_143_64_42_231_3",
-          "friendlyName": "IPS Deny List 143.64.42.231",
-          "cSharpName": "UnifiNetworkIpsDenyList14364422313"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_143_64_42_231_4",
-          "friendlyName": "IPS Deny List 143.64.42.231",
-          "cSharpName": "UnifiNetworkIpsDenyList14364422314"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_143_64_42_231_5",
-          "friendlyName": "IPS Deny List 143.64.42.231",
-          "cSharpName": "UnifiNetworkIpsDenyList14364422315"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_143_64_42_231_6",
-          "friendlyName": "IPS Deny List 143.64.42.231",
-          "cSharpName": "UnifiNetworkIpsDenyList14364422316"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_143_64_42_231_7",
-          "friendlyName": "IPS Deny List 143.64.42.231",
-          "cSharpName": "UnifiNetworkIpsDenyList14364422317"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_143_64_42_231_8",
-          "friendlyName": "IPS Deny List 143.64.42.231",
-          "cSharpName": "UnifiNetworkIpsDenyList14364422318"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_150_109_19_208",
-          "friendlyName": "IPS Deny List 150.109.19.208",
-          "cSharpName": "UnifiNetworkIpsDenyList15010919208"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_150_109_19_208_2",
-          "friendlyName": "IPS Deny List 150.109.19.208",
-          "cSharpName": "UnifiNetworkIpsDenyList150109192082"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_150_109_19_208_3",
-          "friendlyName": "IPS Deny List 150.109.19.208",
-          "cSharpName": "UnifiNetworkIpsDenyList150109192083"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_150_109_19_208_4",
-          "friendlyName": "IPS Deny List 150.109.19.208",
-          "cSharpName": "UnifiNetworkIpsDenyList150109192084"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_150_109_19_208_5",
-          "friendlyName": "IPS Deny List 150.109.19.208",
-          "cSharpName": "UnifiNetworkIpsDenyList150109192085"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_150_109_19_208_6",
-          "friendlyName": "IPS Deny List 150.109.19.208",
-          "cSharpName": "UnifiNetworkIpsDenyList150109192086"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_150_109_19_208_7",
-          "friendlyName": "IPS Deny List 150.109.19.208",
-          "cSharpName": "UnifiNetworkIpsDenyList150109192087"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_150_109_19_208_8",
-          "friendlyName": "IPS Deny List 150.109.19.208",
-          "cSharpName": "UnifiNetworkIpsDenyList150109192088"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_154_209_5_71",
-          "friendlyName": "IPS Deny List 154.209.5.71",
-          "cSharpName": "UnifiNetworkIpsDenyList154209571"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_154_209_5_71_2",
-          "friendlyName": "IPS Deny List 154.209.5.71",
-          "cSharpName": "UnifiNetworkIpsDenyList1542095712"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_154_209_5_71_3",
-          "friendlyName": "IPS Deny List 154.209.5.71",
-          "cSharpName": "UnifiNetworkIpsDenyList1542095713"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_154_209_5_71_4",
-          "friendlyName": "IPS Deny List 154.209.5.71",
-          "cSharpName": "UnifiNetworkIpsDenyList1542095714"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_154_209_5_71_5",
-          "friendlyName": "IPS Deny List 154.209.5.71",
-          "cSharpName": "UnifiNetworkIpsDenyList1542095715"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_154_209_5_71_6",
-          "friendlyName": "IPS Deny List 154.209.5.71",
-          "cSharpName": "UnifiNetworkIpsDenyList1542095716"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_154_209_5_71_7",
-          "friendlyName": "IPS Deny List 154.209.5.71",
-          "cSharpName": "UnifiNetworkIpsDenyList1542095717"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_154_209_5_71_8",
-          "friendlyName": "IPS Deny List 154.209.5.71",
-          "cSharpName": "UnifiNetworkIpsDenyList1542095718"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_182_151_20_120",
-          "friendlyName": "IPS Deny List 182.151.20.120",
-          "cSharpName": "UnifiNetworkIpsDenyList18215120120"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_182_151_20_120_2",
-          "friendlyName": "IPS Deny List 182.151.20.120",
-          "cSharpName": "UnifiNetworkIpsDenyList182151201202"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_182_151_20_120_3",
-          "friendlyName": "IPS Deny List 182.151.20.120",
-          "cSharpName": "UnifiNetworkIpsDenyList182151201203"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_182_151_20_120_4",
-          "friendlyName": "IPS Deny List 182.151.20.120",
-          "cSharpName": "UnifiNetworkIpsDenyList182151201204"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_182_151_20_120_5",
-          "friendlyName": "IPS Deny List 182.151.20.120",
-          "cSharpName": "UnifiNetworkIpsDenyList182151201205"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_182_151_20_120_6",
-          "friendlyName": "IPS Deny List 182.151.20.120",
-          "cSharpName": "UnifiNetworkIpsDenyList182151201206"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_182_151_20_120_7",
-          "friendlyName": "IPS Deny List 182.151.20.120",
-          "cSharpName": "UnifiNetworkIpsDenyList182151201207"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_182_151_20_120_8",
-          "friendlyName": "IPS Deny List 182.151.20.120",
-          "cSharpName": "UnifiNetworkIpsDenyList182151201208"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_185_243_54_100",
-          "friendlyName": "IPS Deny List 185.243.54.100",
-          "cSharpName": "UnifiNetworkIpsDenyList18524354100"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_185_243_54_100_2",
-          "friendlyName": "IPS Deny List 185.243.54.100",
-          "cSharpName": "UnifiNetworkIpsDenyList185243541002"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_185_243_54_100_3",
-          "friendlyName": "IPS Deny List 185.243.54.100",
-          "cSharpName": "UnifiNetworkIpsDenyList185243541003"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_185_243_54_100_4",
-          "friendlyName": "IPS Deny List 185.243.54.100",
-          "cSharpName": "UnifiNetworkIpsDenyList185243541004"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_185_243_54_100_5",
-          "friendlyName": "IPS Deny List 185.243.54.100",
-          "cSharpName": "UnifiNetworkIpsDenyList185243541005"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_185_243_54_100_6",
-          "friendlyName": "IPS Deny List 185.243.54.100",
-          "cSharpName": "UnifiNetworkIpsDenyList185243541006"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_185_243_54_100_7",
-          "friendlyName": "IPS Deny List 185.243.54.100",
-          "cSharpName": "UnifiNetworkIpsDenyList185243541007"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_185_243_54_100_8",
-          "friendlyName": "IPS Deny List 185.243.54.100",
-          "cSharpName": "UnifiNetworkIpsDenyList185243541008"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_189_127_185_248",
-          "friendlyName": "IPS Deny List 189.127.185.248",
-          "cSharpName": "UnifiNetworkIpsDenyList189127185248"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_189_127_185_248_2",
-          "friendlyName": "IPS Deny List 189.127.185.248",
-          "cSharpName": "UnifiNetworkIpsDenyList1891271852482"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_189_127_185_248_3",
-          "friendlyName": "IPS Deny List 189.127.185.248",
-          "cSharpName": "UnifiNetworkIpsDenyList1891271852483"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_189_127_185_248_4",
-          "friendlyName": "IPS Deny List 189.127.185.248",
-          "cSharpName": "UnifiNetworkIpsDenyList1891271852484"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_189_127_185_248_5",
-          "friendlyName": "IPS Deny List 189.127.185.248",
-          "cSharpName": "UnifiNetworkIpsDenyList1891271852485"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_189_127_185_248_6",
-          "friendlyName": "IPS Deny List 189.127.185.248",
-          "cSharpName": "UnifiNetworkIpsDenyList1891271852486"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_189_127_185_248_7",
-          "friendlyName": "IPS Deny List 189.127.185.248",
-          "cSharpName": "UnifiNetworkIpsDenyList1891271852487"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_189_127_185_248_8",
-          "friendlyName": "IPS Deny List 189.127.185.248",
-          "cSharpName": "UnifiNetworkIpsDenyList1891271852488"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_2_229_121_232",
-          "friendlyName": "IPS Deny List 2.229.121.232",
-          "cSharpName": "UnifiNetworkIpsDenyList2229121232"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_2_229_121_232_2",
-          "friendlyName": "IPS Deny List 2.229.121.232",
-          "cSharpName": "UnifiNetworkIpsDenyList22291212322"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_2_229_121_232_3",
-          "friendlyName": "IPS Deny List 2.229.121.232",
-          "cSharpName": "UnifiNetworkIpsDenyList22291212323"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_2_229_121_232_4",
-          "friendlyName": "IPS Deny List 2.229.121.232",
-          "cSharpName": "UnifiNetworkIpsDenyList22291212324"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_2_229_121_232_5",
-          "friendlyName": "IPS Deny List 2.229.121.232",
-          "cSharpName": "UnifiNetworkIpsDenyList22291212325"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_2_229_121_232_6",
-          "friendlyName": "IPS Deny List 2.229.121.232",
-          "cSharpName": "UnifiNetworkIpsDenyList22291212326"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_2_229_121_232_7",
-          "friendlyName": "IPS Deny List 2.229.121.232",
-          "cSharpName": "UnifiNetworkIpsDenyList22291212327"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_2_229_121_232_8",
-          "friendlyName": "IPS Deny List 2.229.121.232",
-          "cSharpName": "UnifiNetworkIpsDenyList22291212328"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_203_195_84_234",
-          "friendlyName": "IPS Deny List 203.195.84.234",
-          "cSharpName": "UnifiNetworkIpsDenyList20319584234"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_203_195_84_234_2",
-          "friendlyName": "IPS Deny List 203.195.84.234",
-          "cSharpName": "UnifiNetworkIpsDenyList203195842342"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_203_195_84_234_3",
-          "friendlyName": "IPS Deny List 203.195.84.234",
-          "cSharpName": "UnifiNetworkIpsDenyList203195842343"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_203_195_84_234_4",
-          "friendlyName": "IPS Deny List 203.195.84.234",
-          "cSharpName": "UnifiNetworkIpsDenyList203195842344"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_203_195_84_234_5",
-          "friendlyName": "IPS Deny List 203.195.84.234",
-          "cSharpName": "UnifiNetworkIpsDenyList203195842345"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_203_195_84_234_6",
-          "friendlyName": "IPS Deny List 203.195.84.234",
-          "cSharpName": "UnifiNetworkIpsDenyList203195842346"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_203_195_84_234_7",
-          "friendlyName": "IPS Deny List 203.195.84.234",
-          "cSharpName": "UnifiNetworkIpsDenyList203195842347"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_203_195_84_234_8",
-          "friendlyName": "IPS Deny List 203.195.84.234",
-          "cSharpName": "UnifiNetworkIpsDenyList203195842348"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_217_60_245_132",
-          "friendlyName": "IPS Deny List 217.60.245.132",
-          "cSharpName": "UnifiNetworkIpsDenyList21760245132"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_217_60_245_132_2",
-          "friendlyName": "IPS Deny List 217.60.245.132",
-          "cSharpName": "UnifiNetworkIpsDenyList217602451322"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_217_60_245_132_3",
-          "friendlyName": "IPS Deny List 217.60.245.132",
-          "cSharpName": "UnifiNetworkIpsDenyList217602451323"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_217_60_245_132_4",
-          "friendlyName": "IPS Deny List 217.60.245.132",
-          "cSharpName": "UnifiNetworkIpsDenyList217602451324"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_217_60_245_132_5",
-          "friendlyName": "IPS Deny List 217.60.245.132",
-          "cSharpName": "UnifiNetworkIpsDenyList217602451325"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_217_60_245_132_6",
-          "friendlyName": "IPS Deny List 217.60.245.132",
-          "cSharpName": "UnifiNetworkIpsDenyList217602451326"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_217_60_245_132_7",
-          "friendlyName": "IPS Deny List 217.60.245.132",
-          "cSharpName": "UnifiNetworkIpsDenyList217602451327"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_217_60_245_132_8",
-          "friendlyName": "IPS Deny List 217.60.245.132",
-          "cSharpName": "UnifiNetworkIpsDenyList217602451328"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_27_222_11_184",
-          "friendlyName": "IPS Deny List 27.222.11.184",
-          "cSharpName": "UnifiNetworkIpsDenyList2722211184"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_27_222_11_184_2",
-          "friendlyName": "IPS Deny List 27.222.11.184",
-          "cSharpName": "UnifiNetworkIpsDenyList27222111842"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_27_222_11_184_3",
-          "friendlyName": "IPS Deny List 27.222.11.184",
-          "cSharpName": "UnifiNetworkIpsDenyList27222111843"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_27_222_11_184_4",
-          "friendlyName": "IPS Deny List 27.222.11.184",
-          "cSharpName": "UnifiNetworkIpsDenyList27222111844"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_27_222_11_184_5",
-          "friendlyName": "IPS Deny List 27.222.11.184",
-          "cSharpName": "UnifiNetworkIpsDenyList27222111845"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_27_222_11_184_6",
-          "friendlyName": "IPS Deny List 27.222.11.184",
-          "cSharpName": "UnifiNetworkIpsDenyList27222111846"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_27_222_11_184_7",
-          "friendlyName": "IPS Deny List 27.222.11.184",
-          "cSharpName": "UnifiNetworkIpsDenyList27222111847"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_27_222_11_184_8",
-          "friendlyName": "IPS Deny List 27.222.11.184",
-          "cSharpName": "UnifiNetworkIpsDenyList27222111848"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_34_172_237_230",
-          "friendlyName": "IPS Deny List 34.172.237.230",
-          "cSharpName": "UnifiNetworkIpsDenyList34172237230"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_34_172_237_230_2",
-          "friendlyName": "IPS Deny List 34.172.237.230",
-          "cSharpName": "UnifiNetworkIpsDenyList341722372302"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_34_172_237_230_3",
-          "friendlyName": "IPS Deny List 34.172.237.230",
-          "cSharpName": "UnifiNetworkIpsDenyList341722372303"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_34_172_237_230_4",
-          "friendlyName": "IPS Deny List 34.172.237.230",
-          "cSharpName": "UnifiNetworkIpsDenyList341722372304"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_34_172_237_230_5",
-          "friendlyName": "IPS Deny List 34.172.237.230",
-          "cSharpName": "UnifiNetworkIpsDenyList341722372305"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_34_172_237_230_6",
-          "friendlyName": "IPS Deny List 34.172.237.230",
-          "cSharpName": "UnifiNetworkIpsDenyList341722372306"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_34_172_237_230_7",
-          "friendlyName": "IPS Deny List 34.172.237.230",
-          "cSharpName": "UnifiNetworkIpsDenyList341722372307"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_34_172_237_230_8",
-          "friendlyName": "IPS Deny List 34.172.237.230",
-          "cSharpName": "UnifiNetworkIpsDenyList341722372308"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_39_164_38_57",
-          "friendlyName": "IPS Deny List 39.164.38.57",
-          "cSharpName": "UnifiNetworkIpsDenyList391643857"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_39_164_38_57_2",
-          "friendlyName": "IPS Deny List 39.164.38.57",
-          "cSharpName": "UnifiNetworkIpsDenyList3916438572"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_39_164_38_57_3",
-          "friendlyName": "IPS Deny List 39.164.38.57",
-          "cSharpName": "UnifiNetworkIpsDenyList3916438573"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_39_164_38_57_4",
-          "friendlyName": "IPS Deny List 39.164.38.57",
-          "cSharpName": "UnifiNetworkIpsDenyList3916438574"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_39_164_38_57_5",
-          "friendlyName": "IPS Deny List 39.164.38.57",
-          "cSharpName": "UnifiNetworkIpsDenyList3916438575"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_39_164_38_57_6",
-          "friendlyName": "IPS Deny List 39.164.38.57",
-          "cSharpName": "UnifiNetworkIpsDenyList3916438576"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_39_164_38_57_7",
-          "friendlyName": "IPS Deny List 39.164.38.57",
-          "cSharpName": "UnifiNetworkIpsDenyList3916438577"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_39_164_38_57_8",
-          "friendlyName": "IPS Deny List 39.164.38.57",
-          "cSharpName": "UnifiNetworkIpsDenyList3916438578"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_41_33_90_230",
-          "friendlyName": "IPS Deny List 41.33.90.230",
-          "cSharpName": "UnifiNetworkIpsDenyList413390230"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_41_33_90_230_2",
-          "friendlyName": "IPS Deny List 41.33.90.230",
-          "cSharpName": "UnifiNetworkIpsDenyList4133902302"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_41_33_90_230_3",
-          "friendlyName": "IPS Deny List 41.33.90.230",
-          "cSharpName": "UnifiNetworkIpsDenyList4133902303"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_41_33_90_230_4",
-          "friendlyName": "IPS Deny List 41.33.90.230",
-          "cSharpName": "UnifiNetworkIpsDenyList4133902304"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_41_33_90_230_5",
-          "friendlyName": "IPS Deny List 41.33.90.230",
-          "cSharpName": "UnifiNetworkIpsDenyList4133902305"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_41_33_90_230_6",
-          "friendlyName": "IPS Deny List 41.33.90.230",
-          "cSharpName": "UnifiNetworkIpsDenyList4133902306"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_41_33_90_230_7",
-          "friendlyName": "IPS Deny List 41.33.90.230",
-          "cSharpName": "UnifiNetworkIpsDenyList4133902307"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_41_33_90_230_8",
-          "friendlyName": "IPS Deny List 41.33.90.230",
-          "cSharpName": "UnifiNetworkIpsDenyList4133902308"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_43_156_39_153",
-          "friendlyName": "IPS Deny List 43.156.39.153",
-          "cSharpName": "UnifiNetworkIpsDenyList4315639153"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_43_156_39_153_2",
-          "friendlyName": "IPS Deny List 43.156.39.153",
-          "cSharpName": "UnifiNetworkIpsDenyList43156391532"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_43_156_39_153_3",
-          "friendlyName": "IPS Deny List 43.156.39.153",
-          "cSharpName": "UnifiNetworkIpsDenyList43156391533"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_43_156_39_153_4",
-          "friendlyName": "IPS Deny List 43.156.39.153",
-          "cSharpName": "UnifiNetworkIpsDenyList43156391534"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_43_156_39_153_5",
-          "friendlyName": "IPS Deny List 43.156.39.153",
-          "cSharpName": "UnifiNetworkIpsDenyList43156391535"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_43_156_39_153_6",
-          "friendlyName": "IPS Deny List 43.156.39.153",
-          "cSharpName": "UnifiNetworkIpsDenyList43156391536"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_43_156_39_153_7",
-          "friendlyName": "IPS Deny List 43.156.39.153",
-          "cSharpName": "UnifiNetworkIpsDenyList43156391537"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_43_156_39_153_8",
-          "friendlyName": "IPS Deny List 43.156.39.153",
-          "cSharpName": "UnifiNetworkIpsDenyList43156391538"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_43_157_179_247",
-          "friendlyName": "IPS Deny List 43.157.179.247",
-          "cSharpName": "UnifiNetworkIpsDenyList43157179247"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_43_157_179_247_2",
-          "friendlyName": "IPS Deny List 43.157.179.247",
-          "cSharpName": "UnifiNetworkIpsDenyList431571792472"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_43_157_179_247_3",
-          "friendlyName": "IPS Deny List 43.157.179.247",
-          "cSharpName": "UnifiNetworkIpsDenyList431571792473"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_43_157_179_247_4",
-          "friendlyName": "IPS Deny List 43.157.179.247",
-          "cSharpName": "UnifiNetworkIpsDenyList431571792474"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_43_157_179_247_5",
-          "friendlyName": "IPS Deny List 43.157.179.247",
-          "cSharpName": "UnifiNetworkIpsDenyList431571792475"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_43_157_179_247_6",
-          "friendlyName": "IPS Deny List 43.157.179.247",
-          "cSharpName": "UnifiNetworkIpsDenyList431571792476"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_43_157_179_247_7",
-          "friendlyName": "IPS Deny List 43.157.179.247",
-          "cSharpName": "UnifiNetworkIpsDenyList431571792477"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_43_157_179_247_8",
-          "friendlyName": "IPS Deny List 43.157.179.247",
-          "cSharpName": "UnifiNetworkIpsDenyList431571792478"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_45_148_10_174",
-          "friendlyName": "IPS Deny List 45.148.10.174",
-          "cSharpName": "UnifiNetworkIpsDenyList4514810174"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_45_148_10_174_2",
-          "friendlyName": "IPS Deny List 45.148.10.174",
-          "cSharpName": "UnifiNetworkIpsDenyList45148101742"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_45_148_10_174_3",
-          "friendlyName": "IPS Deny List 45.148.10.174",
-          "cSharpName": "UnifiNetworkIpsDenyList45148101743"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_45_148_10_174_4",
-          "friendlyName": "IPS Deny List 45.148.10.174",
-          "cSharpName": "UnifiNetworkIpsDenyList45148101744"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_45_148_10_174_5",
-          "friendlyName": "IPS Deny List 45.148.10.174",
-          "cSharpName": "UnifiNetworkIpsDenyList45148101745"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_45_148_10_174_6",
-          "friendlyName": "IPS Deny List 45.148.10.174",
-          "cSharpName": "UnifiNetworkIpsDenyList45148101746"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_45_148_10_174_7",
-          "friendlyName": "IPS Deny List 45.148.10.174",
-          "cSharpName": "UnifiNetworkIpsDenyList45148101747"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_45_148_10_174_8",
-          "friendlyName": "IPS Deny List 45.148.10.174",
-          "cSharpName": "UnifiNetworkIpsDenyList45148101748"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_45_167_216_195",
-          "friendlyName": "IPS Deny List 45.167.216.195",
-          "cSharpName": "UnifiNetworkIpsDenyList45167216195"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_45_167_216_195_2",
-          "friendlyName": "IPS Deny List 45.167.216.195",
-          "cSharpName": "UnifiNetworkIpsDenyList451672161952"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_45_167_216_195_3",
-          "friendlyName": "IPS Deny List 45.167.216.195",
-          "cSharpName": "UnifiNetworkIpsDenyList451672161953"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_45_167_216_195_4",
-          "friendlyName": "IPS Deny List 45.167.216.195",
-          "cSharpName": "UnifiNetworkIpsDenyList451672161954"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_45_167_216_195_5",
-          "friendlyName": "IPS Deny List 45.167.216.195",
-          "cSharpName": "UnifiNetworkIpsDenyList451672161955"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_45_167_216_195_6",
-          "friendlyName": "IPS Deny List 45.167.216.195",
-          "cSharpName": "UnifiNetworkIpsDenyList451672161956"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_45_167_216_195_7",
-          "friendlyName": "IPS Deny List 45.167.216.195",
-          "cSharpName": "UnifiNetworkIpsDenyList451672161957"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_45_167_216_195_8",
-          "friendlyName": "IPS Deny List 45.167.216.195",
-          "cSharpName": "UnifiNetworkIpsDenyList451672161958"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_45_83_244_14",
-          "friendlyName": "IPS Deny List 45.83.244.14",
-          "cSharpName": "UnifiNetworkIpsDenyList458324414"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_45_83_244_14_2",
-          "friendlyName": "IPS Deny List 45.83.244.14",
-          "cSharpName": "UnifiNetworkIpsDenyList4583244142"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_45_83_244_14_3",
-          "friendlyName": "IPS Deny List 45.83.244.14",
-          "cSharpName": "UnifiNetworkIpsDenyList4583244143"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_45_83_244_14_4",
-          "friendlyName": "IPS Deny List 45.83.244.14",
-          "cSharpName": "UnifiNetworkIpsDenyList4583244144"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_45_83_244_14_5",
-          "friendlyName": "IPS Deny List 45.83.244.14",
-          "cSharpName": "UnifiNetworkIpsDenyList4583244145"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_45_83_244_14_6",
-          "friendlyName": "IPS Deny List 45.83.244.14",
-          "cSharpName": "UnifiNetworkIpsDenyList4583244146"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_45_83_244_14_7",
-          "friendlyName": "IPS Deny List 45.83.244.14",
-          "cSharpName": "UnifiNetworkIpsDenyList4583244147"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_45_83_244_14_8",
-          "friendlyName": "IPS Deny List 45.83.244.14",
-          "cSharpName": "UnifiNetworkIpsDenyList4583244148"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_45_95_146_57",
-          "friendlyName": "IPS Deny List 45.95.146.57",
-          "cSharpName": "UnifiNetworkIpsDenyList459514657"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_45_95_146_57_2",
-          "friendlyName": "IPS Deny List 45.95.146.57",
-          "cSharpName": "UnifiNetworkIpsDenyList4595146572"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_45_95_146_57_3",
-          "friendlyName": "IPS Deny List 45.95.146.57",
-          "cSharpName": "UnifiNetworkIpsDenyList4595146573"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_45_95_146_57_4",
-          "friendlyName": "IPS Deny List 45.95.146.57",
-          "cSharpName": "UnifiNetworkIpsDenyList4595146574"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_45_95_146_57_5",
-          "friendlyName": "IPS Deny List 45.95.146.57",
-          "cSharpName": "UnifiNetworkIpsDenyList4595146575"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_45_95_146_57_6",
-          "friendlyName": "IPS Deny List 45.95.146.57",
-          "cSharpName": "UnifiNetworkIpsDenyList4595146576"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_45_95_146_57_7",
-          "friendlyName": "IPS Deny List 45.95.146.57",
-          "cSharpName": "UnifiNetworkIpsDenyList4595146577"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_45_95_146_57_8",
-          "friendlyName": "IPS Deny List 45.95.146.57",
-          "cSharpName": "UnifiNetworkIpsDenyList4595146578"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_47_245_32_141",
-          "friendlyName": "IPS Deny List 47.245.32.141",
-          "cSharpName": "UnifiNetworkIpsDenyList4724532141"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_47_245_32_141_2",
-          "friendlyName": "IPS Deny List 47.245.32.141",
-          "cSharpName": "UnifiNetworkIpsDenyList47245321412"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_47_245_32_141_3",
-          "friendlyName": "IPS Deny List 47.245.32.141",
-          "cSharpName": "UnifiNetworkIpsDenyList47245321413"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_47_245_32_141_4",
-          "friendlyName": "IPS Deny List 47.245.32.141",
-          "cSharpName": "UnifiNetworkIpsDenyList47245321414"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_47_245_32_141_5",
-          "friendlyName": "IPS Deny List 47.245.32.141",
-          "cSharpName": "UnifiNetworkIpsDenyList47245321415"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_47_245_32_141_6",
-          "friendlyName": "IPS Deny List 47.245.32.141",
-          "cSharpName": "UnifiNetworkIpsDenyList47245321416"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_47_245_32_141_7",
-          "friendlyName": "IPS Deny List 47.245.32.141",
-          "cSharpName": "UnifiNetworkIpsDenyList47245321417"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_47_245_32_141_8",
-          "friendlyName": "IPS Deny List 47.245.32.141",
-          "cSharpName": "UnifiNetworkIpsDenyList47245321418"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_5_180_148_248",
-          "friendlyName": "IPS Deny List 5.180.148.248",
-          "cSharpName": "UnifiNetworkIpsDenyList5180148248"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_5_180_148_248_2",
-          "friendlyName": "IPS Deny List 5.180.148.248",
-          "cSharpName": "UnifiNetworkIpsDenyList51801482482"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_5_180_148_248_3",
-          "friendlyName": "IPS Deny List 5.180.148.248",
-          "cSharpName": "UnifiNetworkIpsDenyList51801482483"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_5_180_148_248_4",
-          "friendlyName": "IPS Deny List 5.180.148.248",
-          "cSharpName": "UnifiNetworkIpsDenyList51801482484"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_5_180_148_248_5",
-          "friendlyName": "IPS Deny List 5.180.148.248",
-          "cSharpName": "UnifiNetworkIpsDenyList51801482485"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_5_180_148_248_6",
-          "friendlyName": "IPS Deny List 5.180.148.248",
-          "cSharpName": "UnifiNetworkIpsDenyList51801482486"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_5_180_148_248_7",
-          "friendlyName": "IPS Deny List 5.180.148.248",
-          "cSharpName": "UnifiNetworkIpsDenyList51801482487"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_5_180_148_248_8",
-          "friendlyName": "IPS Deny List 5.180.148.248",
-          "cSharpName": "UnifiNetworkIpsDenyList51801482488"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_58_18_88_130",
-          "friendlyName": "IPS Deny List 58.18.88.130",
-          "cSharpName": "UnifiNetworkIpsDenyList581888130"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_58_18_88_130_2",
-          "friendlyName": "IPS Deny List 58.18.88.130",
-          "cSharpName": "UnifiNetworkIpsDenyList5818881302"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_58_18_88_130_3",
-          "friendlyName": "IPS Deny List 58.18.88.130",
-          "cSharpName": "UnifiNetworkIpsDenyList5818881303"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_58_18_88_130_4",
-          "friendlyName": "IPS Deny List 58.18.88.130",
-          "cSharpName": "UnifiNetworkIpsDenyList5818881304"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_58_18_88_130_5",
-          "friendlyName": "IPS Deny List 58.18.88.130",
-          "cSharpName": "UnifiNetworkIpsDenyList5818881305"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_58_18_88_130_6",
-          "friendlyName": "IPS Deny List 58.18.88.130",
-          "cSharpName": "UnifiNetworkIpsDenyList5818881306"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_58_18_88_130_7",
-          "friendlyName": "IPS Deny List 58.18.88.130",
-          "cSharpName": "UnifiNetworkIpsDenyList5818881307"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_58_18_88_130_8",
-          "friendlyName": "IPS Deny List 58.18.88.130",
-          "cSharpName": "UnifiNetworkIpsDenyList5818881308"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_59_91_94_44",
-          "friendlyName": "IPS Deny List 59.91.94.44",
-          "cSharpName": "UnifiNetworkIpsDenyList59919444"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_59_91_94_44_2",
-          "friendlyName": "IPS Deny List 59.91.94.44",
-          "cSharpName": "UnifiNetworkIpsDenyList599194442"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_59_91_94_44_3",
-          "friendlyName": "IPS Deny List 59.91.94.44",
-          "cSharpName": "UnifiNetworkIpsDenyList599194443"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_59_91_94_44_4",
-          "friendlyName": "IPS Deny List 59.91.94.44",
-          "cSharpName": "UnifiNetworkIpsDenyList599194444"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_59_91_94_44_5",
-          "friendlyName": "IPS Deny List 59.91.94.44",
-          "cSharpName": "UnifiNetworkIpsDenyList599194445"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_59_91_94_44_6",
-          "friendlyName": "IPS Deny List 59.91.94.44",
-          "cSharpName": "UnifiNetworkIpsDenyList599194446"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_59_91_94_44_7",
-          "friendlyName": "IPS Deny List 59.91.94.44",
-          "cSharpName": "UnifiNetworkIpsDenyList599194447"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_59_91_94_44_8",
-          "friendlyName": "IPS Deny List 59.91.94.44",
-          "cSharpName": "UnifiNetworkIpsDenyList599194448"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_59_93_186_135",
-          "friendlyName": "IPS Deny List 59.93.186.135",
-          "cSharpName": "UnifiNetworkIpsDenyList5993186135"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_59_93_186_135_2",
-          "friendlyName": "IPS Deny List 59.93.186.135",
-          "cSharpName": "UnifiNetworkIpsDenyList59931861352"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_59_93_186_135_3",
-          "friendlyName": "IPS Deny List 59.93.186.135",
-          "cSharpName": "UnifiNetworkIpsDenyList59931861353"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_59_93_186_135_4",
-          "friendlyName": "IPS Deny List 59.93.186.135",
-          "cSharpName": "UnifiNetworkIpsDenyList59931861354"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_59_93_186_135_5",
-          "friendlyName": "IPS Deny List 59.93.186.135",
-          "cSharpName": "UnifiNetworkIpsDenyList59931861355"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_59_93_186_135_6",
-          "friendlyName": "IPS Deny List 59.93.186.135",
-          "cSharpName": "UnifiNetworkIpsDenyList59931861356"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_59_93_186_135_7",
-          "friendlyName": "IPS Deny List 59.93.186.135",
-          "cSharpName": "UnifiNetworkIpsDenyList59931861357"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_59_93_186_135_8",
-          "friendlyName": "IPS Deny List 59.93.186.135",
-          "cSharpName": "UnifiNetworkIpsDenyList59931861358"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_78_186_151_102",
-          "friendlyName": "IPS Deny List 78.186.151.102",
-          "cSharpName": "UnifiNetworkIpsDenyList78186151102"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_78_186_151_102_2",
-          "friendlyName": "IPS Deny List 78.186.151.102",
-          "cSharpName": "UnifiNetworkIpsDenyList781861511022"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_78_186_151_102_3",
-          "friendlyName": "IPS Deny List 78.186.151.102",
-          "cSharpName": "UnifiNetworkIpsDenyList781861511023"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_78_186_151_102_4",
-          "friendlyName": "IPS Deny List 78.186.151.102",
-          "cSharpName": "UnifiNetworkIpsDenyList781861511024"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_78_186_151_102_5",
-          "friendlyName": "IPS Deny List 78.186.151.102",
-          "cSharpName": "UnifiNetworkIpsDenyList781861511025"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_78_186_151_102_6",
-          "friendlyName": "IPS Deny List 78.186.151.102",
-          "cSharpName": "UnifiNetworkIpsDenyList781861511026"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_78_186_151_102_7",
-          "friendlyName": "IPS Deny List 78.186.151.102",
-          "cSharpName": "UnifiNetworkIpsDenyList781861511027"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_78_186_151_102_8",
-          "friendlyName": "IPS Deny List 78.186.151.102",
-          "cSharpName": "UnifiNetworkIpsDenyList781861511028"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_8_220_215_78",
-          "friendlyName": "IPS Deny List 8.220.215.78",
-          "cSharpName": "UnifiNetworkIpsDenyList822021578"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_8_220_215_78_2",
-          "friendlyName": "IPS Deny List 8.220.215.78",
-          "cSharpName": "UnifiNetworkIpsDenyList8220215782"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_8_220_215_78_3",
-          "friendlyName": "IPS Deny List 8.220.215.78",
-          "cSharpName": "UnifiNetworkIpsDenyList8220215783"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_8_220_215_78_4",
-          "friendlyName": "IPS Deny List 8.220.215.78",
-          "cSharpName": "UnifiNetworkIpsDenyList8220215784"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_8_220_215_78_5",
-          "friendlyName": "IPS Deny List 8.220.215.78",
-          "cSharpName": "UnifiNetworkIpsDenyList8220215785"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_8_220_215_78_6",
-          "friendlyName": "IPS Deny List 8.220.215.78",
-          "cSharpName": "UnifiNetworkIpsDenyList8220215786"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_8_220_215_78_7",
-          "friendlyName": "IPS Deny List 8.220.215.78",
-          "cSharpName": "UnifiNetworkIpsDenyList8220215787"
-        },
-        {
-          "id": "switch.unifi_network_ips_deny_list_8_220_215_78_8",
-          "friendlyName": "IPS Deny List 8.220.215.78",
-          "cSharpName": "UnifiNetworkIpsDenyList8220215788"
-        },
-        {
-          "id": "switch.unifi_network_sensitive_internal_traffic",
-          "friendlyName": "Sensitive internal traffic",
-          "cSharpName": "UnifiNetworkSensitiveInternalTraffic"
-        },
-        {
-          "id": "switch.unifi_network_traefik_on_local_server",
-          "friendlyName": "UniFi Network Traefik on local server",
-          "cSharpName": "UnifiNetworkTraefikOnLocalServer"
-        },
-        {
-          "id": "switch.unifi_network_tv_to_jellyfin",
-          "friendlyName": "TV to jellyfin",
-          "cSharpName": "UnifiNetworkTvToJellyfin"
-        },
-        {
-          "id": "switch.unifi_network_vpn_access_to_sensitive",
-          "friendlyName": "VPN access to sensitive ",
-          "cSharpName": "UnifiNetworkVpnAccessToSensitive"
         },
         {
           "id": "switch.zmywarka_do_naczyn_extra_dry",
@@ -6359,12 +4894,12 @@
         },
         {
           "id": "update.ap_gora",
-          "friendlyName": "AP G\u00F3ra",
+          "friendlyName": null,
           "cSharpName": "ApGora"
         },
         {
           "id": "update.ap_kuchnia",
-          "friendlyName": "AP Kuchnia",
+          "friendlyName": null,
           "cSharpName": "ApKuchnia"
         },
         {
@@ -6389,7 +4924,7 @@
         },
         {
           "id": "update.dream_router_home",
-          "friendlyName": "Dream Router Home",
+          "friendlyName": null,
           "cSharpName": "DreamRouterHome"
         },
         {
@@ -6411,6 +4946,11 @@
           "id": "update.get_hacs_update",
           "friendlyName": "Get HACS Update",
           "cSharpName": "GetHacsUpdate"
+        },
+        {
+          "id": "update.gledopto_gl_lb_001p_firmware",
+          "friendlyName": "Office desk lamp Firmware",
+          "cSharpName": "GledoptoGlLb001pFirmware"
         },
         {
           "id": "update.hacs_update",
@@ -6509,17 +5049,17 @@
         },
         {
           "id": "update.switch_gabinet",
-          "friendlyName": "Switch Gabinet",
+          "friendlyName": null,
           "cSharpName": "SwitchGabinet"
         },
         {
           "id": "update.switch_strych",
-          "friendlyName": "Switch Strych",
+          "friendlyName": null,
           "cSharpName": "SwitchStrych"
         },
         {
           "id": "update.switch_stryszek",
-          "friendlyName": "Switch Stryszek",
+          "friendlyName": null,
           "cSharpName": "SwitchStryszek"
         },
         {
@@ -6618,6 +5158,11 @@
           "jsonName": "device_class",
           "cSharpName": "DeviceClass",
           "clrType": "System.String"
+        },
+        {
+          "jsonName": "restored",
+          "cSharpName": "Restored",
+          "clrType": "System.Boolean"
         }
       ]
     },

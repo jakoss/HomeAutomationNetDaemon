@@ -24,7 +24,11 @@ public class CalendarSynchronizer(IHttpClientFactory httpClientFactory, ILogger<
         calendarString = calendarString.Replace("TZID=Customized Time Zone:", "TZID=Central European Standard Time:");
 
         var calendar = Ical.Net.Calendar.Load(calendarString);
-        var busyTimeSlots = calendar.GetOccurrences<CalendarEvent>(CalDateTime.Today, CalDateTime.Today.AddDays(1))
+        if (calendar is null)
+        {
+            throw new Exception("Failed to parse calendar");
+        }
+        var busyTimeSlots = calendar.GetOccurrences<CalendarEvent>(CalDateTime.Today)
             .Where(e => e.Source is CalendarEvent)
             .Select(e => e.Source)
             .Cast<CalendarEvent>()

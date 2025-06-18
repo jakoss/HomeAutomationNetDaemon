@@ -44,6 +44,7 @@ public class WorkFromHomeLedCalendarSchedule
                 if (!workingAtHome)
                 {
                     entities.Light.LedStripOfficeLight.TurnOff();
+                    entities.Light.OfficeDeskLamp.TurnOff();
                     currentlyBusy = false;
                 }
                 else
@@ -94,11 +95,13 @@ public class WorkFromHomeLedCalendarSchedule
         {
             logger.LogDebug("Adjusting led to busy state");
             entities.Light.LedStripOfficeLight.TurnOn(brightnessPct:80, rgbColor: [255, 0, 0]);
+            entities.Light.OfficeDeskLamp.TurnOn(brightnessPct: 80, rgbColor: [255, 0, 0]);
         }
         else
         {
             logger.LogDebug("Adjusting led to idle state");
             entities.Light.LedStripOfficeLight.TurnOn(brightnessPct: 10, rgbColor: [0, 0, 255]);
+            entities.Light.OfficeDeskLamp.TurnOn(brightnessPct: 10, rgbColor: [0, 255, 0]);
         }
     }
 }

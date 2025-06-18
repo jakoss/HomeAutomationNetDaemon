@@ -409,6 +409,99 @@
       "name": "Disable",
       "description": "Stops the recording of events and state changes.",
       "fields": {}
+    },
+    "get_statistics": {
+      "name": "Get statistics",
+      "description": "Retrieves statistics data for entities within a specific time period.",
+      "fields": {
+        "start_time": {
+          "required": true,
+          "example": "2025-01-01 00:00:00",
+          "selector": {
+            "datetime": null
+          },
+          "name": "Start time",
+          "description": "The start time for the statistics query."
+        },
+        "end_time": {
+          "required": false,
+          "example": "2025-01-02 00:00:00",
+          "selector": {
+            "datetime": null
+          },
+          "name": "End time",
+          "description": "The end time for the statistics query. If omitted, returns all statistics from start time onward."
+        },
+        "statistic_ids": {
+          "required": true,
+          "example": [
+            "sensor.energy_consumption",
+            "sensor.temperature"
+          ],
+          "selector": {
+            "entity": {
+              "multiple": true
+            }
+          },
+          "name": "Statistic IDs",
+          "description": "The entity IDs or statistic IDs to return statistics for."
+        },
+        "period": {
+          "required": true,
+          "example": "hour",
+          "selector": {
+            "select": {
+              "options": [
+                "5minute",
+                "hour",
+                "day",
+                "week",
+                "month"
+              ]
+            }
+          },
+          "name": "Period",
+          "description": "The time period to group statistics by."
+        },
+        "types": {
+          "required": true,
+          "example": [
+            "mean",
+            "sum"
+          ],
+          "selector": {
+            "select": {
+              "options": [
+                "change",
+                "last_reset",
+                "max",
+                "mean",
+                "min",
+                "state",
+                "sum"
+              ],
+              "multiple": true
+            }
+          },
+          "name": "Types",
+          "description": "The types of statistics values to return."
+        },
+        "units": {
+          "required": false,
+          "example": {
+            "energy": "kWh",
+            "temperature": "\u00B0C"
+          },
+          "selector": {
+            "object": null
+          },
+          "name": "Units",
+          "description": "Optional unit conversion mapping."
+        }
+      },
+      "response": {
+        "optional": false
+      }
     }
   },
   "hassio": {
@@ -803,72 +896,6 @@
       "fields": {}
     }
   },
-  "conversation": {
-    "process": {
-      "name": "Process",
-      "description": "Launches a conversation from a transcribed text.",
-      "fields": {
-        "text": {
-          "example": "Turn all lights on",
-          "required": true,
-          "selector": {
-            "text": null
-          },
-          "name": "Text",
-          "description": "Transcribed text input."
-        },
-        "language": {
-          "example": "NL",
-          "selector": {
-            "text": null
-          },
-          "name": "Language",
-          "description": "Language of text. Defaults to server language."
-        },
-        "agent_id": {
-          "example": "homeassistant",
-          "selector": {
-            "conversation_agent": null
-          },
-          "name": "Agent",
-          "description": "Conversation agent to process your request. The conversation agent is the brains of your assistant. It processes the incoming text commands."
-        },
-        "conversation_id": {
-          "example": "my_conversation_1",
-          "selector": {
-            "text": null
-          },
-          "name": "Conversation ID",
-          "description": "ID of the conversation, to be able to continue a previous conversation"
-        }
-      },
-      "response": {
-        "optional": true
-      }
-    },
-    "reload": {
-      "name": "Reload",
-      "description": "Reloads the intent configuration.",
-      "fields": {
-        "language": {
-          "example": "NL",
-          "selector": {
-            "text": null
-          },
-          "name": "Language",
-          "description": "Language to clear cached intents for. Defaults to server language."
-        },
-        "agent_id": {
-          "example": "homeassistant",
-          "selector": {
-            "conversation_agent": null
-          },
-          "name": "Agent",
-          "description": "Conversation agent to reload."
-        }
-      }
-    }
-  },
   "tts": {
     "speak": {
       "name": "Speak",
@@ -971,6 +998,72 @@
           "selector": {
             "object": null
           }
+        }
+      }
+    }
+  },
+  "conversation": {
+    "process": {
+      "name": "Process",
+      "description": "Launches a conversation from a transcribed text.",
+      "fields": {
+        "text": {
+          "example": "Turn all lights on",
+          "required": true,
+          "selector": {
+            "text": null
+          },
+          "name": "Text",
+          "description": "Transcribed text input."
+        },
+        "language": {
+          "example": "NL",
+          "selector": {
+            "text": null
+          },
+          "name": "Language",
+          "description": "Language of text. Defaults to server language."
+        },
+        "agent_id": {
+          "example": "homeassistant",
+          "selector": {
+            "conversation_agent": null
+          },
+          "name": "Agent",
+          "description": "Conversation agent to process your request. The conversation agent is the brains of your assistant. It processes the incoming text commands."
+        },
+        "conversation_id": {
+          "example": "my_conversation_1",
+          "selector": {
+            "text": null
+          },
+          "name": "Conversation ID",
+          "description": "ID of the conversation, to be able to continue a previous conversation"
+        }
+      },
+      "response": {
+        "optional": true
+      }
+    },
+    "reload": {
+      "name": "Reload",
+      "description": "Reloads the intent configuration.",
+      "fields": {
+        "language": {
+          "example": "NL",
+          "selector": {
+            "text": null
+          },
+          "name": "Language",
+          "description": "Language to clear cached intents for. Defaults to server language."
+        },
+        "agent_id": {
+          "example": "homeassistant",
+          "selector": {
+            "conversation_agent": null
+          },
+          "name": "Agent",
+          "description": "Conversation agent to reload."
         }
       }
     }
@@ -1325,205 +1418,11 @@
       }
     }
   },
-  "timer": {
-    "reload": {
-      "name": "Reload",
-      "description": "Reloads timers from the YAML-configuration.",
-      "fields": {}
-    },
-    "start": {
-      "name": "Start",
-      "description": "Starts a timer or restarts it with a provided duration.",
-      "fields": {
-        "duration": {
-          "example": "00:01:00 or 60",
-          "selector": {
-            "text": null
-          },
-          "name": "Duration",
-          "description": "Custom duration to restart the timer with."
-        }
-      },
-      "target": {
-        "entity": [
-          {
-            "domain": [
-              "timer"
-            ]
-          }
-        ]
-      }
-    },
-    "pause": {
-      "name": "Pause",
-      "description": "Pauses a running timer, retaining the remaining duration for later continuation.",
-      "fields": {},
-      "target": {
-        "entity": [
-          {
-            "domain": [
-              "timer"
-            ]
-          }
-        ]
-      }
-    },
-    "cancel": {
-      "name": "Cancel",
-      "description": "Resets a timer\u0027s duration to the last known initial value without firing the timer finished event.",
-      "fields": {},
-      "target": {
-        "entity": [
-          {
-            "domain": [
-              "timer"
-            ]
-          }
-        ]
-      }
-    },
-    "finish": {
-      "name": "Finish",
-      "description": "Finishes a running timer earlier than scheduled.",
-      "fields": {},
-      "target": {
-        "entity": [
-          {
-            "domain": [
-              "timer"
-            ]
-          }
-        ]
-      }
-    },
-    "change": {
-      "name": "Change",
-      "description": "Changes a timer by adding or subtracting a given duration.",
-      "fields": {
-        "duration": {
-          "default": 0,
-          "required": true,
-          "example": "00:01:00, 60 or -60",
-          "selector": {
-            "text": null
-          },
-          "name": "Duration",
-          "description": "Duration to add to or subtract from the running timer."
-        }
-      },
-      "target": {
-        "entity": [
-          {
-            "domain": [
-              "timer"
-            ]
-          }
-        ]
-      }
-    }
-  },
   "zone": {
     "reload": {
       "name": "Reload",
       "description": "Reloads zones from the YAML-configuration.",
       "fields": {}
-    }
-  },
-  "script": {
-    "toggle_all": {
-      "name": "Toggle both zones",
-      "description": "",
-      "fields": {},
-      "response": {
-        "optional": true
-      }
-    },
-    "toggle_night": {
-      "name": "Toggle night zone",
-      "description": "",
-      "fields": {},
-      "response": {
-        "optional": true
-      }
-    },
-    "toggle_gate": {
-      "name": "Toggle Gate",
-      "description": "",
-      "fields": {},
-      "response": {
-        "optional": true
-      }
-    },
-    "toggle_garage_doors": {
-      "name": "Toggle Garage Doors",
-      "description": "",
-      "fields": {},
-      "response": {
-        "optional": true
-      }
-    },
-    "open_all_doors": {
-      "name": "Open all doors",
-      "description": "",
-      "fields": {},
-      "response": {
-        "optional": true
-      }
-    },
-    "close_all_doors": {
-      "name": "Close all doors",
-      "description": "",
-      "fields": {},
-      "response": {
-        "optional": true
-      }
-    },
-    "reload": {
-      "name": "Reload",
-      "description": "Reloads all the available scripts.",
-      "fields": {}
-    },
-    "turn_on": {
-      "name": "Turn on",
-      "description": "Runs the sequence of actions defined in a script.",
-      "fields": {},
-      "target": {
-        "entity": [
-          {
-            "domain": [
-              "script"
-            ]
-          }
-        ]
-      }
-    },
-    "turn_off": {
-      "name": "Turn off",
-      "description": "Stops a running script.",
-      "fields": {},
-      "target": {
-        "entity": [
-          {
-            "domain": [
-              "script"
-            ]
-          }
-        ]
-      }
-    },
-    "toggle": {
-      "name": "Toggle",
-      "description": "Starts a script if it isn\u0027t running, stops it otherwise.",
-      "fields": {},
-      "target": {
-        "entity": [
-          {
-            "domain": [
-              "script"
-            ]
-          }
-        ]
-      }
     }
   },
   "input_select": {
@@ -1657,6 +1556,103 @@
       }
     }
   },
+  "timer": {
+    "reload": {
+      "name": "Reload",
+      "description": "Reloads timers from the YAML-configuration.",
+      "fields": {}
+    },
+    "start": {
+      "name": "Start",
+      "description": "Starts a timer or restarts it with a provided duration.",
+      "fields": {
+        "duration": {
+          "example": "00:01:00 or 60",
+          "selector": {
+            "text": null
+          },
+          "name": "Duration",
+          "description": "Custom duration to restart the timer with."
+        }
+      },
+      "target": {
+        "entity": [
+          {
+            "domain": [
+              "timer"
+            ]
+          }
+        ]
+      }
+    },
+    "pause": {
+      "name": "Pause",
+      "description": "Pauses a running timer, retaining the remaining duration for later continuation.",
+      "fields": {},
+      "target": {
+        "entity": [
+          {
+            "domain": [
+              "timer"
+            ]
+          }
+        ]
+      }
+    },
+    "cancel": {
+      "name": "Cancel",
+      "description": "Resets a timer\u0027s duration to the last known initial value without firing the timer finished event.",
+      "fields": {},
+      "target": {
+        "entity": [
+          {
+            "domain": [
+              "timer"
+            ]
+          }
+        ]
+      }
+    },
+    "finish": {
+      "name": "Finish",
+      "description": "Finishes a running timer earlier than scheduled.",
+      "fields": {},
+      "target": {
+        "entity": [
+          {
+            "domain": [
+              "timer"
+            ]
+          }
+        ]
+      }
+    },
+    "change": {
+      "name": "Change",
+      "description": "Changes a timer by adding or subtracting a given duration.",
+      "fields": {
+        "duration": {
+          "default": 0,
+          "required": true,
+          "example": "00:01:00, 60 or -60",
+          "selector": {
+            "text": null
+          },
+          "name": "Duration",
+          "description": "Duration to add to or subtract from the running timer."
+        }
+      },
+      "target": {
+        "entity": [
+          {
+            "domain": [
+              "timer"
+            ]
+          }
+        ]
+      }
+    }
+  },
   "logbook": {
     "log": {
       "name": "Log",
@@ -1698,6 +1694,103 @@
       }
     }
   },
+  "script": {
+    "toggle_all": {
+      "name": "Toggle both zones",
+      "description": "",
+      "fields": {},
+      "response": {
+        "optional": true
+      }
+    },
+    "toggle_night": {
+      "name": "Toggle night zone",
+      "description": "",
+      "fields": {},
+      "response": {
+        "optional": true
+      }
+    },
+    "toggle_gate": {
+      "name": "Toggle Gate",
+      "description": "",
+      "fields": {},
+      "response": {
+        "optional": true
+      }
+    },
+    "toggle_garage_doors": {
+      "name": "Toggle Garage Doors",
+      "description": "",
+      "fields": {},
+      "response": {
+        "optional": true
+      }
+    },
+    "open_all_doors": {
+      "name": "Open all doors",
+      "description": "",
+      "fields": {},
+      "response": {
+        "optional": true
+      }
+    },
+    "close_all_doors": {
+      "name": "Close all doors",
+      "description": "",
+      "fields": {},
+      "response": {
+        "optional": true
+      }
+    },
+    "reload": {
+      "name": "Reload",
+      "description": "Reloads all the available scripts.",
+      "fields": {}
+    },
+    "turn_on": {
+      "name": "Turn on",
+      "description": "Runs the sequence of actions defined in a script.",
+      "fields": {},
+      "target": {
+        "entity": [
+          {
+            "domain": [
+              "script"
+            ]
+          }
+        ]
+      }
+    },
+    "turn_off": {
+      "name": "Turn off",
+      "description": "Stops a running script.",
+      "fields": {},
+      "target": {
+        "entity": [
+          {
+            "domain": [
+              "script"
+            ]
+          }
+        ]
+      }
+    },
+    "toggle": {
+      "name": "Toggle",
+      "description": "Starts a script if it isn\u0027t running, stops it otherwise.",
+      "fields": {},
+      "target": {
+        "entity": [
+          {
+            "domain": [
+              "script"
+            ]
+          }
+        ]
+      }
+    }
+  },
   "input_button": {
     "reload": {
       "name": "Reload",
@@ -1717,13 +1810,6 @@
           }
         ]
       }
-    }
-  },
-  "person": {
-    "reload": {
-      "name": "Reload",
-      "description": "Reloads persons from the YAML-configuration.",
-      "fields": {}
     }
   },
   "input_boolean": {
@@ -1773,6 +1859,13 @@
           }
         ]
       }
+    }
+  },
+  "person": {
+    "reload": {
+      "name": "Reload",
+      "description": "Reloads persons from the YAML-configuration.",
+      "fields": {}
     }
   },
   "assist_satellite": {
@@ -1891,1022 +1984,6 @@
       }
     }
   },
-  "cast": {
-    "show_lovelace_view": {
-      "name": "Show dashboard view",
-      "description": "Shows a dashboard view on a Chromecast device.",
-      "fields": {
-        "entity_id": {
-          "required": true,
-          "selector": {
-            "entity": {
-              "integration": "cast",
-              "domain": "media_player"
-            }
-          },
-          "name": "Entity",
-          "description": "Media player entity to show the dashboard view on."
-        },
-        "dashboard_path": {
-          "example": "lovelace-cast",
-          "selector": {
-            "text": null
-          },
-          "name": "Dashboard path",
-          "description": "The URL path of the dashboard to show, defaults to lovelace if not specified."
-        },
-        "view_path": {
-          "required": true,
-          "example": "downstairs",
-          "selector": {
-            "text": null
-          },
-          "name": "View path",
-          "description": "The URL path of the dashboard view to show."
-        }
-      }
-    }
-  },
-  "python_script": {
-    "reload": {
-      "name": "Reload",
-      "description": "Reloads all available Python scripts.",
-      "fields": {}
-    }
-  },
-  "counter": {
-    "increment": {
-      "name": "Increment",
-      "description": "Increments a counter by its step size.",
-      "fields": {},
-      "target": {
-        "entity": [
-          {
-            "domain": [
-              "counter"
-            ]
-          }
-        ]
-      }
-    },
-    "decrement": {
-      "name": "Decrement",
-      "description": "Decrements a counter by its step size.",
-      "fields": {},
-      "target": {
-        "entity": [
-          {
-            "domain": [
-              "counter"
-            ]
-          }
-        ]
-      }
-    },
-    "reset": {
-      "name": "Reset",
-      "description": "Resets a counter to its initial value.",
-      "fields": {},
-      "target": {
-        "entity": [
-          {
-            "domain": [
-              "counter"
-            ]
-          }
-        ]
-      }
-    },
-    "set_value": {
-      "name": "Set",
-      "description": "Sets the counter to a specific value.",
-      "fields": {
-        "value": {
-          "required": true,
-          "selector": {
-            "number": {
-              "min": 0,
-              "max": 9223372036854775807,
-              "mode": "box"
-            }
-          },
-          "name": "Value",
-          "description": "The new counter value the entity should be set to."
-        }
-      },
-      "target": {
-        "entity": [
-          {
-            "domain": [
-              "counter"
-            ]
-          }
-        ]
-      }
-    }
-  },
-  "netdaemon": {
-    "register_service": {
-      "name": "",
-      "description": "Register a new service for netdaemon, used by the daemon and not to be used by users",
-      "fields": {
-        "service": {
-          "description": "The name of the service to register"
-        },
-        "class": {
-          "description": "The class that implements the service call"
-        },
-        "method": {
-          "description": "The method to call"
-        }
-      }
-    },
-    "reload_apps": {
-      "name": "",
-      "description": "",
-      "fields": {}
-    },
-    "entity_create": {
-      "name": "",
-      "description": "Create an entity",
-      "fields": {
-        "entity_id": {
-          "description": "The entity ID of the entity",
-          "example": "sensor.awesome"
-        },
-        "state": {
-          "description": "The state of the entity",
-          "example": "Lorem ipsum"
-        },
-        "icon": {
-          "description": "The icon for the entity",
-          "example": "mdi:rocket-launch-outline"
-        },
-        "unit": {
-          "description": "The unit of measurement for the entity"
-        },
-        "options": {
-          "description": "List of options for a select entity"
-        },
-        "attributes": {
-          "description": "The attributes of the entity"
-        }
-      }
-    },
-    "entity_update": {
-      "name": "",
-      "description": "Update an entity",
-      "fields": {
-        "entity_id": {
-          "description": "The entity ID of the entity",
-          "example": "sensor.awesome"
-        },
-        "state": {
-          "description": "The state of the entity",
-          "example": "Lorem ipsum"
-        },
-        "icon": {
-          "description": "The icon for the entity",
-          "example": "mdi:rocket-launch-outline"
-        },
-        "unit": {
-          "description": "The unit of measurement for the entity"
-        },
-        "options": {
-          "description": "List of options for a select entity"
-        },
-        "attributes": {
-          "description": "The attributes of the entity"
-        }
-      }
-    },
-    "entity_remove": {
-      "name": "",
-      "description": "Remove an entity",
-      "fields": {
-        "entity_id": {
-          "description": "The entity ID of the entity",
-          "example": "sensor.awesome"
-        }
-      }
-    }
-  },
-  "template": {
-    "reload": {
-      "name": "Reload",
-      "description": "Reloads template entities from the YAML-configuration.",
-      "fields": {}
-    }
-  },
-  "openai_conversation": {
-    "generate_content": {
-      "name": "Generate content",
-      "description": "Sends a conversational query to ChatGPT including any attached image or PDF files",
-      "fields": {
-        "config_entry": {
-          "required": true,
-          "selector": {
-            "config_entry": {
-              "integration": "openai_conversation"
-            }
-          },
-          "name": "Config entry",
-          "description": "The config entry to use for this action"
-        },
-        "prompt": {
-          "required": true,
-          "selector": {
-            "text": {
-              "multiline": true
-            }
-          },
-          "example": "Hello, how can I help you?",
-          "name": "Prompt",
-          "description": "The prompt to send"
-        },
-        "filenames": {
-          "selector": {
-            "text": {
-              "multiline": true
-            }
-          },
-          "example": "- /path/to/file1.txt\n- /path/to/file2.txt\n",
-          "name": "Files",
-          "description": "List of files to upload"
-        }
-      },
-      "response": {
-        "optional": false
-      }
-    },
-    "generate_image": {
-      "name": "Generate image",
-      "description": "Turns a prompt into an image",
-      "fields": {
-        "config_entry": {
-          "required": true,
-          "selector": {
-            "config_entry": {
-              "integration": "openai_conversation"
-            }
-          },
-          "name": "Config entry",
-          "description": "The config entry to use for this action"
-        },
-        "prompt": {
-          "required": true,
-          "selector": {
-            "text": {
-              "multiline": true
-            }
-          },
-          "name": "Prompt",
-          "description": "The text to turn into an image",
-          "example": "A photo of a dog"
-        },
-        "size": {
-          "required": false,
-          "example": "1024x1024",
-          "default": "1024x1024",
-          "selector": {
-            "select": {
-              "options": [
-                "1024x1024",
-                "1024x1792",
-                "1792x1024"
-              ]
-            }
-          },
-          "name": "Size",
-          "description": "The size of the image to generate"
-        },
-        "quality": {
-          "required": false,
-          "example": "standard",
-          "default": "standard",
-          "selector": {
-            "select": {
-              "options": [
-                "standard",
-                "hd"
-              ]
-            }
-          },
-          "name": "Quality",
-          "description": "The quality of the image that will be generated"
-        },
-        "style": {
-          "required": false,
-          "example": "vivid",
-          "default": "vivid",
-          "selector": {
-            "select": {
-              "options": [
-                "vivid",
-                "natural"
-              ]
-            }
-          },
-          "name": "Style",
-          "description": "The style of the generated image"
-        }
-      },
-      "response": {
-        "optional": false
-      }
-    }
-  },
-  "music_assistant": {
-    "search": {
-      "name": "Search Music Assistant",
-      "description": "Performs a global search on the Music Assistant library and all providers.",
-      "fields": {
-        "config_entry_id": {
-          "required": true,
-          "selector": {
-            "config_entry": {
-              "integration": "music_assistant"
-            }
-          },
-          "name": "Music Assistant instance",
-          "description": "Select the Music Assistant instance to perform the search on."
-        },
-        "name": {
-          "required": true,
-          "example": "We Are The Champions",
-          "selector": {
-            "text": null
-          },
-          "name": "Search name",
-          "description": "The name/title to search for."
-        },
-        "media_type": {
-          "example": "playlist",
-          "selector": {
-            "select": {
-              "multiple": true,
-              "translation_key": "media_type",
-              "options": [
-                "artist",
-                "album",
-                "audiobook",
-                "playlist",
-                "podcast",
-                "track",
-                "radio"
-              ]
-            }
-          },
-          "name": "Media type(s)",
-          "description": "The type of the content to search. Such as artist, album, track, radio, or playlist. All types if omitted."
-        },
-        "artist": {
-          "example": "Queen",
-          "selector": {
-            "text": null
-          },
-          "name": "Artist name",
-          "description": "When specifying a track or album name in the name field, you can optionally restrict results by this artist name."
-        },
-        "album": {
-          "example": "News of the world",
-          "selector": {
-            "text": null
-          },
-          "name": "Album name",
-          "description": "When specifying a track name in the name field, you can optionally restrict results by this album name."
-        },
-        "limit": {
-          "advanced": true,
-          "example": 25,
-          "default": 5,
-          "selector": {
-            "number": {
-              "min": 1,
-              "max": 100,
-              "step": 1
-            }
-          },
-          "name": "Limit",
-          "description": "Maximum number of items to return (per media type)."
-        },
-        "library_only": {
-          "example": "true",
-          "default": false,
-          "selector": {
-            "boolean": null
-          },
-          "name": "Only library items",
-          "description": "Only include results that are in the library."
-        }
-      },
-      "response": {
-        "optional": false
-      }
-    },
-    "get_library": {
-      "name": "Get library items",
-      "description": "Retrieves items from a Music Assistant library.",
-      "fields": {
-        "config_entry_id": {
-          "required": true,
-          "selector": {
-            "config_entry": {
-              "integration": "music_assistant"
-            }
-          },
-          "name": "Music Assistant instance",
-          "description": "Select the Music Assistant instance to perform the search on."
-        },
-        "media_type": {
-          "required": true,
-          "example": "playlist",
-          "selector": {
-            "select": {
-              "translation_key": "media_type",
-              "options": [
-                "artist",
-                "album",
-                "audiobook",
-                "playlist",
-                "podcast",
-                "track",
-                "radio"
-              ]
-            }
-          },
-          "name": "Media type",
-          "description": "The media type for which to request details for."
-        },
-        "favorite": {
-          "example": "true",
-          "default": false,
-          "selector": {
-            "boolean": null
-          },
-          "name": "Favorites only",
-          "description": "Filter items so only favorites items are returned."
-        },
-        "search": {
-          "example": "We Are The Champions",
-          "selector": {
-            "text": null
-          },
-          "name": "Search",
-          "description": "Optional search string to search through this library."
-        },
-        "limit": {
-          "advanced": true,
-          "example": 25,
-          "default": 25,
-          "selector": {
-            "number": {
-              "min": 1,
-              "max": 500,
-              "step": 1
-            }
-          },
-          "name": "Limit",
-          "description": "Maximum number of items to return."
-        },
-        "offset": {
-          "advanced": true,
-          "example": 25,
-          "default": 0,
-          "selector": {
-            "number": {
-              "min": 1,
-              "max": 1000000,
-              "step": 1
-            }
-          },
-          "name": "Offset",
-          "description": "Offset to start the list from."
-        },
-        "order_by": {
-          "example": "random",
-          "selector": {
-            "select": {
-              "translation_key": "order_by",
-              "options": [
-                "name",
-                "name_desc",
-                "sort_name",
-                "sort_name_desc",
-                "timestamp_added",
-                "timestamp_added_desc",
-                "last_played",
-                "last_played_desc",
-                "play_count",
-                "play_count_desc",
-                "year",
-                "year_desc",
-                "position",
-                "position_desc",
-                "artist_name",
-                "artist_name_desc",
-                "random",
-                "random_play_count"
-              ]
-            }
-          },
-          "name": "Order by",
-          "description": "Sort the list by this field."
-        },
-        "album_type": {
-          "example": "single",
-          "selector": {
-            "select": {
-              "multiple": true,
-              "translation_key": "album_type",
-              "options": [
-                "album",
-                "single",
-                "compilation",
-                "ep",
-                "unknown"
-              ]
-            }
-          },
-          "name": "Album type filter (albums library only)",
-          "description": "Filter albums by type."
-        },
-        "album_artists_only": {
-          "example": "true",
-          "default": false,
-          "selector": {
-            "boolean": null
-          },
-          "name": "Enable album artists filter (only for artist library)",
-          "description": "Only return album artists when listing the artists library items."
-        }
-      },
-      "response": {
-        "optional": false
-      }
-    },
-    "play_media": {
-      "name": "Play media",
-      "description": "Plays media on a Music Assistant player with more fine-grained control options.",
-      "fields": {
-        "media_id": {
-          "required": true,
-          "example": "spotify://playlist/aabbccddeeff",
-          "selector": {
-            "object": null
-          },
-          "name": "Media ID(s)",
-          "description": "URI or name of the item you want to play. Specify a list if you want to play/enqueue multiple items."
-        },
-        "media_type": {
-          "example": "playlist",
-          "selector": {
-            "select": {
-              "translation_key": "media_type",
-              "options": [
-                "artist",
-                "album",
-                "audiobook",
-                "folder",
-                "playlist",
-                "podcast",
-                "track",
-                "radio"
-              ]
-            }
-          },
-          "name": "Media type",
-          "description": "The type of the content to play. Such as artist, album, track or playlist. Will be auto-determined if omitted."
-        },
-        "artist": {
-          "example": "Queen",
-          "selector": {
-            "text": null
-          },
-          "name": "Artist name",
-          "description": "When specifying a track or album by name in the Media ID field, you can optionally restrict results by this artist name."
-        },
-        "album": {
-          "example": "News of the world",
-          "selector": {
-            "text": null
-          },
-          "name": "Album name",
-          "description": "When specifying a track by name in the Media ID field, you can optionally restrict results by this album name."
-        },
-        "enqueue": {
-          "selector": {
-            "select": {
-              "options": [
-                "play",
-                "replace",
-                "next",
-                "replace_next",
-                "add"
-              ],
-              "translation_key": "enqueue"
-            }
-          },
-          "name": "Enqueue",
-          "description": "If the content should be played now or added to the queue."
-        },
-        "radio_mode": {
-          "advanced": true,
-          "selector": {
-            "boolean": null
-          },
-          "name": "Enable radio mode",
-          "description": "Enable radio mode to auto-generate a playlist based on the selection."
-        }
-      },
-      "target": {
-        "entity": [
-          {
-            "domain": [
-              "media_player"
-            ],
-            "integration": "music_assistant",
-            "supported_features": [
-              512
-            ]
-          }
-        ]
-      }
-    },
-    "play_announcement": {
-      "name": "Play announcement",
-      "description": "Plays an announcement on a Music Assistant player with more fine-grained control options.",
-      "fields": {
-        "url": {
-          "required": true,
-          "example": "http://someremotesite.com/doorbell.mp3",
-          "selector": {
-            "text": null
-          },
-          "name": "URL",
-          "description": "URL to the notification sound."
-        },
-        "use_pre_announce": {
-          "example": "true",
-          "selector": {
-            "boolean": null
-          },
-          "name": "Use pre-announce",
-          "description": "Use pre-announcement sound for the announcement. Omit to use the player default."
-        },
-        "announce_volume": {
-          "example": 75,
-          "selector": {
-            "number": {
-              "min": 1,
-              "max": 100,
-              "step": 1
-            }
-          },
-          "name": "Announce volume",
-          "description": "Use a forced volume level for the announcement. Omit to use player default."
-        }
-      },
-      "target": {
-        "entity": [
-          {
-            "domain": [
-              "media_player"
-            ],
-            "integration": "music_assistant",
-            "supported_features": [
-              512,
-              1048576
-            ]
-          }
-        ]
-      }
-    },
-    "transfer_queue": {
-      "name": "Transfer queue",
-      "description": "Transfers a player\u0027s queue to another player.",
-      "fields": {
-        "source_player": {
-          "selector": {
-            "entity": {
-              "domain": "media_player",
-              "integration": "music_assistant"
-            }
-          },
-          "name": "Source media player",
-          "description": "The source media player which has the queue you want to transfer. When omitted, the first playing player will be used."
-        },
-        "auto_play": {
-          "example": "true",
-          "selector": {
-            "boolean": null
-          },
-          "name": "Auto play",
-          "description": "Start playing the queue on the target player. Omit to use the default behavior."
-        }
-      },
-      "target": {
-        "entity": [
-          {
-            "domain": [
-              "media_player"
-            ],
-            "integration": "music_assistant"
-          }
-        ]
-      }
-    },
-    "get_queue": {
-      "name": "Get playerQueue details (advanced)",
-      "description": "Retrieves the details of the currently active queue of a Music Assistant player.",
-      "fields": {},
-      "target": {
-        "entity": [
-          {
-            "domain": [
-              "media_player"
-            ],
-            "integration": "music_assistant",
-            "supported_features": [
-              512
-            ]
-          }
-        ]
-      },
-      "response": {
-        "optional": false
-      }
-    }
-  },
-  "heos": {
-    "sign_in": {
-      "name": "Sign in",
-      "description": "Signs in to a HEOS account.",
-      "fields": {
-        "username": {
-          "required": true,
-          "example": "example@example.com",
-          "selector": {
-            "text": null
-          },
-          "name": "Username",
-          "description": "The username or email of the HEOS account."
-        },
-        "password": {
-          "required": true,
-          "example": "password",
-          "selector": {
-            "text": null
-          },
-          "name": "Password",
-          "description": "The password of the HEOS account."
-        }
-      }
-    },
-    "sign_out": {
-      "name": "Sign out",
-      "description": "Signs out of the HEOS account.",
-      "fields": {}
-    },
-    "get_queue": {
-      "name": "Get queue",
-      "description": "Retrieves the queue of the media player.",
-      "fields": {},
-      "target": {
-        "entity": [
-          {
-            "integration": "heos",
-            "domain": [
-              "media_player"
-            ]
-          }
-        ]
-      },
-      "response": {
-        "optional": false
-      }
-    },
-    "remove_from_queue": {
-      "name": "Remove from queue",
-      "description": "Removes items from the play queue.",
-      "fields": {
-        "queue_ids": {
-          "required": true,
-          "selector": {
-            "text": {
-              "multiple": true,
-              "type": "number"
-            }
-          },
-          "name": "Queue IDs",
-          "description": "The IDs (indexes) of the items in the queue to remove."
-        }
-      },
-      "target": {
-        "entity": [
-          {
-            "integration": "heos",
-            "domain": [
-              "media_player"
-            ]
-          }
-        ]
-      }
-    },
-    "move_queue_item": {
-      "name": "Move queue item",
-      "description": "Moves one or more items within the play queue.",
-      "fields": {
-        "queue_ids": {
-          "required": true,
-          "selector": {
-            "text": {
-              "multiple": true,
-              "type": "number"
-            }
-          },
-          "name": "Queue IDs",
-          "description": "The IDs (indexes) of the items in the queue to move."
-        },
-        "destination_position": {
-          "required": true,
-          "selector": {
-            "number": {
-              "min": 1,
-              "max": 1000,
-              "step": 1
-            }
-          },
-          "name": "Destination position",
-          "description": "The position index in the queue to move the items to."
-        }
-      },
-      "target": {
-        "entity": [
-          {
-            "integration": "heos",
-            "domain": [
-              "media_player"
-            ]
-          }
-        ]
-      }
-    },
-    "group_volume_set": {
-      "name": "Set group volume",
-      "description": "Sets the group\u0027s volume while preserving member volume ratios.",
-      "fields": {
-        "volume_level": {
-          "required": true,
-          "selector": {
-            "number": {
-              "min": 0,
-              "max": 1,
-              "step": 0.01
-            }
-          },
-          "name": "Level",
-          "description": "The volume. 0 is inaudible, 1 is the maximum volume."
-        }
-      },
-      "target": {
-        "entity": [
-          {
-            "integration": "heos",
-            "domain": [
-              "media_player"
-            ]
-          }
-        ]
-      }
-    },
-    "group_volume_down": {
-      "name": "Turn down group volume",
-      "description": "Turns down the group volume.",
-      "fields": {},
-      "target": {
-        "entity": [
-          {
-            "integration": "heos",
-            "domain": [
-              "media_player"
-            ]
-          }
-        ]
-      }
-    },
-    "group_volume_up": {
-      "name": "Turn up group volume",
-      "description": "Turns up the group volume.",
-      "fields": {},
-      "target": {
-        "entity": [
-          {
-            "integration": "heos",
-            "domain": [
-              "media_player"
-            ]
-          }
-        ]
-      }
-    }
-  },
-  "google_generative_ai_conversation": {
-    "generate_content": {
-      "name": "Generate content",
-      "description": "Generate content from a prompt consisting of text and optionally images",
-      "fields": {
-        "prompt": {
-          "required": true,
-          "selector": {
-            "text": {
-              "multiline": true
-            }
-          },
-          "name": "Prompt",
-          "description": "The prompt",
-          "example": "Describe what you see in these images"
-        },
-        "image_filename": {
-          "required": false,
-          "selector": {
-            "object": null
-          },
-          "name": "Image filename",
-          "description": "Deprecated. Use filenames instead.",
-          "example": "/config/www/image.jpg"
-        },
-        "filenames": {
-          "required": false,
-          "selector": {
-            "text": {
-              "multiple": true
-            }
-          },
-          "name": "Attachment filenames",
-          "description": "Attachments to add to the prompt (images, PDFs, etc)",
-          "example": "/config/www/image.jpg"
-        }
-      },
-      "response": {
-        "optional": false
-      }
-    }
-  },
-  "input_text": {
-    "reload": {
-      "name": "Reload",
-      "description": "Reloads helpers from the YAML-configuration.",
-      "fields": {}
-    },
-    "set_value": {
-      "name": "Set",
-      "description": "Sets the value.",
-      "fields": {
-        "value": {
-          "required": true,
-          "example": "This is an example text",
-          "selector": {
-            "text": null
-          },
-          "name": "Value",
-          "description": "The target value."
-        }
-      },
-      "target": {
-        "entity": [
-          {
-            "domain": [
-              "input_text"
-            ]
-          }
-        ]
-      }
-    }
-  },
-  "unifi": {
-    "reconnect_client": {
-      "name": "Reconnect wireless client",
-      "description": "Tries to get wireless client to reconnect to UniFi Network.",
-      "fields": {
-        "device_id": {
-          "required": true,
-          "selector": {
-            "device": {
-              "integration": "unifi"
-            }
-          },
-          "name": "Device",
-          "description": "The device that should be forced to reconnect to the wireless network."
-        }
-      }
-    },
-    "remove_clients": {
-      "name": "Remove clients from the UniFi Network",
-      "description": "Cleans up clients that has only been associated with the controller for a short period of time.",
-      "fields": {}
-    }
-  },
   "sonoff": {
     "send_command": {
       "name": "Send Command",
@@ -2922,63 +1999,6 @@
           "description": "A single command to send.",
           "example": "switch"
         }
-      }
-    }
-  },
-  "input_datetime": {
-    "reload": {
-      "name": "Reload",
-      "description": "Reloads helpers from the YAML-configuration.",
-      "fields": {}
-    },
-    "set_datetime": {
-      "name": "Set",
-      "description": "Sets the date and/or time.",
-      "fields": {
-        "date": {
-          "example": "\u00222019-04-20\u0022",
-          "selector": {
-            "text": null
-          },
-          "name": "Date",
-          "description": "The target date."
-        },
-        "time": {
-          "example": "\u002205:04:20\u0022",
-          "selector": {
-            "time": null
-          },
-          "name": "Time",
-          "description": "The target time."
-        },
-        "datetime": {
-          "example": "\u00222019-04-20 05:04:20\u0022",
-          "selector": {
-            "text": null
-          },
-          "name": "Date \u0026 time",
-          "description": "The target date \u0026 time."
-        },
-        "timestamp": {
-          "selector": {
-            "number": {
-              "min": 0,
-              "max": 9223372036854775807,
-              "mode": "box"
-            }
-          },
-          "name": "Timestamp",
-          "description": "The target date \u0026 time, expressed by a UNIX timestamp."
-        }
-      },
-      "target": {
-        "entity": [
-          {
-            "domain": [
-              "input_datetime"
-            ]
-          }
-        ]
       }
     }
   },
@@ -3106,32 +2126,6 @@
             ],
             "supported_features": [
               16
-            ]
-          }
-        ]
-      }
-    },
-    "set_aux_heat": {
-      "name": "Turn on/off auxiliary heater",
-      "description": "Turns auxiliary heater on/off.",
-      "fields": {
-        "aux_heat": {
-          "required": true,
-          "selector": {
-            "boolean": null
-          },
-          "name": "Auxiliary heating",
-          "description": "New value of auxiliary heater."
-        }
-      },
-      "target": {
-        "entity": [
-          {
-            "domain": [
-              "climate"
-            ],
-            "supported_features": [
-              64
             ]
           }
         ]
@@ -5043,256 +4037,584 @@
       }
     }
   },
-  "lock": {
-    "unlock": {
-      "name": "Unlock",
-      "description": "Unlocks a lock.",
-      "fields": {
-        "code": {
-          "example": 1234,
-          "selector": {
-            "text": null
-          },
-          "name": "Code",
-          "description": "Code used to unlock the lock."
-        }
-      },
-      "target": {
-        "entity": [
-          {
-            "domain": [
-              "lock"
-            ]
-          }
-        ]
-      }
-    },
-    "lock": {
-      "name": "Lock",
-      "description": "Locks a lock.",
-      "fields": {
-        "code": {
-          "example": 1234,
-          "selector": {
-            "text": null
-          },
-          "name": "Code",
-          "description": "Code used to lock the lock."
-        }
-      },
-      "target": {
-        "entity": [
-          {
-            "domain": [
-              "lock"
-            ]
-          }
-        ]
-      }
-    },
-    "open": {
-      "name": "Open",
-      "description": "Opens a lock.",
-      "fields": {
-        "code": {
-          "example": 1234,
-          "selector": {
-            "text": null
-          },
-          "name": "Code",
-          "description": "Code used to open the lock."
-        }
-      },
-      "target": {
-        "entity": [
-          {
-            "domain": [
-              "lock"
-            ],
-            "supported_features": [
-              1
-            ]
-          }
-        ]
-      }
+  "python_script": {
+    "reload": {
+      "name": "Reload",
+      "description": "Reloads all available Python scripts.",
+      "fields": {}
     }
   },
-  "select": {
-    "select_first": {
-      "name": "First",
-      "description": "Selects the first option.",
-      "fields": {},
-      "target": {
-        "entity": [
-          {
-            "domain": [
-              "select"
-            ]
-          }
-        ]
-      }
-    },
-    "select_last": {
-      "name": "Last",
-      "description": "Selects the last option.",
-      "fields": {},
-      "target": {
-        "entity": [
-          {
-            "domain": [
-              "select"
-            ]
-          }
-        ]
-      }
-    },
-    "select_next": {
-      "name": "Next",
-      "description": "Selects the next option.",
+  "heos": {
+    "sign_in": {
+      "name": "Sign in",
+      "description": "Signs in to a HEOS account.",
       "fields": {
-        "cycle": {
-          "default": true,
-          "selector": {
-            "boolean": null
-          },
-          "name": "Cycle",
-          "description": "If the option should cycle from the last to the first."
-        }
-      },
-      "target": {
-        "entity": [
-          {
-            "domain": [
-              "select"
-            ]
-          }
-        ]
-      }
-    },
-    "select_option": {
-      "name": "Select",
-      "description": "Selects an option.",
-      "fields": {
-        "option": {
+        "username": {
           "required": true,
-          "example": "\u0022Item A\u0022",
+          "example": "example@example.com",
           "selector": {
             "text": null
           },
-          "name": "Option",
-          "description": "Option to be selected."
+          "name": "Username",
+          "description": "The username or email of the HEOS account."
+        },
+        "password": {
+          "required": true,
+          "example": "password",
+          "selector": {
+            "text": null
+          },
+          "name": "Password",
+          "description": "The password of the HEOS account."
+        }
+      }
+    },
+    "sign_out": {
+      "name": "Sign out",
+      "description": "Signs out of the HEOS account.",
+      "fields": {}
+    },
+    "get_queue": {
+      "name": "Get queue",
+      "description": "Retrieves the queue of the media player.",
+      "fields": {},
+      "target": {
+        "entity": [
+          {
+            "integration": "heos",
+            "domain": [
+              "media_player"
+            ]
+          }
+        ]
+      },
+      "response": {
+        "optional": false
+      }
+    },
+    "remove_from_queue": {
+      "name": "Remove from queue",
+      "description": "Removes items from the play queue.",
+      "fields": {
+        "queue_ids": {
+          "required": true,
+          "selector": {
+            "text": {
+              "multiple": true,
+              "type": "number"
+            }
+          },
+          "name": "Queue IDs",
+          "description": "The IDs (indexes) of the items in the queue to remove."
         }
       },
       "target": {
         "entity": [
           {
+            "integration": "heos",
             "domain": [
-              "select"
+              "media_player"
             ]
           }
         ]
       }
     },
-    "select_previous": {
-      "name": "Previous",
-      "description": "Selects the previous option.",
+    "move_queue_item": {
+      "name": "Move queue item",
+      "description": "Moves one or more items within the play queue.",
       "fields": {
-        "cycle": {
-          "default": true,
+        "queue_ids": {
+          "required": true,
           "selector": {
-            "boolean": null
+            "text": {
+              "multiple": true,
+              "type": "number"
+            }
           },
-          "name": "Cycle",
-          "description": "If the option should cycle from the first to the last."
+          "name": "Queue IDs",
+          "description": "The IDs (indexes) of the items in the queue to move."
+        },
+        "destination_position": {
+          "required": true,
+          "selector": {
+            "number": {
+              "min": 1,
+              "max": 1000,
+              "step": 1
+            }
+          },
+          "name": "Destination position",
+          "description": "The position index in the queue to move the items to."
         }
       },
       "target": {
         "entity": [
           {
+            "integration": "heos",
             "domain": [
-              "select"
+              "media_player"
+            ]
+          }
+        ]
+      }
+    },
+    "group_volume_set": {
+      "name": "Set group volume",
+      "description": "Sets the group\u0027s volume while preserving member volume ratios.",
+      "fields": {
+        "volume_level": {
+          "required": true,
+          "selector": {
+            "number": {
+              "min": 0,
+              "max": 1,
+              "step": 0.01
+            }
+          },
+          "name": "Level",
+          "description": "The volume. 0 is inaudible, 1 is the maximum volume."
+        }
+      },
+      "target": {
+        "entity": [
+          {
+            "integration": "heos",
+            "domain": [
+              "media_player"
+            ]
+          }
+        ]
+      }
+    },
+    "group_volume_down": {
+      "name": "Turn down group volume",
+      "description": "Turns down the group volume.",
+      "fields": {},
+      "target": {
+        "entity": [
+          {
+            "integration": "heos",
+            "domain": [
+              "media_player"
+            ]
+          }
+        ]
+      }
+    },
+    "group_volume_up": {
+      "name": "Turn up group volume",
+      "description": "Turns up the group volume.",
+      "fields": {},
+      "target": {
+        "entity": [
+          {
+            "integration": "heos",
+            "domain": [
+              "media_player"
             ]
           }
         ]
       }
     }
   },
-  "vacuum": {
-    "start": {
-      "name": "Start",
-      "description": "Starts or resumes the cleaning task.",
-      "fields": {},
+  "input_text": {
+    "reload": {
+      "name": "Reload",
+      "description": "Reloads helpers from the YAML-configuration.",
+      "fields": {}
+    },
+    "set_value": {
+      "name": "Set",
+      "description": "Sets the value.",
+      "fields": {
+        "value": {
+          "required": true,
+          "example": "This is an example text",
+          "selector": {
+            "text": null
+          },
+          "name": "Value",
+          "description": "The target value."
+        }
+      },
       "target": {
         "entity": [
           {
             "domain": [
-              "vacuum"
-            ],
-            "supported_features": [
-              8192
+              "input_text"
             ]
           }
         ]
       }
+    }
+  },
+  "input_datetime": {
+    "reload": {
+      "name": "Reload",
+      "description": "Reloads helpers from the YAML-configuration.",
+      "fields": {}
     },
-    "pause": {
-      "name": "Pause",
-      "description": "Pauses the cleaning task.",
-      "fields": {},
+    "set_datetime": {
+      "name": "Set",
+      "description": "Sets the date and/or time.",
+      "fields": {
+        "date": {
+          "example": "\u00222019-04-20\u0022",
+          "selector": {
+            "text": null
+          },
+          "name": "Date",
+          "description": "The target date."
+        },
+        "time": {
+          "example": "\u002205:04:20\u0022",
+          "selector": {
+            "time": null
+          },
+          "name": "Time",
+          "description": "The target time."
+        },
+        "datetime": {
+          "example": "\u00222019-04-20 05:04:20\u0022",
+          "selector": {
+            "text": null
+          },
+          "name": "Date \u0026 time",
+          "description": "The target date \u0026 time."
+        },
+        "timestamp": {
+          "selector": {
+            "number": {
+              "min": 0,
+              "max": 9223372036854775807,
+              "mode": "box"
+            }
+          },
+          "name": "Timestamp",
+          "description": "The target date \u0026 time, expressed by a UNIX timestamp."
+        }
+      },
       "target": {
         "entity": [
           {
             "domain": [
-              "vacuum"
-            ],
-            "supported_features": [
-              4
+              "input_datetime"
             ]
           }
         ]
       }
-    },
-    "return_to_base": {
-      "name": "Return to dock",
-      "description": "Tells the vacuum cleaner to return to its dock.",
-      "fields": {},
-      "target": {
-        "entity": [
-          {
-            "domain": [
-              "vacuum"
-            ],
-            "supported_features": [
-              16
-            ]
-          }
-        ]
+    }
+  },
+  "music_assistant": {
+    "search": {
+      "name": "Search Music Assistant",
+      "description": "Performs a global search on the Music Assistant library and all providers.",
+      "fields": {
+        "config_entry_id": {
+          "required": true,
+          "selector": {
+            "config_entry": {
+              "integration": "music_assistant"
+            }
+          },
+          "name": "Music Assistant instance",
+          "description": "Select the Music Assistant instance to perform the search on."
+        },
+        "name": {
+          "required": true,
+          "example": "We Are The Champions",
+          "selector": {
+            "text": null
+          },
+          "name": "Search name",
+          "description": "The name/title to search for."
+        },
+        "media_type": {
+          "example": "playlist",
+          "selector": {
+            "select": {
+              "multiple": true,
+              "translation_key": "media_type",
+              "options": [
+                "artist",
+                "album",
+                "audiobook",
+                "playlist",
+                "podcast",
+                "track",
+                "radio"
+              ]
+            }
+          },
+          "name": "Media type(s)",
+          "description": "The type of the content to search. Such as artist, album, track, radio, or playlist. All types if omitted."
+        },
+        "artist": {
+          "example": "Queen",
+          "selector": {
+            "text": null
+          },
+          "name": "Artist name",
+          "description": "When specifying a track or album name in the name field, you can optionally restrict results by this artist name."
+        },
+        "album": {
+          "example": "News of the world",
+          "selector": {
+            "text": null
+          },
+          "name": "Album name",
+          "description": "When specifying a track name in the name field, you can optionally restrict results by this album name."
+        },
+        "limit": {
+          "advanced": true,
+          "example": 25,
+          "default": 5,
+          "selector": {
+            "number": {
+              "min": 1,
+              "max": 100,
+              "step": 1
+            }
+          },
+          "name": "Limit",
+          "description": "Maximum number of items to return (per media type)."
+        },
+        "library_only": {
+          "example": "true",
+          "default": false,
+          "selector": {
+            "boolean": null
+          },
+          "name": "Only library items",
+          "description": "Only include results that are in the library."
+        }
+      },
+      "response": {
+        "optional": false
       }
     },
-    "clean_spot": {
-      "name": "Clean spot",
-      "description": "Tells the vacuum cleaner to do a spot clean-up.",
-      "fields": {},
-      "target": {
-        "entity": [
-          {
-            "domain": [
-              "vacuum"
-            ]
-          }
-        ]
+    "get_library": {
+      "name": "Get library items",
+      "description": "Retrieves items from a Music Assistant library.",
+      "fields": {
+        "config_entry_id": {
+          "required": true,
+          "selector": {
+            "config_entry": {
+              "integration": "music_assistant"
+            }
+          },
+          "name": "Music Assistant instance",
+          "description": "Select the Music Assistant instance to perform the search on."
+        },
+        "media_type": {
+          "required": true,
+          "example": "playlist",
+          "selector": {
+            "select": {
+              "translation_key": "media_type",
+              "options": [
+                "artist",
+                "album",
+                "audiobook",
+                "playlist",
+                "podcast",
+                "track",
+                "radio"
+              ]
+            }
+          },
+          "name": "Media type",
+          "description": "The media type for which to request details for."
+        },
+        "favorite": {
+          "example": "true",
+          "default": false,
+          "selector": {
+            "boolean": null
+          },
+          "name": "Favorites only",
+          "description": "Filter items so only favorites items are returned."
+        },
+        "search": {
+          "example": "We Are The Champions",
+          "selector": {
+            "text": null
+          },
+          "name": "Search",
+          "description": "Optional search string to search through this library."
+        },
+        "limit": {
+          "advanced": true,
+          "example": 25,
+          "default": 25,
+          "selector": {
+            "number": {
+              "min": 1,
+              "max": 500,
+              "step": 1
+            }
+          },
+          "name": "Limit",
+          "description": "Maximum number of items to return."
+        },
+        "offset": {
+          "advanced": true,
+          "example": 25,
+          "default": 0,
+          "selector": {
+            "number": {
+              "min": 1,
+              "max": 1000000,
+              "step": 1
+            }
+          },
+          "name": "Offset",
+          "description": "Offset to start the list from."
+        },
+        "order_by": {
+          "example": "random",
+          "selector": {
+            "select": {
+              "translation_key": "order_by",
+              "options": [
+                "name",
+                "name_desc",
+                "sort_name",
+                "sort_name_desc",
+                "timestamp_added",
+                "timestamp_added_desc",
+                "last_played",
+                "last_played_desc",
+                "play_count",
+                "play_count_desc",
+                "year",
+                "year_desc",
+                "position",
+                "position_desc",
+                "artist_name",
+                "artist_name_desc",
+                "random",
+                "random_play_count"
+              ]
+            }
+          },
+          "name": "Order by",
+          "description": "Sort the list by this field."
+        },
+        "album_type": {
+          "example": "single",
+          "selector": {
+            "select": {
+              "multiple": true,
+              "translation_key": "album_type",
+              "options": [
+                "album",
+                "single",
+                "compilation",
+                "ep",
+                "unknown"
+              ]
+            }
+          },
+          "name": "Album type filter (albums library only)",
+          "description": "Filter albums by type."
+        },
+        "album_artists_only": {
+          "example": "true",
+          "default": false,
+          "selector": {
+            "boolean": null
+          },
+          "name": "Enable album artists filter (only for artist library)",
+          "description": "Only return album artists when listing the artists library items."
+        }
+      },
+      "response": {
+        "optional": false
       }
     },
-    "locate": {
-      "name": "Locate",
-      "description": "Locates the vacuum cleaner robot.",
-      "fields": {},
+    "play_media": {
+      "name": "Play media",
+      "description": "Plays media on a Music Assistant player with more fine-grained control options.",
+      "fields": {
+        "media_id": {
+          "required": true,
+          "example": "spotify://playlist/aabbccddeeff",
+          "selector": {
+            "object": null
+          },
+          "name": "Media ID(s)",
+          "description": "URI or name of the item you want to play. Specify a list if you want to play/enqueue multiple items."
+        },
+        "media_type": {
+          "example": "playlist",
+          "selector": {
+            "select": {
+              "translation_key": "media_type",
+              "options": [
+                "artist",
+                "album",
+                "audiobook",
+                "folder",
+                "playlist",
+                "podcast",
+                "track",
+                "radio"
+              ]
+            }
+          },
+          "name": "Media type",
+          "description": "The type of the content to play. Such as artist, album, track or playlist. Will be auto-determined if omitted."
+        },
+        "artist": {
+          "example": "Queen",
+          "selector": {
+            "text": null
+          },
+          "name": "Artist name",
+          "description": "When specifying a track or album by name in the Media ID field, you can optionally restrict results by this artist name."
+        },
+        "album": {
+          "example": "News of the world",
+          "selector": {
+            "text": null
+          },
+          "name": "Album name",
+          "description": "When specifying a track by name in the Media ID field, you can optionally restrict results by this album name."
+        },
+        "enqueue": {
+          "selector": {
+            "select": {
+              "options": [
+                "play",
+                "replace",
+                "next",
+                "replace_next",
+                "add"
+              ],
+              "translation_key": "enqueue"
+            }
+          },
+          "name": "Enqueue",
+          "description": "If the content should be played now or added to the queue."
+        },
+        "radio_mode": {
+          "advanced": true,
+          "selector": {
+            "boolean": null
+          },
+          "name": "Enable radio mode",
+          "description": "Enable radio mode to auto-generate a playlist based on the selection."
+        }
+      },
       "target": {
         "entity": [
           {
             "domain": [
-              "vacuum"
+              "media_player"
             ],
+            "integration": "music_assistant",
             "supported_features": [
               512
             ]
@@ -5300,379 +4622,180 @@
         ]
       }
     },
-    "stop": {
-      "name": "Stop",
-      "description": "Stops the current cleaning task.",
-      "fields": {},
-      "target": {
-        "entity": [
-          {
-            "domain": [
-              "vacuum"
-            ],
-            "supported_features": [
-              8
-            ]
-          }
-        ]
-      }
-    },
-    "set_fan_speed": {
-      "name": "Set fan speed",
-      "description": "Sets the fan speed of the vacuum cleaner.",
+    "play_announcement": {
+      "name": "Play announcement",
+      "description": "Plays an announcement on a Music Assistant player with more fine-grained control options.",
       "fields": {
-        "fan_speed": {
+        "url": {
           "required": true,
-          "example": "low",
+          "example": "http://someremotesite.com/doorbell.mp3",
           "selector": {
             "text": null
           },
-          "name": "Fan speed",
-          "description": "Fan speed. The value depends on the integration. Some integrations have speed steps, like \u0027medium\u0027. Some use a percentage, between 0 and 100."
-        }
-      },
-      "target": {
-        "entity": [
-          {
-            "domain": [
-              "vacuum"
-            ]
-          }
-        ]
-      }
-    },
-    "send_command": {
-      "name": "Send command",
-      "description": "Sends a command to the vacuum cleaner.",
-      "fields": {
-        "command": {
-          "required": true,
-          "example": "set_dnd_timer",
-          "selector": {
-            "text": null
-          },
-          "name": "Command",
-          "description": "Command to execute. The commands are integration-specific."
+          "name": "URL",
+          "description": "URL to the notification sound."
         },
-        "params": {
-          "example": "{ \u0022key\u0022: \u0022value\u0022 }",
-          "selector": {
-            "object": null
-          },
-          "name": "Parameters",
-          "description": "Parameters for the command. The parameters are integration-specific."
-        }
-      },
-      "target": {
-        "entity": [
-          {
-            "domain": [
-              "vacuum"
-            ]
-          }
-        ]
-      }
-    }
-  },
-  "valve": {
-    "open_valve": {
-      "name": "Open",
-      "description": "Opens a valve.",
-      "fields": {},
-      "target": {
-        "entity": [
-          {
-            "domain": [
-              "valve"
-            ],
-            "supported_features": [
-              1
-            ]
-          }
-        ]
-      }
-    },
-    "close_valve": {
-      "name": "Close",
-      "description": "Closes a valve.",
-      "fields": {},
-      "target": {
-        "entity": [
-          {
-            "domain": [
-              "valve"
-            ],
-            "supported_features": [
-              2
-            ]
-          }
-        ]
-      }
-    },
-    "set_valve_position": {
-      "name": "Set position",
-      "description": "Moves a valve to a specific position.",
-      "fields": {
-        "position": {
-          "required": true,
-          "selector": {
-            "number": {
-              "min": 0,
-              "max": 100,
-              "unit_of_measurement": "%"
-            }
-          },
-          "name": "Position",
-          "description": "Target position."
-        }
-      },
-      "target": {
-        "entity": [
-          {
-            "domain": [
-              "valve"
-            ],
-            "supported_features": [
-              4
-            ]
-          }
-        ]
-      }
-    },
-    "stop_valve": {
-      "name": "Stop",
-      "description": "Stops the valve movement.",
-      "fields": {},
-      "target": {
-        "entity": [
-          {
-            "domain": [
-              "valve"
-            ],
-            "supported_features": [
-              8
-            ]
-          }
-        ]
-      }
-    },
-    "toggle": {
-      "name": "Toggle",
-      "description": "Toggles a valve open/closed.",
-      "fields": {},
-      "target": {
-        "entity": [
-          {
-            "domain": [
-              "valve"
-            ],
-            "supported_features": [
-              3
-            ]
-          }
-        ]
-      }
-    }
-  },
-  "water_heater": {
-    "turn_on": {
-      "name": "Turn on",
-      "description": "Turns water heater on.",
-      "fields": {},
-      "target": {
-        "entity": [
-          {
-            "domain": [
-              "water_heater"
-            ]
-          }
-        ]
-      }
-    },
-    "turn_off": {
-      "name": "Turn off",
-      "description": "Turns water heater off.",
-      "fields": {},
-      "target": {
-        "entity": [
-          {
-            "domain": [
-              "water_heater"
-            ]
-          }
-        ]
-      }
-    },
-    "set_away_mode": {
-      "name": "Set away mode",
-      "description": "Turns away mode on/off.",
-      "fields": {
-        "away_mode": {
-          "required": true,
+        "use_pre_announce": {
+          "example": "true",
           "selector": {
             "boolean": null
           },
-          "name": "Away mode",
-          "description": "New value of away mode."
-        }
-      },
-      "target": {
-        "entity": [
-          {
-            "domain": [
-              "water_heater"
-            ]
-          }
-        ]
-      }
-    },
-    "set_temperature": {
-      "name": "Set temperature",
-      "description": "Sets the target temperature.",
-      "fields": {
-        "temperature": {
-          "required": true,
-          "selector": {
-            "number": {
-              "min": 0,
-              "max": 100,
-              "step": 0.5,
-              "unit_of_measurement": "\u00B0"
-            }
-          },
-          "name": "Temperature",
-          "description": "New target temperature for the water heater."
+          "name": "Use pre-announce",
+          "description": "Use pre-announcement sound for the announcement. Omit to use the player default."
         },
-        "operation_mode": {
-          "example": "eco",
-          "selector": {
-            "text": null
-          },
-          "name": "Operation mode",
-          "description": "New value of the operation mode. For a list of possible modes, refer to the integration documentation."
-        }
-      },
-      "target": {
-        "entity": [
-          {
-            "domain": [
-              "water_heater"
-            ]
-          }
-        ]
-      }
-    },
-    "set_operation_mode": {
-      "name": "Set operation mode",
-      "description": "Sets the operation mode.",
-      "fields": {
-        "operation_mode": {
-          "required": true,
-          "example": "eco",
-          "selector": {
-            "text": null
-          },
-          "name": "Operation mode",
-          "description": "New value of the operation mode. For a list of possible modes, refer to the integration documentation."
-        }
-      },
-      "target": {
-        "entity": [
-          {
-            "domain": [
-              "water_heater"
-            ]
-          }
-        ]
-      }
-    }
-  },
-  "mqtt": {
-    "publish": {
-      "name": "Publish",
-      "description": "Publishes a message to an MQTT topic.",
-      "fields": {
-        "topic": {
-          "required": true,
-          "example": "/homeassistant/hello",
-          "selector": {
-            "text": null
-          },
-          "name": "Topic",
-          "description": "Topic to publish to."
-        },
-        "payload": {
-          "example": "The temperature is {{ states(\u0027sensor.temperature\u0027) }}",
-          "selector": {
-            "template": null
-          },
-          "name": "Payload",
-          "description": "The payload to publish. Publishes an empty message if not provided."
-        },
-        "evaluate_payload": {
-          "advanced": true,
-          "default": false,
-          "selector": {
-            "boolean": null
-          },
-          "name": "Evaluate payload",
-          "description": "If \u0027Payload\u0027 is a Python bytes literal, evaluate the bytes literal and publish the raw data."
-        },
-        "qos": {
-          "advanced": true,
-          "default": 0,
-          "selector": {
-            "select": {
-              "options": [
-                "0",
-                "1",
-                "2"
-              ]
-            }
-          },
-          "name": "QoS",
-          "description": "Quality of Service to use. 0: At most once. 1: At least once. 2: Exactly once."
-        },
-        "retain": {
-          "default": false,
-          "selector": {
-            "boolean": null
-          },
-          "name": "Retain",
-          "description": "If the message should have the retain flag set. If set, the broker stores the most recent message on a topic."
-        }
-      }
-    },
-    "dump": {
-      "name": "Export",
-      "description": "Writes all messages on a specific topic into the \u0060mqtt_dump.txt\u0060 file in your configuration folder.",
-      "fields": {
-        "topic": {
-          "example": "OpenZWave/#",
-          "selector": {
-            "text": null
-          },
-          "name": "Topic",
-          "description": "Topic to listen to."
-        },
-        "duration": {
-          "default": 5,
+        "announce_volume": {
+          "example": 75,
           "selector": {
             "number": {
               "min": 1,
-              "max": 300,
-              "unit_of_measurement": "seconds"
+              "max": 100,
+              "step": 1
             }
           },
-          "name": "Duration",
-          "description": "How long we should listen for messages in seconds."
+          "name": "Announce volume",
+          "description": "Use a forced volume level for the announcement. Omit to use player default."
         }
+      },
+      "target": {
+        "entity": [
+          {
+            "domain": [
+              "media_player"
+            ],
+            "integration": "music_assistant",
+            "supported_features": [
+              512,
+              1048576
+            ]
+          }
+        ]
       }
     },
-    "reload": {
-      "name": "Reload",
-      "description": "Reloads MQTT entities from the YAML-configuration.",
-      "fields": {}
+    "transfer_queue": {
+      "name": "Transfer queue",
+      "description": "Transfers a player\u0027s queue to another player.",
+      "fields": {
+        "source_player": {
+          "selector": {
+            "entity": {
+              "domain": "media_player",
+              "integration": "music_assistant"
+            }
+          },
+          "name": "Source media player",
+          "description": "The source media player which has the queue you want to transfer. When omitted, the first playing player will be used."
+        },
+        "auto_play": {
+          "example": "true",
+          "selector": {
+            "boolean": null
+          },
+          "name": "Auto play",
+          "description": "Start playing the queue on the target player. Omit to use the default behavior."
+        }
+      },
+      "target": {
+        "entity": [
+          {
+            "domain": [
+              "media_player"
+            ],
+            "integration": "music_assistant"
+          }
+        ]
+      }
+    },
+    "get_queue": {
+      "name": "Get playerQueue details (advanced)",
+      "description": "Retrieves the details of the currently active queue of a Music Assistant player.",
+      "fields": {},
+      "target": {
+        "entity": [
+          {
+            "domain": [
+              "media_player"
+            ],
+            "integration": "music_assistant",
+            "supported_features": [
+              512
+            ]
+          }
+        ]
+      },
+      "response": {
+        "optional": false
+      }
+    }
+  },
+  "counter": {
+    "increment": {
+      "name": "Increment",
+      "description": "Increments a counter by its step size.",
+      "fields": {},
+      "target": {
+        "entity": [
+          {
+            "domain": [
+              "counter"
+            ]
+          }
+        ]
+      }
+    },
+    "decrement": {
+      "name": "Decrement",
+      "description": "Decrements a counter by its step size.",
+      "fields": {},
+      "target": {
+        "entity": [
+          {
+            "domain": [
+              "counter"
+            ]
+          }
+        ]
+      }
+    },
+    "reset": {
+      "name": "Reset",
+      "description": "Resets a counter to its initial value.",
+      "fields": {},
+      "target": {
+        "entity": [
+          {
+            "domain": [
+              "counter"
+            ]
+          }
+        ]
+      }
+    },
+    "set_value": {
+      "name": "Set",
+      "description": "Sets the counter to a specific value.",
+      "fields": {
+        "value": {
+          "required": true,
+          "selector": {
+            "number": {
+              "min": 0,
+              "max": 9223372036854775807,
+              "mode": "box"
+            }
+          },
+          "name": "Value",
+          "description": "The new counter value the entity should be set to."
+        }
+      },
+      "target": {
+        "entity": [
+          {
+            "domain": [
+              "counter"
+            ]
+          }
+        ]
+      }
     }
   },
   "schedule": {
@@ -5697,6 +4820,154 @@
       "response": {
         "optional": false
       }
+    }
+  },
+  "template": {
+    "reload": {
+      "name": "Reload",
+      "description": "Reloads template entities from the YAML-configuration.",
+      "fields": {}
+    }
+  },
+  "openai_conversation": {
+    "generate_content": {
+      "name": "Generate content",
+      "description": "Sends a conversational query to ChatGPT including any attached image or PDF files",
+      "fields": {
+        "config_entry": {
+          "required": true,
+          "selector": {
+            "config_entry": {
+              "integration": "openai_conversation"
+            }
+          },
+          "name": "Config entry",
+          "description": "The config entry to use for this action"
+        },
+        "prompt": {
+          "required": true,
+          "selector": {
+            "text": {
+              "multiline": true
+            }
+          },
+          "example": "Hello, how can I help you?",
+          "name": "Prompt",
+          "description": "The prompt to send"
+        },
+        "filenames": {
+          "selector": {
+            "text": {
+              "multiline": true
+            }
+          },
+          "example": "- /path/to/file1.txt\n- /path/to/file2.txt\n",
+          "name": "Files",
+          "description": "List of files to upload"
+        }
+      },
+      "response": {
+        "optional": false
+      }
+    },
+    "generate_image": {
+      "name": "Generate image",
+      "description": "Turns a prompt into an image",
+      "fields": {
+        "config_entry": {
+          "required": true,
+          "selector": {
+            "config_entry": {
+              "integration": "openai_conversation"
+            }
+          },
+          "name": "Config entry",
+          "description": "The config entry to use for this action"
+        },
+        "prompt": {
+          "required": true,
+          "selector": {
+            "text": {
+              "multiline": true
+            }
+          },
+          "name": "Prompt",
+          "description": "The text to turn into an image",
+          "example": "A photo of a dog"
+        },
+        "size": {
+          "required": false,
+          "example": "1024x1024",
+          "default": "1024x1024",
+          "selector": {
+            "select": {
+              "options": [
+                "1024x1024",
+                "1024x1792",
+                "1792x1024"
+              ]
+            }
+          },
+          "name": "Size",
+          "description": "The size of the image to generate"
+        },
+        "quality": {
+          "required": false,
+          "example": "standard",
+          "default": "standard",
+          "selector": {
+            "select": {
+              "options": [
+                "standard",
+                "hd"
+              ]
+            }
+          },
+          "name": "Quality",
+          "description": "The quality of the image that will be generated"
+        },
+        "style": {
+          "required": false,
+          "example": "vivid",
+          "default": "vivid",
+          "selector": {
+            "select": {
+              "options": [
+                "vivid",
+                "natural"
+              ]
+            }
+          },
+          "name": "Style",
+          "description": "The style of the generated image"
+        }
+      },
+      "response": {
+        "optional": false
+      }
+    }
+  },
+  "unifi": {
+    "reconnect_client": {
+      "name": "Reconnect wireless client",
+      "description": "Tries to get wireless client to reconnect to UniFi Network.",
+      "fields": {
+        "device_id": {
+          "required": true,
+          "selector": {
+            "device": {
+              "integration": "unifi"
+            }
+          },
+          "name": "Device",
+          "description": "The device that should be forced to reconnect to the wireless network."
+        }
+      }
+    },
+    "remove_clients": {
+      "name": "Remove clients from the UniFi Network",
+      "description": "Cleans up clients that have only been associated with the controller for a short period of time.",
+      "fields": {}
     }
   },
   "alarm_control_panel": {
@@ -5877,6 +5148,298 @@
             ]
           }
         ]
+      }
+    }
+  },
+  "cast": {
+    "show_lovelace_view": {
+      "name": "Show dashboard view",
+      "description": "Shows a dashboard view on a Chromecast device.",
+      "fields": {
+        "entity_id": {
+          "required": true,
+          "selector": {
+            "entity": {
+              "integration": "cast",
+              "domain": "media_player"
+            }
+          },
+          "name": "Entity",
+          "description": "Media player entity to show the dashboard view on."
+        },
+        "dashboard_path": {
+          "example": "lovelace-cast",
+          "selector": {
+            "text": null
+          },
+          "name": "Dashboard path",
+          "description": "The URL path of the dashboard to show, defaults to lovelace if not specified."
+        },
+        "view_path": {
+          "required": true,
+          "example": "downstairs",
+          "selector": {
+            "text": null
+          },
+          "name": "View path",
+          "description": "The URL path of the dashboard view to show."
+        }
+      }
+    }
+  },
+  "mqtt": {
+    "publish": {
+      "name": "Publish",
+      "description": "Publishes a message to an MQTT topic.",
+      "fields": {
+        "topic": {
+          "required": true,
+          "example": "/homeassistant/hello",
+          "selector": {
+            "text": null
+          },
+          "name": "Topic",
+          "description": "Topic to publish to."
+        },
+        "payload": {
+          "example": "The temperature is {{ states(\u0027sensor.temperature\u0027) }}",
+          "selector": {
+            "template": null
+          },
+          "name": "Payload",
+          "description": "The payload to publish. Publishes an empty message if not provided."
+        },
+        "evaluate_payload": {
+          "advanced": true,
+          "default": false,
+          "selector": {
+            "boolean": null
+          },
+          "name": "Evaluate payload",
+          "description": "If \u0027Payload\u0027 is a Python bytes literal, evaluate the bytes literal and publish the raw data."
+        },
+        "qos": {
+          "advanced": true,
+          "default": 0,
+          "selector": {
+            "select": {
+              "options": [
+                "0",
+                "1",
+                "2"
+              ]
+            }
+          },
+          "name": "QoS",
+          "description": "Quality of Service to use. 0: At most once. 1: At least once. 2: Exactly once."
+        },
+        "retain": {
+          "default": false,
+          "selector": {
+            "boolean": null
+          },
+          "name": "Retain",
+          "description": "If the message should have the retain flag set. If set, the broker stores the most recent message on a topic."
+        }
+      }
+    },
+    "dump": {
+      "name": "Export",
+      "description": "Writes all messages on a specific topic into the \u0060mqtt_dump.txt\u0060 file in your configuration folder.",
+      "fields": {
+        "topic": {
+          "example": "OpenZWave/#",
+          "selector": {
+            "text": null
+          },
+          "name": "Topic",
+          "description": "Topic to listen to."
+        },
+        "duration": {
+          "default": 5,
+          "selector": {
+            "number": {
+              "min": 1,
+              "max": 300,
+              "unit_of_measurement": "seconds"
+            }
+          },
+          "name": "Duration",
+          "description": "How long we should listen for messages in seconds."
+        }
+      }
+    },
+    "reload": {
+      "name": "Reload",
+      "description": "Reloads MQTT entities from the YAML-configuration.",
+      "fields": {}
+    }
+  },
+  "google_generative_ai_conversation": {
+    "generate_content": {
+      "name": "Generate content",
+      "description": "Generate content from a prompt consisting of text and optionally images",
+      "fields": {
+        "prompt": {
+          "required": true,
+          "selector": {
+            "text": {
+              "multiline": true
+            }
+          },
+          "name": "Prompt",
+          "description": "The prompt",
+          "example": "Describe what you see in these images"
+        },
+        "image_filename": {
+          "required": false,
+          "selector": {
+            "object": null
+          },
+          "name": "Image filename",
+          "description": "Deprecated. Use filenames instead.",
+          "example": "/config/www/image.jpg"
+        },
+        "filenames": {
+          "required": false,
+          "selector": {
+            "text": {
+              "multiple": true
+            }
+          },
+          "name": "Attachment filenames",
+          "description": "Attachments to add to the prompt (images, PDFs, etc)",
+          "example": "/config/www/image.jpg"
+        }
+      },
+      "response": {
+        "optional": false
+      }
+    }
+  },
+  "netdaemon": {
+    "register_service": {
+      "name": "",
+      "description": "Register a new service for netdaemon, used by the daemon and not to be used by users",
+      "fields": {
+        "service": {
+          "description": "The name of the service to register"
+        },
+        "class": {
+          "description": "The class that implements the service call"
+        },
+        "method": {
+          "description": "The method to call"
+        }
+      }
+    },
+    "reload_apps": {
+      "name": "",
+      "description": "",
+      "fields": {}
+    },
+    "entity_create": {
+      "name": "",
+      "description": "Create an entity",
+      "fields": {
+        "entity_id": {
+          "description": "The entity ID of the entity",
+          "example": "sensor.awesome"
+        },
+        "state": {
+          "description": "The state of the entity",
+          "example": "Lorem ipsum"
+        },
+        "icon": {
+          "description": "The icon for the entity",
+          "example": "mdi:rocket-launch-outline"
+        },
+        "unit": {
+          "description": "The unit of measurement for the entity"
+        },
+        "options": {
+          "description": "List of options for a select entity"
+        },
+        "attributes": {
+          "description": "The attributes of the entity"
+        }
+      }
+    },
+    "entity_update": {
+      "name": "",
+      "description": "Update an entity",
+      "fields": {
+        "entity_id": {
+          "description": "The entity ID of the entity",
+          "example": "sensor.awesome"
+        },
+        "state": {
+          "description": "The state of the entity",
+          "example": "Lorem ipsum"
+        },
+        "icon": {
+          "description": "The icon for the entity",
+          "example": "mdi:rocket-launch-outline"
+        },
+        "unit": {
+          "description": "The unit of measurement for the entity"
+        },
+        "options": {
+          "description": "List of options for a select entity"
+        },
+        "attributes": {
+          "description": "The attributes of the entity"
+        }
+      }
+    },
+    "entity_remove": {
+      "name": "",
+      "description": "Remove an entity",
+      "fields": {
+        "entity_id": {
+          "description": "The entity ID of the entity",
+          "example": "sensor.awesome"
+        }
+      }
+    }
+  },
+  "weather": {
+    "get_forecasts": {
+      "name": "Get forecasts",
+      "description": "Retrieves the forecast from selected weather services.",
+      "fields": {
+        "type": {
+          "required": true,
+          "selector": {
+            "select": {
+              "options": [
+                "daily",
+                "hourly",
+                "twice_daily"
+              ],
+              "translation_key": "forecast_type"
+            }
+          },
+          "name": "Forecast type",
+          "description": "The scope of the weather forecast."
+        }
+      },
+      "target": {
+        "entity": [
+          {
+            "domain": [
+              "weather"
+            ],
+            "supported_features": [
+              1,
+              2,
+              4
+            ]
+          }
+        ]
+      },
+      "response": {
+        "optional": false
       }
     }
   },
@@ -6506,558 +6069,1115 @@
       }
     }
   },
-  "zha": {
-    "permit": {
-      "name": "Permit",
-      "description": "Allows nodes to join the Zigbee network.",
+  "denonavr": {
+    "get_command": {
+      "name": "Get command",
+      "description": "Sends a generic HTTP get command.",
       "fields": {
-        "duration": {
-          "default": 60,
-          "selector": {
-            "number": {
-              "min": 0,
-              "max": 254,
-              "unit_of_measurement": "seconds"
-            }
-          },
-          "name": "Duration",
-          "description": "Time to permit joins."
-        },
-        "ieee": {
-          "example": "00:0d:6f:00:05:7d:2d:34",
-          "selector": {
-            "text": null
-          },
-          "name": "IEEE",
-          "description": "IEEE address of the node permitting new joins."
-        },
-        "source_ieee": {
-          "example": "00:0a:bf:00:01:10:23:35",
-          "selector": {
-            "text": null
-          },
-          "name": "Source IEEE",
-          "description": "IEEE address of the joining device (must be combined with the \u0027Install code\u0027 field)."
-        },
-        "install_code": {
-          "example": "1234-5678-1234-5678-AABB-CCDD-AABB-CCDD-EEFF",
-          "selector": {
-            "text": null
-          },
-          "name": "Install code",
-          "description": "Install code of the joining device (must be combined with the \u0027Source IEEE\u0027 field)."
-        },
-        "qr_code": {
-          "example": "Z:000D6FFFFED4163B$I:52797BF4A5084DAA8E1712B61741CA024051",
-          "selector": {
-            "text": null
-          },
-          "name": "QR code",
-          "description": "Provides both the IEEE address and the install code of the joining device (different between vendors)."
-        }
-      }
-    },
-    "remove": {
-      "name": "Remove",
-      "description": "Removes a node from the Zigbee network.",
-      "fields": {
-        "ieee": {
-          "required": true,
-          "example": "00:0d:6f:00:05:7d:2d:34",
-          "selector": {
-            "text": null
-          },
-          "name": "IEEE",
-          "description": "IEEE address of the node to remove."
-        }
-      }
-    },
-    "set_zigbee_cluster_attribute": {
-      "name": "Set Zigbee cluster attribute",
-      "description": "Sets an attribute value for the specified cluster on the specified entity.",
-      "fields": {
-        "ieee": {
-          "required": true,
-          "example": "00:0d:6f:00:05:7d:2d:34",
-          "selector": {
-            "text": null
-          },
-          "name": "IEEE",
-          "description": "IEEE address for the device."
-        },
-        "endpoint_id": {
-          "required": true,
-          "selector": {
-            "number": {
-              "min": 1,
-              "max": 65535,
-              "mode": "box"
-            }
-          },
-          "name": "Endpoint ID",
-          "description": "Endpoint ID for the cluster."
-        },
-        "cluster_id": {
-          "required": true,
-          "selector": {
-            "number": {
-              "min": 1,
-              "max": 65535
-            }
-          },
-          "name": "Cluster ID",
-          "description": "ZCL cluster to retrieve attributes for."
-        },
-        "cluster_type": {
-          "default": "in",
-          "selector": {
-            "select": {
-              "options": [
-                "in",
-                "out"
-              ]
-            }
-          },
-          "name": "Cluster type",
-          "description": "Type of the cluster."
-        },
-        "attribute": {
-          "required": true,
-          "example": 0,
-          "selector": {
-            "number": {
-              "min": 1,
-              "max": 65535
-            }
-          },
-          "name": "Attribute",
-          "description": "ID of the attribute to set."
-        },
-        "value": {
-          "required": true,
-          "example": 1,
-          "selector": {
-            "text": null
-          },
-          "name": "Value",
-          "description": "Value to write to the attribute."
-        },
-        "manufacturer": {
-          "example": 252,
-          "selector": {
-            "text": null
-          },
-          "name": "Manufacturer",
-          "description": "Manufacturer code. Use a value of \u0022-1\u0022 to force no code to be set."
-        }
-      }
-    },
-    "issue_zigbee_cluster_command": {
-      "name": "Issue Zigbee cluster command",
-      "description": "Issues a command on the specified cluster on the specified entity.",
-      "fields": {
-        "ieee": {
-          "required": true,
-          "example": "00:0d:6f:00:05:7d:2d:34",
-          "selector": {
-            "text": null
-          },
-          "name": "IEEE",
-          "description": "IEEE address for the device."
-        },
-        "endpoint_id": {
-          "required": true,
-          "selector": {
-            "number": {
-              "min": 1,
-              "max": 65535
-            }
-          },
-          "name": "Endpoint ID",
-          "description": "Endpoint ID for the cluster."
-        },
-        "cluster_id": {
-          "required": true,
-          "selector": {
-            "number": {
-              "min": 1,
-              "max": 65535
-            }
-          },
-          "name": "Cluster ID",
-          "description": "ZCL cluster to retrieve attributes for."
-        },
-        "cluster_type": {
-          "default": "in",
-          "selector": {
-            "select": {
-              "options": [
-                "in",
-                "out"
-              ]
-            }
-          },
-          "name": "Cluster type",
-          "description": "Type of the cluster."
-        },
         "command": {
+          "example": "/goform/formiPhoneAppDirect.xml?RCKSK0410370",
           "required": true,
           "selector": {
-            "number": {
-              "min": 1,
-              "max": 65535
-            }
+            "text": null
           },
           "name": "Command",
-          "description": "ID of the command to execute."
-        },
-        "command_type": {
+          "description": "Endpoint of the command, including associated parameters."
+        }
+      },
+      "target": {
+        "entity": [
+          {
+            "integration": "denonavr",
+            "domain": [
+              "media_player"
+            ]
+          }
+        ]
+      }
+    },
+    "set_dynamic_eq": {
+      "name": "Set dynamic equalizer",
+      "description": "Enables or disables DynamicEQ.",
+      "fields": {
+        "dynamic_eq": {
+          "default": true,
+          "selector": {
+            "boolean": null
+          },
+          "name": "Dynamic equalizer",
+          "description": "Whether DynamicEQ should be enabled or disabled."
+        }
+      },
+      "target": {
+        "entity": [
+          {
+            "integration": "denonavr",
+            "domain": [
+              "media_player"
+            ]
+          }
+        ]
+      }
+    },
+    "update_audyssey": {
+      "name": "Update Audyssey",
+      "description": "Updates Audyssey settings.",
+      "fields": {},
+      "target": {
+        "entity": [
+          {
+            "integration": "denonavr",
+            "domain": [
+              "media_player"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "vacuum": {
+    "start": {
+      "name": "Start",
+      "description": "Starts or resumes the cleaning task.",
+      "fields": {},
+      "target": {
+        "entity": [
+          {
+            "domain": [
+              "vacuum"
+            ],
+            "supported_features": [
+              8192
+            ]
+          }
+        ]
+      }
+    },
+    "pause": {
+      "name": "Pause",
+      "description": "Pauses the cleaning task.",
+      "fields": {},
+      "target": {
+        "entity": [
+          {
+            "domain": [
+              "vacuum"
+            ],
+            "supported_features": [
+              4
+            ]
+          }
+        ]
+      }
+    },
+    "return_to_base": {
+      "name": "Return to dock",
+      "description": "Tells the vacuum cleaner to return to its dock.",
+      "fields": {},
+      "target": {
+        "entity": [
+          {
+            "domain": [
+              "vacuum"
+            ],
+            "supported_features": [
+              16
+            ]
+          }
+        ]
+      }
+    },
+    "clean_spot": {
+      "name": "Clean spot",
+      "description": "Tells the vacuum cleaner to do a spot clean-up.",
+      "fields": {},
+      "target": {
+        "entity": [
+          {
+            "domain": [
+              "vacuum"
+            ]
+          }
+        ]
+      }
+    },
+    "locate": {
+      "name": "Locate",
+      "description": "Locates the vacuum cleaner robot.",
+      "fields": {},
+      "target": {
+        "entity": [
+          {
+            "domain": [
+              "vacuum"
+            ],
+            "supported_features": [
+              512
+            ]
+          }
+        ]
+      }
+    },
+    "stop": {
+      "name": "Stop",
+      "description": "Stops the current cleaning task.",
+      "fields": {},
+      "target": {
+        "entity": [
+          {
+            "domain": [
+              "vacuum"
+            ],
+            "supported_features": [
+              8
+            ]
+          }
+        ]
+      }
+    },
+    "set_fan_speed": {
+      "name": "Set fan speed",
+      "description": "Sets the fan speed of the vacuum cleaner.",
+      "fields": {
+        "fan_speed": {
           "required": true,
+          "example": "low",
           "selector": {
-            "select": {
-              "options": [
-                "client",
-                "server"
-              ]
-            }
+            "text": null
           },
-          "name": "Command Type",
-          "description": "Type of the command to execute."
-        },
-        "args": {
-          "example": "[arg1, arg2, argN]",
+          "name": "Fan speed",
+          "description": "Fan speed. The value depends on the integration. Some integrations have speed steps, like \u0027medium\u0027. Some use a percentage, between 0 and 100."
+        }
+      },
+      "target": {
+        "entity": [
+          {
+            "domain": [
+              "vacuum"
+            ]
+          }
+        ]
+      }
+    },
+    "send_command": {
+      "name": "Send command",
+      "description": "Sends a command to the vacuum cleaner.",
+      "fields": {
+        "command": {
+          "required": true,
+          "example": "set_dnd_timer",
           "selector": {
-            "object": null
+            "text": null
           },
-          "name": "Args",
-          "description": "Arguments to pass to the command."
+          "name": "Command",
+          "description": "Command to execute. The commands are integration-specific."
         },
         "params": {
+          "example": "{ \u0022key\u0022: \u0022value\u0022 }",
           "selector": {
             "object": null
           },
-          "name": "Params",
-          "description": "Parameters to pass to the command."
-        },
-        "manufacturer": {
-          "example": 252,
-          "selector": {
-            "text": null
-          },
-          "name": "Manufacturer",
-          "description": "Manufacturer code. Use a value of \u0022-1\u0022 to force no code to be set."
+          "name": "Parameters",
+          "description": "Parameters for the command. The parameters are integration-specific."
         }
+      },
+      "target": {
+        "entity": [
+          {
+            "domain": [
+              "vacuum"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "dreame_vacuum": {
+    "vacuum_request_map": {
+      "name": "Request Map",
+      "description": "Request map data",
+      "fields": {},
+      "target": {
+        "entity": [
+          {
+            "domain": [
+              "vacuum"
+            ]
+          }
+        ]
       }
     },
-    "issue_zigbee_group_command": {
-      "name": "Issue Zigbee group command",
-      "description": "Issues a command on the specified cluster on the specified group.",
+    "vacuum_select_map": {
+      "name": "Select Map",
+      "description": "Select current map. Used when having multiple maps/floors.",
       "fields": {
-        "group": {
+        "map_id": {
+          "example": 14,
           "required": true,
-          "example": 546,
+          "selector": {
+            "number": {
+              "mode": "box"
+            }
+          },
+          "name": "Map ID",
+          "description": "ID of the map to be selected."
+        }
+      },
+      "target": {
+        "entity": [
+          {
+            "domain": [
+              "vacuum"
+            ]
+          }
+        ]
+      }
+    },
+    "vacuum_delete_map": {
+      "name": "Delete map",
+      "description": "Delete a map.",
+      "fields": {
+        "map_id": {
+          "example": 14,
+          "required": false,
+          "selector": {
+            "number": {
+              "mode": "box"
+            }
+          },
+          "name": "Map ID",
+          "description": "ID of the map to be deleted."
+        }
+      },
+      "target": {
+        "entity": [
+          {
+            "domain": [
+              "vacuum"
+            ]
+          }
+        ]
+      }
+    },
+    "vacuum_save_temporary_map": {
+      "name": "Save Temporary Map",
+      "description": "Save the temporary map.",
+      "fields": {},
+      "target": {
+        "entity": [
+          {
+            "domain": [
+              "vacuum"
+            ]
+          }
+        ]
+      }
+    },
+    "vacuum_discard_temporary_map": {
+      "name": "Discard Temporary Map",
+      "description": "Discard the temporary map.",
+      "fields": {},
+      "target": {
+        "entity": [
+          {
+            "domain": [
+              "vacuum"
+            ]
+          }
+        ]
+      }
+    },
+    "vacuum_replace_temporary_map": {
+      "name": "Replace Temporary Map",
+      "description": "Replace the temporary map with another saved map.",
+      "fields": {
+        "map_id": {
+          "example": 14,
+          "required": false,
+          "selector": {
+            "number": {
+              "mode": "box"
+            }
+          },
+          "name": "Map ID",
+          "description": "ID of the map to be replaced with."
+        }
+      },
+      "target": {
+        "entity": [
+          {
+            "domain": [
+              "vacuum"
+            ]
+          }
+        ]
+      }
+    },
+    "vacuum_clean_zone": {
+      "name": "Clean Zone",
+      "description": "Start the cleaning operation in the selected area.",
+      "fields": {
+        "zone": {
+          "example": "[819,-263,4424,2105] or [[819,-263,4424,2105],[-2001,-3050,-542,515]]",
+          "required": true,
+          "selector": {
+            "object": null
+          },
+          "name": "Zone",
+          "description": "Coordinates."
+        },
+        "repeats": {
+          "example": "[1,3] or 1",
+          "required": false,
+          "selector": {
+            "number": {
+              "min": 1,
+              "max": 3
+            }
+          },
+          "name": "Repeats",
+          "description": "Number of cleaning passes for every selected zone."
+        }
+      },
+      "target": {
+        "entity": [
+          {
+            "domain": [
+              "vacuum"
+            ]
+          }
+        ]
+      }
+    },
+    "vacuum_clean_segment": {
+      "name": "Clean Segment",
+      "description": "Start the cleaning operation in the selected rooms.",
+      "fields": {
+        "segments": {
+          "example": "[3,2] or 3",
+          "required": true,
+          "selector": {
+            "object": null
+          },
+          "name": "Segments",
+          "description": "List of rooms to be cleaned. Only room\u0027s Character or an array of room\u0027s character, cleaning times, fan speed and mop mode to override the default values per room."
+        },
+        "repeats": {
+          "example": "[1,2] or 1",
+          "required": false,
+          "selector": {
+            "number": {
+              "min": 1,
+              "max": 3
+            }
+          },
+          "name": "Repeats",
+          "description": "Number of cleaning passes for every selected room (unless it is overridden by customized cleaning parameter)."
+        },
+        "suction_level": {
+          "example": "[0,3] or 0",
+          "required": false,
+          "selector": {
+            "number": {
+              "min": 0,
+              "max": 3
+            }
+          },
+          "name": "Suction Level",
+          "description": "Fan speed for every selected room (unless it is overridden by customized cleaning parameter)."
+        },
+        "water_volume": {
+          "example": "[1,3] or 1",
+          "required": false,
+          "selector": {
+            "number": {
+              "min": 1,
+              "max": 3
+            }
+          },
+          "name": "Water Volume",
+          "description": "Water level for every selected room (unless it is overridden by customized cleaning parameter)."
+        }
+      },
+      "target": {
+        "entity": [
+          {
+            "domain": [
+              "vacuum"
+            ]
+          }
+        ]
+      }
+    },
+    "vacuum_clean_spot": {
+      "name": "Clean Spot",
+      "description": "Start the cleaning operation in the selected points on the map.",
+      "fields": {
+        "points": {
+          "example": "[819,-263] or [[819,-263],[819,-263]]",
+          "required": true,
+          "selector": {
+            "object": null
+          },
+          "name": "Points",
+          "description": "List of coordinates to be cleaned."
+        },
+        "repeats": {
+          "example": "[1,2] or 1",
+          "required": false,
+          "selector": {
+            "number": {
+              "min": 1,
+              "max": 3
+            }
+          },
+          "name": "Repeats",
+          "description": "Number of cleaning passes for every selected zone."
+        },
+        "suction_level": {
+          "example": "[0,3] or 0",
+          "required": false,
+          "selector": {
+            "number": {
+              "min": 0,
+              "max": 3
+            }
+          },
+          "name": "Suction Level",
+          "description": "Fan speed for every selected zone."
+        },
+        "water_volume": {
+          "example": "[1,3] or 1",
+          "required": false,
+          "selector": {
+            "number": {
+              "min": 1,
+              "max": 3
+            }
+          },
+          "name": "Water Volume",
+          "description": "Water level for every selected zone."
+        }
+      },
+      "target": {
+        "entity": [
+          {
+            "domain": [
+              "vacuum"
+            ]
+          }
+        ]
+      }
+    },
+    "vacuum_set_restricted_zone": {
+      "name": "Set Restricted Zone",
+      "description": "Define virtual walls, restricted zones, and/or no mop zones.",
+      "fields": {
+        "walls": {
+          "example": "[[819,-263,4424,2105],[-2001,-3050,-542,515]]",
+          "required": false,
           "selector": {
             "text": null
           },
-          "name": "Group",
-          "description": "Hexadecimal address of the group."
+          "name": "Walls",
+          "description": "Virtual walls."
         },
-        "cluster_id": {
+        "zones": {
+          "example": "[[819,-263,4424,2105],[-2001,-3050,-542,515]]",
+          "required": false,
+          "selector": {
+            "text": null
+          },
+          "name": "Zones",
+          "description": "No go zones."
+        },
+        "no_mops": {
+          "example": "[[819,-263,4424,2105],[-2001,-3050,-542,515]]",
+          "required": false,
+          "selector": {
+            "text": null
+          },
+          "name": "No Mops",
+          "description": "No mop zones."
+        }
+      },
+      "target": {
+        "entity": [
+          {
+            "domain": [
+              "vacuum"
+            ]
+          }
+        ]
+      }
+    },
+    "vacuum_remote_control_move_step": {
+      "name": "Remote Control Move Step",
+      "description": "Remotely control move the bot one step.",
+      "fields": {
+        "rotation": {
+          "example": 64,
+          "required": true,
+          "selector": {
+            "number": {
+              "min": -128,
+              "max": 128,
+              "mode": "box"
+            }
+          },
+          "name": "Rotation",
+          "description": "Turn in binary degrees between -128 and 128."
+        },
+        "velocity": {
+          "example": 100,
+          "required": true,
+          "selector": {
+            "number": {
+              "min": -300,
+              "max": 100,
+              "mode": "box"
+            }
+          },
+          "name": "Velocity",
+          "description": "Move speed, from 100 (forward) to -300 (backward)."
+        }
+      },
+      "target": {
+        "entity": [
+          {
+            "domain": [
+              "vacuum"
+            ]
+          }
+        ]
+      }
+    },
+    "vacuum_install_voice_pack": {
+      "name": "Install Voice Pack",
+      "description": "Install official or custom voice pack.",
+      "fields": {
+        "lang_id": {
+          "example": "DE",
+          "required": true,
+          "selector": {
+            "text": null
+          },
+          "name": "Language ID",
+          "description": "Language ID of this pack."
+        },
+        "url": {
+          "example": "http://awsde0.fds.api.xiaomi.com/dreame-product/dreame.vacuum.p2009/voices/package/deyu.tar.gz",
+          "required": true,
+          "selector": {
+            "text": null
+          },
+          "name": "URL",
+          "description": "Url of this pack it should be reachable by the vacuum bot."
+        },
+        "md5": {
+          "example": "d25986c1f608c0897475707e77d856f9",
+          "required": true,
+          "selector": {
+            "text": null
+          },
+          "name": "MD5",
+          "description": "MD5 checksum of the language pack."
+        },
+        "size": {
+          "example": 4067845,
+          "required": true,
+          "selector": {
+            "number": {
+              "mode": "box"
+            }
+          },
+          "name": "Size",
+          "description": "Size of the language pack in bytes."
+        }
+      },
+      "target": {
+        "entity": [
+          {
+            "domain": [
+              "vacuum"
+            ]
+          }
+        ]
+      }
+    },
+    "vacuum_rename_map": {
+      "name": "Rename map",
+      "description": "Rename a map.",
+      "fields": {
+        "map_id": {
+          "example": "14",
+          "required": true,
+          "selector": {
+            "text": null
+          },
+          "name": "Map ID",
+          "description": "ID of the map."
+        },
+        "map_name": {
+          "example": "Ground Floor",
+          "required": true,
+          "selector": {
+            "text": null
+          },
+          "name": "Map Name",
+          "description": "New name of the map."
+        }
+      },
+      "target": {
+        "entity": [
+          {
+            "domain": [
+              "vacuum"
+            ]
+          }
+        ]
+      }
+    },
+    "vacuum_merge_segments": {
+      "name": "Merge Segments",
+      "description": "Merge rooms.",
+      "fields": {
+        "map_id": {
+          "example": "14",
+          "required": false,
+          "selector": {
+            "text": null
+          },
+          "name": "Map ID",
+          "description": "ID of the map."
+        },
+        "segments": {
+          "example": "[3,2]",
+          "required": true,
+          "selector": {
+            "object": null
+          },
+          "name": "Segments",
+          "description": "Room IDs."
+        }
+      },
+      "target": {
+        "entity": [
+          {
+            "domain": [
+              "vacuum"
+            ]
+          }
+        ]
+      }
+    },
+    "vacuum_split_segments": {
+      "name": "Split Segments",
+      "description": "Split rooms.",
+      "fields": {
+        "map_id": {
+          "example": "14",
+          "required": false,
+          "selector": {
+            "text": null
+          },
+          "name": "Map ID",
+          "description": "ID of the map."
+        },
+        "segment": {
+          "example": "3",
           "required": true,
           "selector": {
             "number": {
               "min": 1,
-              "max": 65535
+              "max": 60,
+              "mode": "box"
             }
           },
-          "name": "Cluster ID",
-          "description": "ZCL cluster to send command to."
+          "name": "Segment",
+          "description": "Room ID."
         },
-        "cluster_type": {
-          "default": "in",
+        "line": {
+          "example": "[819,-263,4424,2105]",
+          "required": true,
+          "selector": {
+            "object": null
+          },
+          "name": "Line",
+          "description": "Split line coordinates."
+        }
+      },
+      "target": {
+        "entity": [
+          {
+            "domain": [
+              "vacuum"
+            ]
+          }
+        ]
+      }
+    },
+    "vacuum_rename_segment": {
+      "name": "Rename Segment",
+      "description": "Rename a segment.",
+      "fields": {
+        "segment_id": {
+          "example": "3",
+          "required": true,
+          "selector": {
+            "number": {
+              "min": 1,
+              "max": 60,
+              "mode": "box"
+            }
+          },
+          "name": "Segment ID",
+          "description": "ID of the segment"
+        },
+        "segment_name": {
+          "example": "Playroom",
+          "required": true,
+          "selector": {
+            "text": null
+          },
+          "name": "Segment Name",
+          "description": "New name of the segment"
+        }
+      },
+      "target": {
+        "entity": [
+          {
+            "domain": [
+              "vacuum"
+            ]
+          }
+        ]
+      }
+    },
+    "vacuum_set_cleaning_sequence": {
+      "name": "Set Cleaning Sequence",
+      "description": "Set room cleaning sequence. (Only on supported devices)",
+      "fields": {
+        "cleaning_sequence": {
+          "example": "[5,3,2,1,4] or []",
+          "required": true,
+          "selector": {
+            "object": null
+          },
+          "name": "Cleanin sequence",
+          "description": "Segment ID list of cleaning sequence."
+        }
+      },
+      "target": {
+        "entity": [
+          {
+            "domain": [
+              "vacuum"
+            ]
+          }
+        ]
+      }
+    },
+    "vacuum_set_custom_cleaning": {
+      "name": "Set Custom Cleaning",
+      "description": "Set custom cleaning parameters. (Only on supported devices)",
+      "fields": {
+        "segment_id": {
+          "example": "[1,2,3,4,5]",
+          "required": true,
+          "selector": {
+            "object": null
+          },
+          "name": "Segment ID",
+          "description": "Room IDs."
+        },
+        "suction_level": {
+          "example": "[0,0,2,3,1]",
+          "required": true,
+          "selector": {
+            "object": null
+          },
+          "name": "Suction Level",
+          "description": "Suction level for each room."
+        },
+        "water_volume": {
+          "example": "[1,1,2,3,1]",
+          "required": true,
+          "selector": {
+            "object": null
+          },
+          "name": "Water Volume",
+          "description": "Water volume for each room."
+        },
+        "repeats": {
+          "example": "[2,2,1,3,1]",
+          "required": true,
+          "selector": {
+            "object": null
+          },
+          "name": "Repeats",
+          "description": "Cleaning times for each room."
+        }
+      },
+      "target": {
+        "entity": [
+          {
+            "domain": [
+              "vacuum"
+            ]
+          }
+        ]
+      }
+    },
+    "vacuum_set_dnd": {
+      "name": "Set DnD",
+      "description": "Enable/disable DnD functionality and/or setting its start and end time.",
+      "fields": {
+        "dnd_enabled": {
+          "example": "true",
+          "required": true,
+          "selector": {
+            "boolean": null
+          },
+          "name": "DnD Enabled",
+          "description": "Enable or disable DnD feature."
+        },
+        "dnd_start": {
+          "example": "22:00",
+          "required": false,
+          "selector": {
+            "text": null
+          },
+          "name": "DnD Start",
+          "description": "Start time of DnD feature."
+        },
+        "dnd_end": {
+          "example": "6:30",
+          "required": false,
+          "selector": {
+            "text": null
+          },
+          "name": "Dnd End",
+          "description": "End time of DnD feature."
+        }
+      },
+      "target": {
+        "entity": [
+          {
+            "domain": [
+              "vacuum"
+            ]
+          }
+        ]
+      }
+    },
+    "vacuum_reset_consumable": {
+      "name": "Reset Consumable",
+      "description": "Reset a consumable.",
+      "fields": {
+        "consumable": {
+          "required": true,
           "selector": {
             "select": {
               "options": [
-                "in",
-                "out"
+                "main_brush",
+                "side_brush",
+                "filter",
+                "sensor",
+                "mop_pad",
+                "silver_ion",
+                "detergent"
               ]
             }
           },
-          "name": "Cluster type",
-          "description": "Type of the cluster."
-        },
-        "command": {
-          "required": true,
-          "selector": {
-            "number": {
-              "min": 1,
-              "max": 65535
-            }
-          },
-          "name": "Command",
-          "description": "ID of the command to execute."
-        },
-        "args": {
-          "example": "[arg1, arg2, argN]",
-          "selector": {
-            "object": null
-          },
-          "name": "Args",
-          "description": "Arguments to pass to the command."
-        },
-        "manufacturer": {
-          "example": 252,
-          "selector": {
-            "text": null
-          },
-          "name": "Manufacturer",
-          "description": "Manufacturer code. Use a value of \u0022-1\u0022 to force no code to be set."
-        }
-      }
-    },
-    "warning_device_squawk": {
-      "name": "Warning device squawk",
-      "description": "This action uses the WD capabilities to emit a quick audible/visible pulse called a \u0022squawk\u0022. The squawk command has no effect if the WD is currently active (warning in progress).",
-      "fields": {
-        "ieee": {
-          "required": true,
-          "example": "00:0d:6f:00:05:7d:2d:34",
-          "selector": {
-            "text": null
-          },
-          "name": "IEEE",
-          "description": "IEEE address for the device."
-        },
-        "mode": {
-          "default": 0,
-          "selector": {
-            "number": {
-              "min": 0,
-              "max": 1,
-              "mode": "box"
-            }
-          },
-          "name": "Mode",
-          "description": "The Squawk Mode field is used as a 4-bit enumeration, and can have one of the values shown in Table 8-24 of the ZCL spec - Squawk Mode Field. The exact operation of each mode (how the WD \u201Csquawks\u201D) is implementation specific."
-        },
-        "strobe": {
-          "default": 1,
-          "selector": {
-            "number": {
-              "min": 0,
-              "max": 1,
-              "mode": "box"
-            }
-          },
-          "name": "Strobe",
-          "description": "The strobe field is used as a Boolean, and determines if the visual indication is also required in addition to the audible squawk, as shown in Table 8-25 of the ZCL spec - Strobe Bit."
-        },
-        "level": {
-          "default": 2,
-          "selector": {
-            "number": {
-              "min": 0,
-              "max": 3,
-              "mode": "box"
-            }
-          },
-          "name": "Level",
-          "description": "The squawk level field is used as a 2-bit enumeration, and determines the intensity of audible squawk sound as shown in Table 8-26 of the ZCL spec - Squawk Level Field Values."
-        }
-      }
-    },
-    "warning_device_warn": {
-      "name": "Warning device starts alert",
-      "description": "This action starts the operation of the warning device. The warning device alerts the surrounding area by audible (siren) and visual (strobe) signals.",
-      "fields": {
-        "ieee": {
-          "required": true,
-          "example": "00:0d:6f:00:05:7d:2d:34",
-          "selector": {
-            "text": null
-          },
-          "name": "IEEE",
-          "description": "IEEE address for the device."
-        },
-        "mode": {
-          "default": 3,
-          "selector": {
-            "number": {
-              "min": 0,
-              "max": 6,
-              "mode": "box"
-            }
-          },
-          "name": "Mode",
-          "description": "The Warning Mode field is used as a 4-bit enumeration, can have one of the values 0-6 defined below in table 8-20 of the ZCL spec. The exact behavior of the warning device in each mode is according to the relevant security standards."
-        },
-        "strobe": {
-          "default": 1,
-          "selector": {
-            "number": {
-              "min": 0,
-              "max": 1,
-              "mode": "box"
-            }
-          },
-          "name": "Strobe",
-          "description": "The Strobe field is used as a 2-bit enumeration, and determines if the visual indication is required in addition to the audible siren, as indicated in Table 8-21 of the ZCL spec. \u00220\u0022 means no strobe, \u00221\u0022 means strobe. If the strobe field is \u201C1\u201D and the Warning Mode is \u201C0\u201D (\u201CStop\u201D), then only the strobe is activated."
-        },
-        "level": {
-          "default": 2,
-          "selector": {
-            "number": {
-              "min": 0,
-              "max": 3,
-              "mode": "box"
-            }
-          },
-          "name": "Level",
-          "description": "The Siren Level field is used as a 2-bit enumeration, and indicates the intensity of audible squawk sound as shown in Table 8-22 of the ZCL spec."
-        },
-        "duration": {
-          "default": 5,
-          "selector": {
-            "number": {
-              "min": 0,
-              "max": 65535,
-              "unit_of_measurement": "seconds"
-            }
-          },
-          "name": "Duration",
-          "description": "Requested duration of warning, in seconds (16 bit). If both Strobe and Warning Mode are \u00220\u0022 this field is ignored."
-        },
-        "duty_cycle": {
-          "default": 0,
-          "selector": {
-            "number": {
-              "min": 0,
-              "max": 100,
-              "step": 10
-            }
-          },
-          "name": "Duty cycle",
-          "description": "Indicates the length of the flash cycle. This allows you to vary the flash duration for different alarm types (e.g., fire, police, burglar). The valid range is 0-100 in increments of 10. All other values must be rounded to the nearest valid value. Strobe calculates a duty cycle over a duration of one second. The ON state must precede the OFF state. For example, if the Strobe Duty Cycle field specifies \u201C40,\u201D, then the strobe flashes ON for 4/10ths of a second and then turns OFF for 6/10ths of a second."
-        },
-        "intensity": {
-          "default": 2,
-          "selector": {
-            "number": {
-              "min": 0,
-              "max": 3,
-              "mode": "box"
-            }
-          },
-          "name": "Intensity",
-          "description": "Indicates the intensity of the strobe as shown in Table 8-23 of the ZCL spec. This attribute is designed to vary the output of the strobe (i.e., brightness) and not its frequency, which is detailed in section 8.4.2.3.1.6 of the ZCL spec."
-        }
-      }
-    },
-    "set_lock_user_code": {
-      "name": "Set lock user code",
-      "description": "Sets a user code on a lock.",
-      "fields": {
-        "code_slot": {
-          "required": true,
-          "example": 1,
-          "selector": {
-            "text": null
-          },
-          "name": "Code slot",
-          "description": "Code slot to set the code in."
-        },
-        "user_code": {
-          "required": true,
-          "example": 1234,
-          "selector": {
-            "text": null
-          },
-          "name": "Code",
-          "description": "Code to set."
+          "name": "Consumable",
+          "description": "Consumable type."
         }
       },
       "target": {
         "entity": [
           {
             "domain": [
-              "lock"
-            ],
-            "integration": "zha"
+              "vacuum"
+            ]
           }
         ]
       }
     },
-    "enable_lock_user_code": {
-      "name": "Enable lock user",
-      "description": "Enables a user code on a lock.",
+    "select_select_next": {
+      "name": "Select Next",
+      "description": "Select the next options of an select entity.",
       "fields": {
-        "code_slot": {
-          "required": true,
-          "example": 1,
+        "cycle": {
+          "default": true,
           "selector": {
-            "text": null
+            "boolean": null
           },
-          "name": "Code slot",
-          "description": "Code slot to enable."
+          "name": "Cycle",
+          "description": "If the option should cycle from the first to the last."
         }
       },
       "target": {
         "entity": [
           {
+            "integration": "dreame_vacuum",
             "domain": [
-              "lock"
-            ],
-            "integration": "zha"
+              "select"
+            ]
           }
         ]
       }
     },
-    "disable_lock_user_code": {
-      "name": "Disable lock user",
-      "description": "Disables a user code on a lock.",
+    "select_select_previous": {
+      "name": "Select Previous",
+      "description": "Select the previous options of an select entity.",
       "fields": {
-        "code_slot": {
-          "required": true,
-          "example": 1,
+        "cycle": {
+          "default": true,
           "selector": {
-            "text": null
+            "boolean": null
           },
-          "name": "Code slot",
-          "description": "Code slot to disable."
+          "name": "Cycle",
+          "description": "If the option should cycle from the first to the last."
         }
       },
       "target": {
         "entity": [
           {
+            "integration": "dreame_vacuum",
             "domain": [
-              "lock"
-            ],
-            "integration": "zha"
+              "select"
+            ]
           }
         ]
       }
     },
-    "clear_lock_user_code": {
-      "name": "Clear lock user",
-      "description": "Clears a user code from a lock.",
+    "select_select_first": {
+      "name": "Select First",
+      "description": "Select the first option of an select entity.",
+      "fields": {},
+      "target": {
+        "entity": [
+          {
+            "integration": "dreame_vacuum",
+            "domain": [
+              "select"
+            ]
+          }
+        ]
+      }
+    },
+    "select_select_last": {
+      "name": "Select Last",
+      "description": "Select the last option of an select entity.",
+      "fields": {},
+      "target": {
+        "entity": [
+          {
+            "integration": "dreame_vacuum",
+            "domain": [
+              "select"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "select": {
+    "select_first": {
+      "name": "First",
+      "description": "Selects the first option.",
+      "fields": {},
+      "target": {
+        "entity": [
+          {
+            "domain": [
+              "select"
+            ]
+          }
+        ]
+      }
+    },
+    "select_last": {
+      "name": "Last",
+      "description": "Selects the last option.",
+      "fields": {},
+      "target": {
+        "entity": [
+          {
+            "domain": [
+              "select"
+            ]
+          }
+        ]
+      }
+    },
+    "select_next": {
+      "name": "Next",
+      "description": "Selects the next option.",
       "fields": {
-        "code_slot": {
-          "required": true,
-          "example": 1,
+        "cycle": {
+          "default": true,
           "selector": {
-            "text": null
+            "boolean": null
           },
-          "name": "Code slot",
-          "description": "Code slot to clear code from."
+          "name": "Cycle",
+          "description": "If the option should cycle from the last to the first."
         }
       },
       "target": {
         "entity": [
           {
             "domain": [
-              "lock"
-            ],
-            "integration": "zha"
+              "select"
+            ]
+          }
+        ]
+      }
+    },
+    "select_option": {
+      "name": "Select",
+      "description": "Selects an option.",
+      "fields": {
+        "option": {
+          "required": true,
+          "example": "\u0022Item A\u0022",
+          "selector": {
+            "text": null
+          },
+          "name": "Option",
+          "description": "Option to be selected."
+        }
+      },
+      "target": {
+        "entity": [
+          {
+            "domain": [
+              "select"
+            ]
+          }
+        ]
+      }
+    },
+    "select_previous": {
+      "name": "Previous",
+      "description": "Selects the previous option.",
+      "fields": {
+        "cycle": {
+          "default": true,
+          "selector": {
+            "boolean": null
+          },
+          "name": "Cycle",
+          "description": "If the option should cycle from the first to the last."
+        }
+      },
+      "target": {
+        "entity": [
+          {
+            "domain": [
+              "select"
+            ]
           }
         ]
       }
@@ -8282,138 +8402,6 @@
       }
     }
   },
-  "denonavr": {
-    "get_command": {
-      "name": "Get command",
-      "description": "Sends a generic HTTP get command.",
-      "fields": {
-        "command": {
-          "example": "/goform/formiPhoneAppDirect.xml?RCKSK0410370",
-          "required": true,
-          "selector": {
-            "text": null
-          },
-          "name": "Command",
-          "description": "Endpoint of the command, including associated parameters."
-        }
-      },
-      "target": {
-        "entity": [
-          {
-            "integration": "denonavr",
-            "domain": [
-              "media_player"
-            ]
-          }
-        ]
-      }
-    },
-    "set_dynamic_eq": {
-      "name": "Set dynamic equalizer",
-      "description": "Enables or disables DynamicEQ.",
-      "fields": {
-        "dynamic_eq": {
-          "default": true,
-          "selector": {
-            "boolean": null
-          },
-          "name": "Dynamic equalizer",
-          "description": "Whether DynamicEQ should be enabled or disabled."
-        }
-      },
-      "target": {
-        "entity": [
-          {
-            "integration": "denonavr",
-            "domain": [
-              "media_player"
-            ]
-          }
-        ]
-      }
-    },
-    "update_audyssey": {
-      "name": "Update Audyssey",
-      "description": "Updates Audyssey settings.",
-      "fields": {},
-      "target": {
-        "entity": [
-          {
-            "integration": "denonavr",
-            "domain": [
-              "media_player"
-            ]
-          }
-        ]
-      }
-    }
-  },
-  "weather": {
-    "get_forecasts": {
-      "name": "Get forecasts",
-      "description": "Retrieves the forecast from selected weather services.",
-      "fields": {
-        "type": {
-          "required": true,
-          "selector": {
-            "select": {
-              "options": [
-                "daily",
-                "hourly",
-                "twice_daily"
-              ],
-              "translation_key": "forecast_type"
-            }
-          },
-          "name": "Forecast type",
-          "description": "The scope of the weather forecast."
-        }
-      },
-      "target": {
-        "entity": [
-          {
-            "domain": [
-              "weather"
-            ],
-            "supported_features": [
-              1,
-              2,
-              4
-            ]
-          }
-        ]
-      },
-      "response": {
-        "optional": false
-      }
-    }
-  },
-  "image": {
-    "snapshot": {
-      "name": "Take snapshot",
-      "description": "Takes a snapshot from an image.",
-      "fields": {
-        "filename": {
-          "required": true,
-          "example": "/tmp/image_snapshot.jpg",
-          "selector": {
-            "text": null
-          },
-          "name": "Filename",
-          "description": "Template of a filename. Variable available is \u0060entity_id\u0060."
-        }
-      },
-      "target": {
-        "entity": [
-          {
-            "domain": [
-              "image"
-            ]
-          }
-        ]
-      }
-    }
-  },
   "humidifier": {
     "turn_on": {
       "name": "Turn on",
@@ -8538,66 +8526,16 @@
       }
     }
   },
-  "siren": {
+  "water_heater": {
     "turn_on": {
       "name": "Turn on",
-      "description": "Turns the siren on.",
-      "fields": {
-        "tone": {
-          "example": "fire",
-          "filter": {
-            "supported_features": [
-              4
-            ]
-          },
-          "required": false,
-          "selector": {
-            "text": null
-          },
-          "name": "Tone",
-          "description": "The tone to emit. When \u0060available_tones\u0060 property is a map, either the key or the value can be used. Must be supported by the integration."
-        },
-        "volume_level": {
-          "example": 0.5,
-          "filter": {
-            "supported_features": [
-              8
-            ]
-          },
-          "required": false,
-          "selector": {
-            "number": {
-              "min": 0,
-              "max": 1,
-              "step": 0.05
-            }
-          },
-          "name": "Volume",
-          "description": "The volume. 0 is inaudible, 1 is the maximum volume. Must be supported by the integration."
-        },
-        "duration": {
-          "example": 15,
-          "filter": {
-            "supported_features": [
-              16
-            ]
-          },
-          "required": false,
-          "selector": {
-            "text": null
-          },
-          "name": "Duration",
-          "description": "Number of seconds the sound is played. Must be supported by the integration."
-        }
-      },
+      "description": "Turns water heater on.",
+      "fields": {},
       "target": {
         "entity": [
           {
             "domain": [
-              "siren"
-            ],
-            "supported_features": [
-              1
+              "water_heater"
             ]
           }
         ]
@@ -8605,824 +8543,96 @@
     },
     "turn_off": {
       "name": "Turn off",
-      "description": "Turns the siren off.",
+      "description": "Turns water heater off.",
       "fields": {},
       "target": {
         "entity": [
           {
             "domain": [
-              "siren"
-            ],
-            "supported_features": [
-              2
+              "water_heater"
             ]
           }
         ]
       }
     },
-    "toggle": {
-      "name": "Toggle",
-      "description": "Toggles the siren on/off.",
-      "fields": {},
-      "target": {
-        "entity": [
-          {
-            "domain": [
-              "siren"
-            ],
-            "supported_features": [
-              3
-            ]
-          }
-        ]
-      }
-    }
-  },
-  "dreame_vacuum": {
-    "vacuum_request_map": {
-      "name": "Request Map",
-      "description": "Request map data",
-      "fields": {},
-      "target": {
-        "entity": [
-          {
-            "domain": [
-              "vacuum"
-            ]
-          }
-        ]
-      }
-    },
-    "vacuum_select_map": {
-      "name": "Select Map",
-      "description": "Select current map. Used when having multiple maps/floors.",
+    "set_away_mode": {
+      "name": "Set away mode",
+      "description": "Turns away mode on/off.",
       "fields": {
-        "map_id": {
-          "example": 14,
+        "away_mode": {
           "required": true,
           "selector": {
-            "number": {
-              "mode": "box"
-            }
+            "boolean": null
           },
-          "name": "Map ID",
-          "description": "ID of the map to be selected."
+          "name": "Away mode",
+          "description": "New value of away mode."
         }
       },
       "target": {
         "entity": [
           {
             "domain": [
-              "vacuum"
+              "water_heater"
             ]
           }
         ]
       }
     },
-    "vacuum_delete_map": {
-      "name": "Delete map",
-      "description": "Delete a map.",
+    "set_temperature": {
+      "name": "Set temperature",
+      "description": "Sets the target temperature.",
       "fields": {
-        "map_id": {
-          "example": 14,
-          "required": false,
-          "selector": {
-            "number": {
-              "mode": "box"
-            }
-          },
-          "name": "Map ID",
-          "description": "ID of the map to be deleted."
-        }
-      },
-      "target": {
-        "entity": [
-          {
-            "domain": [
-              "vacuum"
-            ]
-          }
-        ]
-      }
-    },
-    "vacuum_save_temporary_map": {
-      "name": "Save Temporary Map",
-      "description": "Save the temporary map.",
-      "fields": {},
-      "target": {
-        "entity": [
-          {
-            "domain": [
-              "vacuum"
-            ]
-          }
-        ]
-      }
-    },
-    "vacuum_discard_temporary_map": {
-      "name": "Discard Temporary Map",
-      "description": "Discard the temporary map.",
-      "fields": {},
-      "target": {
-        "entity": [
-          {
-            "domain": [
-              "vacuum"
-            ]
-          }
-        ]
-      }
-    },
-    "vacuum_replace_temporary_map": {
-      "name": "Replace Temporary Map",
-      "description": "Replace the temporary map with another saved map.",
-      "fields": {
-        "map_id": {
-          "example": 14,
-          "required": false,
-          "selector": {
-            "number": {
-              "mode": "box"
-            }
-          },
-          "name": "Map ID",
-          "description": "ID of the map to be replaced with."
-        }
-      },
-      "target": {
-        "entity": [
-          {
-            "domain": [
-              "vacuum"
-            ]
-          }
-        ]
-      }
-    },
-    "vacuum_clean_zone": {
-      "name": "Clean Zone",
-      "description": "Start the cleaning operation in the selected area.",
-      "fields": {
-        "zone": {
-          "example": "[819,-263,4424,2105] or [[819,-263,4424,2105],[-2001,-3050,-542,515]]",
+        "temperature": {
           "required": true,
-          "selector": {
-            "object": null
-          },
-          "name": "Zone",
-          "description": "Coordinates."
-        },
-        "repeats": {
-          "example": "[1,3] or 1",
-          "required": false,
-          "selector": {
-            "number": {
-              "min": 1,
-              "max": 3
-            }
-          },
-          "name": "Repeats",
-          "description": "Number of cleaning passes for every selected zone."
-        }
-      },
-      "target": {
-        "entity": [
-          {
-            "domain": [
-              "vacuum"
-            ]
-          }
-        ]
-      }
-    },
-    "vacuum_clean_segment": {
-      "name": "Clean Segment",
-      "description": "Start the cleaning operation in the selected rooms.",
-      "fields": {
-        "segments": {
-          "example": "[3,2] or 3",
-          "required": true,
-          "selector": {
-            "object": null
-          },
-          "name": "Segments",
-          "description": "List of rooms to be cleaned. Only room\u0027s Character or an array of room\u0027s character, cleaning times, fan speed and mop mode to override the default values per room."
-        },
-        "repeats": {
-          "example": "[1,2] or 1",
-          "required": false,
-          "selector": {
-            "number": {
-              "min": 1,
-              "max": 3
-            }
-          },
-          "name": "Repeats",
-          "description": "Number of cleaning passes for every selected room (unless it is overridden by customized cleaning parameter)."
-        },
-        "suction_level": {
-          "example": "[0,3] or 0",
-          "required": false,
           "selector": {
             "number": {
               "min": 0,
-              "max": 3
-            }
-          },
-          "name": "Suction Level",
-          "description": "Fan speed for every selected room (unless it is overridden by customized cleaning parameter)."
-        },
-        "water_volume": {
-          "example": "[1,3] or 1",
-          "required": false,
-          "selector": {
-            "number": {
-              "min": 1,
-              "max": 3
-            }
-          },
-          "name": "Water Volume",
-          "description": "Water level for every selected room (unless it is overridden by customized cleaning parameter)."
-        }
-      },
-      "target": {
-        "entity": [
-          {
-            "domain": [
-              "vacuum"
-            ]
-          }
-        ]
-      }
-    },
-    "vacuum_clean_spot": {
-      "name": "Clean Spot",
-      "description": "Start the cleaning operation in the selected points on the map.",
-      "fields": {
-        "points": {
-          "example": "[819,-263] or [[819,-263],[819,-263]]",
-          "required": true,
-          "selector": {
-            "object": null
-          },
-          "name": "Points",
-          "description": "List of coordinates to be cleaned."
-        },
-        "repeats": {
-          "example": "[1,2] or 1",
-          "required": false,
-          "selector": {
-            "number": {
-              "min": 1,
-              "max": 3
-            }
-          },
-          "name": "Repeats",
-          "description": "Number of cleaning passes for every selected zone."
-        },
-        "suction_level": {
-          "example": "[0,3] or 0",
-          "required": false,
-          "selector": {
-            "number": {
-              "min": 0,
-              "max": 3
-            }
-          },
-          "name": "Suction Level",
-          "description": "Fan speed for every selected zone."
-        },
-        "water_volume": {
-          "example": "[1,3] or 1",
-          "required": false,
-          "selector": {
-            "number": {
-              "min": 1,
-              "max": 3
-            }
-          },
-          "name": "Water Volume",
-          "description": "Water level for every selected zone."
-        }
-      },
-      "target": {
-        "entity": [
-          {
-            "domain": [
-              "vacuum"
-            ]
-          }
-        ]
-      }
-    },
-    "vacuum_set_restricted_zone": {
-      "name": "Set Restricted Zone",
-      "description": "Define virtual walls, restricted zones, and/or no mop zones.",
-      "fields": {
-        "walls": {
-          "example": "[[819,-263,4424,2105],[-2001,-3050,-542,515]]",
-          "required": false,
-          "selector": {
-            "text": null
-          },
-          "name": "Walls",
-          "description": "Virtual walls."
-        },
-        "zones": {
-          "example": "[[819,-263,4424,2105],[-2001,-3050,-542,515]]",
-          "required": false,
-          "selector": {
-            "text": null
-          },
-          "name": "Zones",
-          "description": "No go zones."
-        },
-        "no_mops": {
-          "example": "[[819,-263,4424,2105],[-2001,-3050,-542,515]]",
-          "required": false,
-          "selector": {
-            "text": null
-          },
-          "name": "No Mops",
-          "description": "No mop zones."
-        }
-      },
-      "target": {
-        "entity": [
-          {
-            "domain": [
-              "vacuum"
-            ]
-          }
-        ]
-      }
-    },
-    "vacuum_remote_control_move_step": {
-      "name": "Remote Control Move Step",
-      "description": "Remotely control move the bot one step.",
-      "fields": {
-        "rotation": {
-          "example": 64,
-          "required": true,
-          "selector": {
-            "number": {
-              "min": -128,
-              "max": 128,
-              "mode": "box"
-            }
-          },
-          "name": "Rotation",
-          "description": "Turn in binary degrees between -128 and 128."
-        },
-        "velocity": {
-          "example": 100,
-          "required": true,
-          "selector": {
-            "number": {
-              "min": -300,
               "max": 100,
-              "mode": "box"
+              "step": 0.5,
+              "unit_of_measurement": "\u00B0"
             }
           },
-          "name": "Velocity",
-          "description": "Move speed, from 100 (forward) to -300 (backward)."
-        }
-      },
-      "target": {
-        "entity": [
-          {
-            "domain": [
-              "vacuum"
-            ]
-          }
-        ]
-      }
-    },
-    "vacuum_install_voice_pack": {
-      "name": "Install Voice Pack",
-      "description": "Install official or custom voice pack.",
-      "fields": {
-        "lang_id": {
-          "example": "DE",
-          "required": true,
+          "name": "Temperature",
+          "description": "New target temperature for the water heater."
+        },
+        "operation_mode": {
+          "example": "eco",
           "selector": {
             "text": null
           },
-          "name": "Language ID",
-          "description": "Language ID of this pack."
-        },
-        "url": {
-          "example": "http://awsde0.fds.api.xiaomi.com/dreame-product/dreame.vacuum.p2009/voices/package/deyu.tar.gz",
+          "name": "Operation mode",
+          "description": "New value of the operation mode. For a list of possible modes, refer to the integration documentation."
+        }
+      },
+      "target": {
+        "entity": [
+          {
+            "domain": [
+              "water_heater"
+            ]
+          }
+        ]
+      }
+    },
+    "set_operation_mode": {
+      "name": "Set operation mode",
+      "description": "Sets the operation mode.",
+      "fields": {
+        "operation_mode": {
           "required": true,
+          "example": "eco",
           "selector": {
             "text": null
           },
-          "name": "URL",
-          "description": "Url of this pack it should be reachable by the vacuum bot."
-        },
-        "md5": {
-          "example": "d25986c1f608c0897475707e77d856f9",
-          "required": true,
-          "selector": {
-            "text": null
-          },
-          "name": "MD5",
-          "description": "MD5 checksum of the language pack."
-        },
-        "size": {
-          "example": 4067845,
-          "required": true,
-          "selector": {
-            "number": {
-              "mode": "box"
-            }
-          },
-          "name": "Size",
-          "description": "Size of the language pack in bytes."
+          "name": "Operation mode",
+          "description": "New value of the operation mode. For a list of possible modes, refer to the integration documentation."
         }
       },
       "target": {
         "entity": [
           {
             "domain": [
-              "vacuum"
-            ]
-          }
-        ]
-      }
-    },
-    "vacuum_rename_map": {
-      "name": "Rename map",
-      "description": "Rename a map.",
-      "fields": {
-        "map_id": {
-          "example": "14",
-          "required": true,
-          "selector": {
-            "text": null
-          },
-          "name": "Map ID",
-          "description": "ID of the map."
-        },
-        "map_name": {
-          "example": "Ground Floor",
-          "required": true,
-          "selector": {
-            "text": null
-          },
-          "name": "Map Name",
-          "description": "New name of the map."
-        }
-      },
-      "target": {
-        "entity": [
-          {
-            "domain": [
-              "vacuum"
-            ]
-          }
-        ]
-      }
-    },
-    "vacuum_merge_segments": {
-      "name": "Merge Segments",
-      "description": "Merge rooms.",
-      "fields": {
-        "map_id": {
-          "example": "14",
-          "required": false,
-          "selector": {
-            "text": null
-          },
-          "name": "Map ID",
-          "description": "ID of the map."
-        },
-        "segments": {
-          "example": "[3,2]",
-          "required": true,
-          "selector": {
-            "object": null
-          },
-          "name": "Segments",
-          "description": "Room IDs."
-        }
-      },
-      "target": {
-        "entity": [
-          {
-            "domain": [
-              "vacuum"
-            ]
-          }
-        ]
-      }
-    },
-    "vacuum_split_segments": {
-      "name": "Split Segments",
-      "description": "Split rooms.",
-      "fields": {
-        "map_id": {
-          "example": "14",
-          "required": false,
-          "selector": {
-            "text": null
-          },
-          "name": "Map ID",
-          "description": "ID of the map."
-        },
-        "segment": {
-          "example": "3",
-          "required": true,
-          "selector": {
-            "number": {
-              "min": 1,
-              "max": 60,
-              "mode": "box"
-            }
-          },
-          "name": "Segment",
-          "description": "Room ID."
-        },
-        "line": {
-          "example": "[819,-263,4424,2105]",
-          "required": true,
-          "selector": {
-            "object": null
-          },
-          "name": "Line",
-          "description": "Split line coordinates."
-        }
-      },
-      "target": {
-        "entity": [
-          {
-            "domain": [
-              "vacuum"
-            ]
-          }
-        ]
-      }
-    },
-    "vacuum_rename_segment": {
-      "name": "Rename Segment",
-      "description": "Rename a segment.",
-      "fields": {
-        "segment_id": {
-          "example": "3",
-          "required": true,
-          "selector": {
-            "number": {
-              "min": 1,
-              "max": 60,
-              "mode": "box"
-            }
-          },
-          "name": "Segment ID",
-          "description": "ID of the segment"
-        },
-        "segment_name": {
-          "example": "Playroom",
-          "required": true,
-          "selector": {
-            "text": null
-          },
-          "name": "Segment Name",
-          "description": "New name of the segment"
-        }
-      },
-      "target": {
-        "entity": [
-          {
-            "domain": [
-              "vacuum"
-            ]
-          }
-        ]
-      }
-    },
-    "vacuum_set_cleaning_sequence": {
-      "name": "Set Cleaning Sequence",
-      "description": "Set room cleaning sequence. (Only on supported devices)",
-      "fields": {
-        "cleaning_sequence": {
-          "example": "[5,3,2,1,4] or []",
-          "required": true,
-          "selector": {
-            "object": null
-          },
-          "name": "Cleanin sequence",
-          "description": "Segment ID list of cleaning sequence."
-        }
-      },
-      "target": {
-        "entity": [
-          {
-            "domain": [
-              "vacuum"
-            ]
-          }
-        ]
-      }
-    },
-    "vacuum_set_custom_cleaning": {
-      "name": "Set Custom Cleaning",
-      "description": "Set custom cleaning parameters. (Only on supported devices)",
-      "fields": {
-        "segment_id": {
-          "example": "[1,2,3,4,5]",
-          "required": true,
-          "selector": {
-            "object": null
-          },
-          "name": "Segment ID",
-          "description": "Room IDs."
-        },
-        "suction_level": {
-          "example": "[0,0,2,3,1]",
-          "required": true,
-          "selector": {
-            "object": null
-          },
-          "name": "Suction Level",
-          "description": "Suction level for each room."
-        },
-        "water_volume": {
-          "example": "[1,1,2,3,1]",
-          "required": true,
-          "selector": {
-            "object": null
-          },
-          "name": "Water Volume",
-          "description": "Water volume for each room."
-        },
-        "repeats": {
-          "example": "[2,2,1,3,1]",
-          "required": true,
-          "selector": {
-            "object": null
-          },
-          "name": "Repeats",
-          "description": "Cleaning times for each room."
-        }
-      },
-      "target": {
-        "entity": [
-          {
-            "domain": [
-              "vacuum"
-            ]
-          }
-        ]
-      }
-    },
-    "vacuum_set_dnd": {
-      "name": "Set DnD",
-      "description": "Enable/disable DnD functionality and/or setting its start and end time.",
-      "fields": {
-        "dnd_enabled": {
-          "example": "true",
-          "required": true,
-          "selector": {
-            "boolean": null
-          },
-          "name": "DnD Enabled",
-          "description": "Enable or disable DnD feature."
-        },
-        "dnd_start": {
-          "example": "22:00",
-          "required": false,
-          "selector": {
-            "text": null
-          },
-          "name": "DnD Start",
-          "description": "Start time of DnD feature."
-        },
-        "dnd_end": {
-          "example": "6:30",
-          "required": false,
-          "selector": {
-            "text": null
-          },
-          "name": "Dnd End",
-          "description": "End time of DnD feature."
-        }
-      },
-      "target": {
-        "entity": [
-          {
-            "domain": [
-              "vacuum"
-            ]
-          }
-        ]
-      }
-    },
-    "vacuum_reset_consumable": {
-      "name": "Reset Consumable",
-      "description": "Reset a consumable.",
-      "fields": {
-        "consumable": {
-          "required": true,
-          "selector": {
-            "select": {
-              "options": [
-                "main_brush",
-                "side_brush",
-                "filter",
-                "sensor",
-                "mop_pad",
-                "silver_ion",
-                "detergent"
-              ]
-            }
-          },
-          "name": "Consumable",
-          "description": "Consumable type."
-        }
-      },
-      "target": {
-        "entity": [
-          {
-            "domain": [
-              "vacuum"
-            ]
-          }
-        ]
-      }
-    },
-    "select_select_next": {
-      "name": "Select Next",
-      "description": "Select the next options of an select entity.",
-      "fields": {
-        "cycle": {
-          "default": true,
-          "selector": {
-            "boolean": null
-          },
-          "name": "Cycle",
-          "description": "If the option should cycle from the first to the last."
-        }
-      },
-      "target": {
-        "entity": [
-          {
-            "integration": "dreame_vacuum",
-            "domain": [
-              "select"
-            ]
-          }
-        ]
-      }
-    },
-    "select_select_previous": {
-      "name": "Select Previous",
-      "description": "Select the previous options of an select entity.",
-      "fields": {
-        "cycle": {
-          "default": true,
-          "selector": {
-            "boolean": null
-          },
-          "name": "Cycle",
-          "description": "If the option should cycle from the first to the last."
-        }
-      },
-      "target": {
-        "entity": [
-          {
-            "integration": "dreame_vacuum",
-            "domain": [
-              "select"
-            ]
-          }
-        ]
-      }
-    },
-    "select_select_first": {
-      "name": "Select First",
-      "description": "Select the first option of an select entity.",
-      "fields": {},
-      "target": {
-        "entity": [
-          {
-            "integration": "dreame_vacuum",
-            "domain": [
-              "select"
-            ]
-          }
-        ]
-      }
-    },
-    "select_select_last": {
-      "name": "Select Last",
-      "description": "Select the last option of an select entity.",
-      "fields": {},
-      "target": {
-        "entity": [
-          {
-            "integration": "dreame_vacuum",
-            "domain": [
-              "select"
+              "water_heater"
             ]
           }
         ]
@@ -9508,6 +8718,32 @@
       "name": "Reload",
       "description": "Reloads the automation configuration.",
       "fields": {}
+    }
+  },
+  "time": {
+    "set_value": {
+      "name": "Set Time",
+      "description": "Sets the time.",
+      "fields": {
+        "time": {
+          "required": true,
+          "example": "22:15",
+          "selector": {
+            "time": null
+          },
+          "name": "Time",
+          "description": "The time to set."
+        }
+      },
+      "target": {
+        "entity": [
+          {
+            "domain": [
+              "time"
+            ]
+          }
+        ]
+      }
     }
   },
   "netatmo": {
@@ -9759,32 +8995,6 @@
       "name": "Unregister webhook",
       "description": "Unregisters the webhook from the Netatmo backend.",
       "fields": {}
-    }
-  },
-  "time": {
-    "set_value": {
-      "name": "Set Time",
-      "description": "Sets the time.",
-      "fields": {
-        "time": {
-          "required": true,
-          "example": "22:15",
-          "selector": {
-            "time": null
-          },
-          "name": "Time",
-          "description": "The time to set."
-        }
-      },
-      "target": {
-        "entity": [
-          {
-            "domain": [
-              "time"
-            ]
-          }
-        ]
-      }
     }
   },
   "dahua": {
@@ -10424,6 +9634,837 @@
             "integration": "dahua",
             "domain": [
               "camera"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "zha": {
+    "permit": {
+      "name": "Permit",
+      "description": "Allows nodes to join the Zigbee network.",
+      "fields": {
+        "duration": {
+          "default": 60,
+          "selector": {
+            "number": {
+              "min": 0,
+              "max": 254,
+              "unit_of_measurement": "seconds"
+            }
+          },
+          "name": "Duration",
+          "description": "Time to permit joins."
+        },
+        "ieee": {
+          "example": "00:0d:6f:00:05:7d:2d:34",
+          "selector": {
+            "text": null
+          },
+          "name": "IEEE",
+          "description": "IEEE address of the node permitting new joins."
+        },
+        "source_ieee": {
+          "example": "00:0a:bf:00:01:10:23:35",
+          "selector": {
+            "text": null
+          },
+          "name": "Source IEEE",
+          "description": "IEEE address of the joining device (must be combined with the \u0027Install code\u0027 field)."
+        },
+        "install_code": {
+          "example": "1234-5678-1234-5678-AABB-CCDD-AABB-CCDD-EEFF",
+          "selector": {
+            "text": null
+          },
+          "name": "Install code",
+          "description": "Install code of the joining device (must be combined with the \u0027Source IEEE\u0027 field)."
+        },
+        "qr_code": {
+          "example": "Z:000D6FFFFED4163B$I:52797BF4A5084DAA8E1712B61741CA024051",
+          "selector": {
+            "text": null
+          },
+          "name": "QR code",
+          "description": "Provides both the IEEE address and the install code of the joining device (different between vendors)."
+        }
+      }
+    },
+    "remove": {
+      "name": "Remove",
+      "description": "Removes a node from the Zigbee network.",
+      "fields": {
+        "ieee": {
+          "required": true,
+          "example": "00:0d:6f:00:05:7d:2d:34",
+          "selector": {
+            "text": null
+          },
+          "name": "IEEE",
+          "description": "IEEE address of the node to remove."
+        }
+      }
+    },
+    "set_zigbee_cluster_attribute": {
+      "name": "Set Zigbee cluster attribute",
+      "description": "Sets an attribute value for the specified cluster on the specified entity.",
+      "fields": {
+        "ieee": {
+          "required": true,
+          "example": "00:0d:6f:00:05:7d:2d:34",
+          "selector": {
+            "text": null
+          },
+          "name": "IEEE",
+          "description": "IEEE address for the device."
+        },
+        "endpoint_id": {
+          "required": true,
+          "selector": {
+            "number": {
+              "min": 1,
+              "max": 65535,
+              "mode": "box"
+            }
+          },
+          "name": "Endpoint ID",
+          "description": "Endpoint ID for the cluster."
+        },
+        "cluster_id": {
+          "required": true,
+          "selector": {
+            "number": {
+              "min": 1,
+              "max": 65535
+            }
+          },
+          "name": "Cluster ID",
+          "description": "ZCL cluster to retrieve attributes for."
+        },
+        "cluster_type": {
+          "default": "in",
+          "selector": {
+            "select": {
+              "options": [
+                "in",
+                "out"
+              ]
+            }
+          },
+          "name": "Cluster type",
+          "description": "Type of the cluster."
+        },
+        "attribute": {
+          "required": true,
+          "example": 0,
+          "selector": {
+            "number": {
+              "min": 1,
+              "max": 65535
+            }
+          },
+          "name": "Attribute",
+          "description": "ID of the attribute to set."
+        },
+        "value": {
+          "required": true,
+          "example": 1,
+          "selector": {
+            "text": null
+          },
+          "name": "Value",
+          "description": "Value to write to the attribute."
+        },
+        "manufacturer": {
+          "example": 252,
+          "selector": {
+            "text": null
+          },
+          "name": "Manufacturer",
+          "description": "Manufacturer code. Use a value of \u0022-1\u0022 to force no code to be set."
+        }
+      }
+    },
+    "issue_zigbee_cluster_command": {
+      "name": "Issue Zigbee cluster command",
+      "description": "Issues a command on the specified cluster on the specified entity.",
+      "fields": {
+        "ieee": {
+          "required": true,
+          "example": "00:0d:6f:00:05:7d:2d:34",
+          "selector": {
+            "text": null
+          },
+          "name": "IEEE",
+          "description": "IEEE address for the device."
+        },
+        "endpoint_id": {
+          "required": true,
+          "selector": {
+            "number": {
+              "min": 1,
+              "max": 65535
+            }
+          },
+          "name": "Endpoint ID",
+          "description": "Endpoint ID for the cluster."
+        },
+        "cluster_id": {
+          "required": true,
+          "selector": {
+            "number": {
+              "min": 1,
+              "max": 65535
+            }
+          },
+          "name": "Cluster ID",
+          "description": "ZCL cluster to retrieve attributes for."
+        },
+        "cluster_type": {
+          "default": "in",
+          "selector": {
+            "select": {
+              "options": [
+                "in",
+                "out"
+              ]
+            }
+          },
+          "name": "Cluster type",
+          "description": "Type of the cluster."
+        },
+        "command": {
+          "required": true,
+          "selector": {
+            "number": {
+              "min": 1,
+              "max": 65535
+            }
+          },
+          "name": "Command",
+          "description": "ID of the command to execute."
+        },
+        "command_type": {
+          "required": true,
+          "selector": {
+            "select": {
+              "options": [
+                "client",
+                "server"
+              ]
+            }
+          },
+          "name": "Command Type",
+          "description": "Type of the command to execute."
+        },
+        "args": {
+          "example": "[arg1, arg2, argN]",
+          "selector": {
+            "object": null
+          },
+          "name": "Args",
+          "description": "Arguments to pass to the command."
+        },
+        "params": {
+          "selector": {
+            "object": null
+          },
+          "name": "Params",
+          "description": "Parameters to pass to the command."
+        },
+        "manufacturer": {
+          "example": 252,
+          "selector": {
+            "text": null
+          },
+          "name": "Manufacturer",
+          "description": "Manufacturer code. Use a value of \u0022-1\u0022 to force no code to be set."
+        }
+      }
+    },
+    "issue_zigbee_group_command": {
+      "name": "Issue Zigbee group command",
+      "description": "Issues a command on the specified cluster on the specified group.",
+      "fields": {
+        "group": {
+          "required": true,
+          "example": 546,
+          "selector": {
+            "text": null
+          },
+          "name": "Group",
+          "description": "Hexadecimal address of the group."
+        },
+        "cluster_id": {
+          "required": true,
+          "selector": {
+            "number": {
+              "min": 1,
+              "max": 65535
+            }
+          },
+          "name": "Cluster ID",
+          "description": "ZCL cluster to send command to."
+        },
+        "cluster_type": {
+          "default": "in",
+          "selector": {
+            "select": {
+              "options": [
+                "in",
+                "out"
+              ]
+            }
+          },
+          "name": "Cluster type",
+          "description": "Type of the cluster."
+        },
+        "command": {
+          "required": true,
+          "selector": {
+            "number": {
+              "min": 1,
+              "max": 65535
+            }
+          },
+          "name": "Command",
+          "description": "ID of the command to execute."
+        },
+        "args": {
+          "example": "[arg1, arg2, argN]",
+          "selector": {
+            "object": null
+          },
+          "name": "Args",
+          "description": "Arguments to pass to the command."
+        },
+        "manufacturer": {
+          "example": 252,
+          "selector": {
+            "text": null
+          },
+          "name": "Manufacturer",
+          "description": "Manufacturer code. Use a value of \u0022-1\u0022 to force no code to be set."
+        }
+      }
+    },
+    "warning_device_squawk": {
+      "name": "Warning device squawk",
+      "description": "This action uses the WD capabilities to emit a quick audible/visible pulse called a \u0022squawk\u0022. The squawk command has no effect if the WD is currently active (warning in progress).",
+      "fields": {
+        "ieee": {
+          "required": true,
+          "example": "00:0d:6f:00:05:7d:2d:34",
+          "selector": {
+            "text": null
+          },
+          "name": "IEEE",
+          "description": "IEEE address for the device."
+        },
+        "mode": {
+          "default": 0,
+          "selector": {
+            "number": {
+              "min": 0,
+              "max": 1,
+              "mode": "box"
+            }
+          },
+          "name": "Mode",
+          "description": "The Squawk Mode field is used as a 4-bit enumeration, and can have one of the values shown in Table 8-24 of the ZCL spec - Squawk Mode Field. The exact operation of each mode (how the WD \u201Csquawks\u201D) is implementation specific."
+        },
+        "strobe": {
+          "default": 1,
+          "selector": {
+            "number": {
+              "min": 0,
+              "max": 1,
+              "mode": "box"
+            }
+          },
+          "name": "Strobe",
+          "description": "The strobe field is used as a Boolean, and determines if the visual indication is also required in addition to the audible squawk, as shown in Table 8-25 of the ZCL spec - Strobe Bit."
+        },
+        "level": {
+          "default": 2,
+          "selector": {
+            "number": {
+              "min": 0,
+              "max": 3,
+              "mode": "box"
+            }
+          },
+          "name": "Level",
+          "description": "The squawk level field is used as a 2-bit enumeration, and determines the intensity of audible squawk sound as shown in Table 8-26 of the ZCL spec - Squawk Level Field Values."
+        }
+      }
+    },
+    "warning_device_warn": {
+      "name": "Warning device starts alert",
+      "description": "This action starts the operation of the warning device. The warning device alerts the surrounding area by audible (siren) and visual (strobe) signals.",
+      "fields": {
+        "ieee": {
+          "required": true,
+          "example": "00:0d:6f:00:05:7d:2d:34",
+          "selector": {
+            "text": null
+          },
+          "name": "IEEE",
+          "description": "IEEE address for the device."
+        },
+        "mode": {
+          "default": 3,
+          "selector": {
+            "number": {
+              "min": 0,
+              "max": 6,
+              "mode": "box"
+            }
+          },
+          "name": "Mode",
+          "description": "The Warning Mode field is used as a 4-bit enumeration, can have one of the values 0-6 defined below in table 8-20 of the ZCL spec. The exact behavior of the warning device in each mode is according to the relevant security standards."
+        },
+        "strobe": {
+          "default": 1,
+          "selector": {
+            "number": {
+              "min": 0,
+              "max": 1,
+              "mode": "box"
+            }
+          },
+          "name": "Strobe",
+          "description": "The Strobe field is used as a 2-bit enumeration, and determines if the visual indication is required in addition to the audible siren, as indicated in Table 8-21 of the ZCL spec. \u00220\u0022 means no strobe, \u00221\u0022 means strobe. If the strobe field is \u201C1\u201D and the Warning Mode is \u201C0\u201D (\u201CStop\u201D), then only the strobe is activated."
+        },
+        "level": {
+          "default": 2,
+          "selector": {
+            "number": {
+              "min": 0,
+              "max": 3,
+              "mode": "box"
+            }
+          },
+          "name": "Level",
+          "description": "The Siren Level field is used as a 2-bit enumeration, and indicates the intensity of audible squawk sound as shown in Table 8-22 of the ZCL spec."
+        },
+        "duration": {
+          "default": 5,
+          "selector": {
+            "number": {
+              "min": 0,
+              "max": 65535,
+              "unit_of_measurement": "seconds"
+            }
+          },
+          "name": "Duration",
+          "description": "Requested duration of warning, in seconds (16 bit). If both Strobe and Warning Mode are \u00220\u0022 this field is ignored."
+        },
+        "duty_cycle": {
+          "default": 0,
+          "selector": {
+            "number": {
+              "min": 0,
+              "max": 100,
+              "step": 10
+            }
+          },
+          "name": "Duty cycle",
+          "description": "Indicates the length of the flash cycle. This allows you to vary the flash duration for different alarm types (e.g., fire, police, burglar). The valid range is 0-100 in increments of 10. All other values must be rounded to the nearest valid value. Strobe calculates a duty cycle over a duration of one second. The ON state must precede the OFF state. For example, if the Strobe Duty Cycle field specifies \u201C40,\u201D, then the strobe flashes ON for 4/10ths of a second and then turns OFF for 6/10ths of a second."
+        },
+        "intensity": {
+          "default": 2,
+          "selector": {
+            "number": {
+              "min": 0,
+              "max": 3,
+              "mode": "box"
+            }
+          },
+          "name": "Intensity",
+          "description": "Indicates the intensity of the strobe as shown in Table 8-23 of the ZCL spec. This attribute is designed to vary the output of the strobe (i.e., brightness) and not its frequency, which is detailed in section 8.4.2.3.1.6 of the ZCL spec."
+        }
+      }
+    },
+    "set_lock_user_code": {
+      "name": "Set lock user code",
+      "description": "Sets a user code on a lock.",
+      "fields": {
+        "code_slot": {
+          "required": true,
+          "example": 1,
+          "selector": {
+            "text": null
+          },
+          "name": "Code slot",
+          "description": "Code slot to set the code in."
+        },
+        "user_code": {
+          "required": true,
+          "example": 1234,
+          "selector": {
+            "text": null
+          },
+          "name": "Code",
+          "description": "Code to set."
+        }
+      },
+      "target": {
+        "entity": [
+          {
+            "domain": [
+              "lock"
+            ],
+            "integration": "zha"
+          }
+        ]
+      }
+    },
+    "enable_lock_user_code": {
+      "name": "Enable lock user",
+      "description": "Enables a user code on a lock.",
+      "fields": {
+        "code_slot": {
+          "required": true,
+          "example": 1,
+          "selector": {
+            "text": null
+          },
+          "name": "Code slot",
+          "description": "Code slot to enable."
+        }
+      },
+      "target": {
+        "entity": [
+          {
+            "domain": [
+              "lock"
+            ],
+            "integration": "zha"
+          }
+        ]
+      }
+    },
+    "disable_lock_user_code": {
+      "name": "Disable lock user",
+      "description": "Disables a user code on a lock.",
+      "fields": {
+        "code_slot": {
+          "required": true,
+          "example": 1,
+          "selector": {
+            "text": null
+          },
+          "name": "Code slot",
+          "description": "Code slot to disable."
+        }
+      },
+      "target": {
+        "entity": [
+          {
+            "domain": [
+              "lock"
+            ],
+            "integration": "zha"
+          }
+        ]
+      }
+    },
+    "clear_lock_user_code": {
+      "name": "Clear lock user",
+      "description": "Clears a user code from a lock.",
+      "fields": {
+        "code_slot": {
+          "required": true,
+          "example": 1,
+          "selector": {
+            "text": null
+          },
+          "name": "Code slot",
+          "description": "Code slot to clear code from."
+        }
+      },
+      "target": {
+        "entity": [
+          {
+            "domain": [
+              "lock"
+            ],
+            "integration": "zha"
+          }
+        ]
+      }
+    }
+  },
+  "lock": {
+    "unlock": {
+      "name": "Unlock",
+      "description": "Unlocks a lock.",
+      "fields": {
+        "code": {
+          "example": 1234,
+          "selector": {
+            "text": null
+          },
+          "name": "Code",
+          "description": "Code used to unlock the lock."
+        }
+      },
+      "target": {
+        "entity": [
+          {
+            "domain": [
+              "lock"
+            ]
+          }
+        ]
+      }
+    },
+    "lock": {
+      "name": "Lock",
+      "description": "Locks a lock.",
+      "fields": {
+        "code": {
+          "example": 1234,
+          "selector": {
+            "text": null
+          },
+          "name": "Code",
+          "description": "Code used to lock the lock."
+        }
+      },
+      "target": {
+        "entity": [
+          {
+            "domain": [
+              "lock"
+            ]
+          }
+        ]
+      }
+    },
+    "open": {
+      "name": "Open",
+      "description": "Opens a lock.",
+      "fields": {
+        "code": {
+          "example": 1234,
+          "selector": {
+            "text": null
+          },
+          "name": "Code",
+          "description": "Code used to open the lock."
+        }
+      },
+      "target": {
+        "entity": [
+          {
+            "domain": [
+              "lock"
+            ],
+            "supported_features": [
+              1
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "siren": {
+    "turn_on": {
+      "name": "Turn on",
+      "description": "Turns the siren on.",
+      "fields": {
+        "tone": {
+          "example": "fire",
+          "filter": {
+            "supported_features": [
+              4
+            ]
+          },
+          "required": false,
+          "selector": {
+            "text": null
+          },
+          "name": "Tone",
+          "description": "The tone to emit. When \u0060available_tones\u0060 property is a map, either the key or the value can be used. Must be supported by the integration."
+        },
+        "volume_level": {
+          "example": 0.5,
+          "filter": {
+            "supported_features": [
+              8
+            ]
+          },
+          "required": false,
+          "selector": {
+            "number": {
+              "min": 0,
+              "max": 1,
+              "step": 0.05
+            }
+          },
+          "name": "Volume",
+          "description": "The volume. 0 is inaudible, 1 is the maximum volume. Must be supported by the integration."
+        },
+        "duration": {
+          "example": 15,
+          "filter": {
+            "supported_features": [
+              16
+            ]
+          },
+          "required": false,
+          "selector": {
+            "text": null
+          },
+          "name": "Duration",
+          "description": "Number of seconds the sound is played. Must be supported by the integration."
+        }
+      },
+      "target": {
+        "entity": [
+          {
+            "domain": [
+              "siren"
+            ],
+            "supported_features": [
+              1
+            ]
+          }
+        ]
+      }
+    },
+    "turn_off": {
+      "name": "Turn off",
+      "description": "Turns the siren off.",
+      "fields": {},
+      "target": {
+        "entity": [
+          {
+            "domain": [
+              "siren"
+            ],
+            "supported_features": [
+              2
+            ]
+          }
+        ]
+      }
+    },
+    "toggle": {
+      "name": "Toggle",
+      "description": "Toggles the siren on/off.",
+      "fields": {},
+      "target": {
+        "entity": [
+          {
+            "domain": [
+              "siren"
+            ],
+            "supported_features": [
+              3
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "valve": {
+    "open_valve": {
+      "name": "Open",
+      "description": "Opens a valve.",
+      "fields": {},
+      "target": {
+        "entity": [
+          {
+            "domain": [
+              "valve"
+            ],
+            "supported_features": [
+              1
+            ]
+          }
+        ]
+      }
+    },
+    "close_valve": {
+      "name": "Close",
+      "description": "Closes a valve.",
+      "fields": {},
+      "target": {
+        "entity": [
+          {
+            "domain": [
+              "valve"
+            ],
+            "supported_features": [
+              2
+            ]
+          }
+        ]
+      }
+    },
+    "set_valve_position": {
+      "name": "Set position",
+      "description": "Moves a valve to a specific position.",
+      "fields": {
+        "position": {
+          "required": true,
+          "selector": {
+            "number": {
+              "min": 0,
+              "max": 100,
+              "unit_of_measurement": "%"
+            }
+          },
+          "name": "Position",
+          "description": "Target position."
+        }
+      },
+      "target": {
+        "entity": [
+          {
+            "domain": [
+              "valve"
+            ],
+            "supported_features": [
+              4
+            ]
+          }
+        ]
+      }
+    },
+    "stop_valve": {
+      "name": "Stop",
+      "description": "Stops the valve movement.",
+      "fields": {},
+      "target": {
+        "entity": [
+          {
+            "domain": [
+              "valve"
+            ],
+            "supported_features": [
+              8
+            ]
+          }
+        ]
+      }
+    },
+    "toggle": {
+      "name": "Toggle",
+      "description": "Toggles a valve open/closed.",
+      "fields": {},
+      "target": {
+        "entity": [
+          {
+            "domain": [
+              "valve"
+            ],
+            "supported_features": [
+              3
             ]
           }
         ]
