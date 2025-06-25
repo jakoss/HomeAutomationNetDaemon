@@ -1,0 +1,6 @@
+﻿<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Publish via SFTP" type="DotNetPublishAndUpload" factoryName="Publish to custom server">
+    <riderPublish runtime="Portable" server_id="1de787e7-0987-4c22-8d10-4561568f4f81" serverName="LocalHomeAssistant" target_framework="net9.0" uuid_high="4794699251311394031" uuid_low="5719477458998459556" />
+    <method v="2" />
+  </configuration>
+</component>
