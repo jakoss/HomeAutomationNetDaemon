@@ -1,3 +1,4 @@
+using System.Net.Http;
 using System.Reflection;
 using Microsoft.Extensions.Hosting;
 using NetDaemon.Extensions.Logging;
@@ -27,7 +28,17 @@ try
                     .AddNetDaemonStateManager()
                     .AddNetDaemonScheduler()
                     .AddHomeAssistantGenerated()
-                    .AddHttpClient();
+                    .ConfigureHttpClientDefaults(builder =>
+                    {
+                        builder.ConfigureHttpClient(client =>
+                        {
+                            client.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (compatible; AcmeInc/1.0)");
+                        });
+                        builder.ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
+                        {
+                            AllowAutoRedirect = false
+                        });
+                    });
                 
                 services.AddSingleton<CalendarSynchronizer>();
             }

@@ -16,29 +16,43 @@ public class CalendarSynchronizer(IHttpClientFactory httpClientFactory, ILogger<
     public async Task SynchronizeCalendar()
     {
         logger.LogDebug("Synchronizing calendar...");
-        var client = httpClientFactory.CreateClient();
-        var calendarString = await client.GetStringAsync("https://outlook.office365.com/owa/calendar/e6a4ba5bda1f4aa19ec77875500106c1@euvic.pl/acb154cdbd98441480d6baa2be4e685b16664996553945727195/calendar.ics");
-    
-        logger.LogDebug("Parsing calendar...");
-        // first, replace all occurances of Customizes Timezone with the CET
-        calendarString = calendarString.Replace("TZID=Customized Time Zone:", "TZID=Central European Standard Time:");
 
-        var calendar = Calendar.Load(calendarString);
-
-        if (calendar is null)
+        try
         {
-            throw new Exception("Failed to parse calendar");
+            var client = httpClientFactory.CreateClient();
+            var calendarString = await client.GetStringAsync(
+                "https://outlook.office365.com/owa/calendar/e6a4ba5bda1f4aa19ec77875500106c1@euvic.pl/beca9010732e48cb8ffd2d4660a9f76e2077511452080529152/calendar.ics");
+
+            logger.LogDebug("Parsing calendar...");
+            // first, replace all occurances of Customizes Timezone with the CET
+            calendarString =
+                calendarString.Replace("TZID=Customized Time Zone:", "TZID=Central European Standard Time:");
+
+            var calendar = Calendar.Load(calendarString);
+
+            if (calendar is null)
+            {
+                throw new Exception("Failed to parse calendar");
+            }
+
+            var today = new CalDateTime(DateTime.Today, "Europe/Warsaw");
+            var busyTimeSlotsForOneTimeEvents = calendar.Events
+                .Where(e => e.DtStart?.Date == today.Date)
+                .Select(ConvertToBusyTime);
+            
+            var busyTimeSlotsForRecurrentEvents = calendar.GetOccurrences<CalendarEvent>(today)
+                .Where(e => e.Source is CalendarEvent && e.Period.StartTime.Date == today.Date)
+                .Select(e => e.Source)
+                .Cast<CalendarEvent>()
+                .Select(ConvertToBusyTime);
+            
+            currentBusyTimeSlots = busyTimeSlotsForOneTimeEvents.Concat(busyTimeSlotsForRecurrentEvents).OrderBy(e => e.Start).ToList();
+
+            logger.LogDebug("Calendar synchronized");
+        } catch (Exception e)
+        {
+            logger.LogError(e, "Failed to synchronize calendar");
         }
-        var busyTimeSlots = calendar.GetOccurrences<CalendarEvent>(CalDateTime.Today)
-            .Where(e => e.Source is CalendarEvent)
-            .Select(e => e.Source)
-            .Cast<CalendarEvent>()
-            .Select(ConvertToBusyTime)
-            .ToList();
-        
-        currentBusyTimeSlots = busyTimeSlots;
-        
-        logger.LogDebug("Calendar synchronized");
     }
 
     public BusyStatus GetBusyStatus(TimeOnly time)
@@ -56,9 +70,10 @@ public class CalendarSynchronizer(IHttpClientFactory httpClientFactory, ILogger<
     
     private static BusyTime ConvertToBusyTime(CalendarEvent calendarEvent)
     {
-        var busyStatus = calendarEvent.Summary switch
+        var status = calendarEvent.Properties["X-MICROSOFT-CDO-BUSYSTATUS"]?.Value;
+        var busyStatus = status switch
         {
-            "Wstępna akceptacja" => BusyStatus.BusyTentative,
+            "TENTATIVE" => BusyStatus.BusyTentative,
             var _ => BusyStatus.Busy
         };
         return new BusyTime(
