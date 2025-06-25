@@ -12,7 +12,7 @@ public class WorkFromHomeLedCalendarSchedule
     private readonly Entities entities;
     private readonly CalendarSynchronizer calendarSynchronizer;
     private readonly ILogger<WorkFromHomeLedCalendarSchedule> logger;
-    private bool currentlyBusy;
+    private BusyStatus currentBusyStatus;
 
     public WorkFromHomeLedCalendarSchedule(
         Entities entities,
@@ -45,7 +45,7 @@ public class WorkFromHomeLedCalendarSchedule
                 {
                     entities.Light.LedStripOfficeLight.TurnOff();
                     entities.Light.OfficeDeskLamp.TurnOff();
-                    currentlyBusy = false;
+                    currentBusyStatus = BusyStatus.Free;
                 }
                 else
                 {
@@ -67,39 +67,45 @@ public class WorkFromHomeLedCalendarSchedule
 
     private void CheckBusyStatus()
     {
-        var isBusy = IsCurrentlyBusy();
-        if (currentlyBusy != isBusy)
+        var newBusyState = GetBusyStatus();
+        if (currentBusyStatus != newBusyState)
         {
-            logger.LogDebug("Currently busy state changed to: {CurrentlyBusy}", isBusy);
-            currentlyBusy = isBusy;
+            logger.LogDebug("Currently busy state changed to: {CurrentlyBusy}", newBusyState);
+            currentBusyStatus = newBusyState;
         }
         
-        logger.LogDebug("Current busy state: {CurrentlyBusy}", isBusy ? "busy" : "idle");
+        logger.LogDebug("Current busy state: {CurrentlyBusy}", newBusyState);
         
-        AdjustLedToBusyState(isBusy);
+        AdjustLedToBusyState(newBusyState);
     }
 
-    private bool IsCurrentlyBusy()
+    private BusyStatus GetBusyStatus()
     {
         // get DateTime for Europe/Warsaw timezone
         var warsawTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Europe/Warsaw");
         var utcNow = DateTime.UtcNow;
         var warsawTime = TimeZoneInfo.ConvertTimeFromUtc(utcNow, warsawTimeZone);
         var time = TimeOnly.FromDateTime(warsawTime);
-        return calendarSynchronizer.IsBusy(time);
+        return calendarSynchronizer.GetBusyStatus(time);
     }
     
-    private void AdjustLedToBusyState(bool isBusy)
+    private void AdjustLedToBusyState(BusyStatus busyStatus)
     {
-        if (isBusy)
+        if (busyStatus == BusyStatus.Busy)
         {
             logger.LogDebug("Adjusting led to busy state");
             entities.Light.LedStripOfficeLight.TurnOn(brightnessPct:80, rgbColor: [255, 0, 0]);
             entities.Light.OfficeDeskLamp.TurnOn(brightnessPct: 80, rgbColor: [255, 0, 0]);
+        } 
+        else if (busyStatus == BusyStatus.BusyTentative)
+        {
+            logger.LogDebug("Adjusting led to busy tentative state");
+            entities.Light.LedStripOfficeLight.TurnOn(brightnessPct:80, rgbColor: [255, 4, 164]);
+            entities.Light.OfficeDeskLamp.TurnOn(brightnessPct: 80, rgbColor: [255, 161, 10]);
         }
         else
         {
-            logger.LogDebug("Adjusting led to idle state");
+            logger.LogDebug("Adjusting led to free state");
             entities.Light.LedStripOfficeLight.TurnOn(brightnessPct: 10, rgbColor: [0, 0, 255]);
             entities.Light.OfficeDeskLamp.TurnOn(brightnessPct: 10, rgbColor: [0, 255, 0]);
         }

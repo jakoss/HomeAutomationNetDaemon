@@ -6,6 +6,7 @@
         <LangVersion>13.0</LangVersion>
         <Nullable>enable</Nullable>
         <RootNamespace>HomeAutomationNetDaemon</RootNamespace>
+        <Version>1.0.1</Version>
     </PropertyGroup>
     
     <ItemGroup>

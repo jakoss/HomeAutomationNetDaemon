@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Ical.Net;
 using Ical.Net.CalendarComponents;
 using Ical.Net.DataTypes;
 using NodaTime.Extensions;
@@ -10,7 +11,6 @@ namespace HomeAutomationNetDaemon.Apps.WorkFromHome;
 
 public class CalendarSynchronizer(IHttpClientFactory httpClientFactory, ILogger<CalendarSynchronizer> logger)
 {
-    
     private volatile List<BusyTime> currentBusyTimeSlots = [];
     
     public async Task SynchronizeCalendar()
@@ -23,7 +23,8 @@ public class CalendarSynchronizer(IHttpClientFactory httpClientFactory, ILogger<
         // first, replace all occurances of Customizes Timezone with the CET
         calendarString = calendarString.Replace("TZID=Customized Time Zone:", "TZID=Central European Standard Time:");
 
-        var calendar = Ical.Net.Calendar.Load(calendarString);
+        var calendar = Calendar.Load(calendarString);
+
         if (calendar is null)
         {
             throw new Exception("Failed to parse calendar");
@@ -34,32 +35,36 @@ public class CalendarSynchronizer(IHttpClientFactory httpClientFactory, ILogger<
             .Cast<CalendarEvent>()
             .Select(ConvertToBusyTime)
             .ToList();
-
-        // get rid of the slots that overlap. We are only interested in slots that are busy or not
-        // so if we have a slot 1 AM - 3 AM and 2 AM - 4 AM, we want to have one slot 1 AM - 4 AM as a result
-        for (var i = 0; i < busyTimeSlots.Count; i++)
-        {
-            for (var j = i + 1; j < busyTimeSlots.Count; j++)
-            {
-                if (busyTimeSlots[i].End < busyTimeSlots[j].Start ||
-                    busyTimeSlots[i].Start > busyTimeSlots[j].End) continue;
-                busyTimeSlots[i] = new BusyTime(busyTimeSlots[i].Start, busyTimeSlots[j].End);
-                busyTimeSlots.RemoveAt(j);
-                j--;
-            }
-        }
-
+        
         currentBusyTimeSlots = busyTimeSlots;
+        
         logger.LogDebug("Calendar synchronized");
     }
-    
-    public bool IsBusy(TimeOnly time) => currentBusyTimeSlots.Any(busyTime => busyTime.Start <= time && busyTime.End >= time);
+
+    public BusyStatus GetBusyStatus(TimeOnly time)
+    {
+        var events = currentBusyTimeSlots.Where(busyTime => busyTime.Start <= time && busyTime.End >= time).ToArray();
+
+        return events switch
+        {
+            { Length: 0 } => BusyStatus.Free,
+            { Length: 1 } => events[0].BusyStatus,
+            { Length: > 1 } when events.Any(e => e.BusyStatus == BusyStatus.Busy) => BusyStatus.Busy,
+            var _ => BusyStatus.BusyTentative
+        };
+    }
     
     private static BusyTime ConvertToBusyTime(CalendarEvent calendarEvent)
     {
+        var busyStatus = calendarEvent.Summary switch
+        {
+            "Wstępna akceptacja" => BusyStatus.BusyTentative,
+            var _ => BusyStatus.Busy
+        };
         return new BusyTime(
             ConvertToLocalTime(calendarEvent.DtStart!),
-            ConvertToLocalTime(calendarEvent.DtEnd!)
+            ConvertToLocalTime(calendarEvent.DtEnd!),
+            busyStatus
         );
     }
 
@@ -67,8 +72,8 @@ public class CalendarSynchronizer(IHttpClientFactory httpClientFactory, ILogger<
         calDateTime switch
         {
             { IsUtc: true } => calDateTime.AsUtc.ToLocalDateTime().TimeOfDay.ToTimeOnly(),
-            _ => TimeOnly.FromDateTime(calDateTime.ToTimeZone("Europe/Warsaw").Value)
+            var _ => TimeOnly.FromDateTime(calDateTime.ToTimeZone("Europe/Warsaw").Value)
         };
 
-    private record BusyTime(TimeOnly Start, TimeOnly End);
+    private record BusyTime(TimeOnly Start, TimeOnly End, BusyStatus BusyStatus);
 }

@@ -10,6 +10,9 @@ using Microsoft.Extensions.DependencyInjection;
 
 #pragma warning disable CA1812
 
+var version = Assembly.GetExecutingAssembly().GetName().Version?.ToString();
+Console.WriteLine($"Starting NetDaemon {version}...");
+
 try
 {
     var app = Host.CreateDefaultBuilder(args)
