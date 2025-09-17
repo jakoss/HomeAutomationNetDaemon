@@ -28,12 +28,12 @@
         
     <ItemGroup>
         <PackageReference Include="Ical.Net" Version="5.0.0" />
-        <PackageReference Include="NetDaemon.AppModel" Version="25.18.1" />
-        <PackageReference Include="NetDaemon.Runtime" Version="25.18.1" />
-        <PackageReference Include="NetDaemon.HassModel" Version="25.18.1" />
-        <PackageReference Include="NetDaemon.Client" Version="25.18.1" />
-        <PackageReference Include="NetDaemon.Extensions.Scheduling" Version="25.18.1" />
-        <PackageReference Include="NetDaemon.Extensions.Logging" Version="25.18.1" />
-        <PackageReference Include="NetDaemon.Extensions.Tts" Version="25.18.1" />
+        <PackageReference Include="NetDaemon.AppModel" Version="25.36.0" />
+        <PackageReference Include="NetDaemon.Runtime" Version="25.36.0" />
+        <PackageReference Include="NetDaemon.HassModel" Version="25.36.0" />
+        <PackageReference Include="NetDaemon.Client" Version="25.36.0" />
+        <PackageReference Include="NetDaemon.Extensions.Scheduling" Version="25.36.0" />
+        <PackageReference Include="NetDaemon.Extensions.Logging" Version="25.36.0" />
+        <PackageReference Include="NetDaemon.Extensions.Tts" Version="25.36.0" />
     </ItemGroup>
 </Project>
