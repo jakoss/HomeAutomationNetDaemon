@@ -34,6 +34,6 @@
         <PackageReference Include="NetDaemon.Client" Version="25.18.1" />
         <PackageReference Include="NetDaemon.Extensions.Scheduling" Version="25.18.1" />
         <PackageReference Include="NetDaemon.Extensions.Logging" Version="25.18.1" />
-        <PackageReference Include="NetDaemon.Extensions.Tts" Version="25.18.1" />
+        <PackageReference Include="NetDaemon.Extensions.Tts" Version="25.36.0" />
     </ItemGroup>
 </Project>
