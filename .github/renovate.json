@@ -1,0 +1,1 @@
+{"extends": ["config:base"], "packageRules": [{"matchPackageNames": ["NetDaemon.Client", "NetDaemon.AppModel"], "groupName": "NetDaemon dependencies", "groupSlug": "netdaemon-deps"}]}
