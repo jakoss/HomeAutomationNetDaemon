@@ -27,7 +27,7 @@
     </Target>
         
     <ItemGroup>
-        <PackageReference Include="Ical.Net" Version="5.1.2" />
+        <PackageReference Include="Ical.Net" Version="5.2.0" />
         <PackageReference Include="NetDaemon.AppModel" Version="26.3.0" />
         <PackageReference Include="NetDaemon.Runtime" Version="26.3.0" />
         <PackageReference Include="NetDaemon.HassModel" Version="26.3.0" />
