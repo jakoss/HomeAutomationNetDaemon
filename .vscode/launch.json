@@ -6,7 +6,7 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/bin/Debug/net9.0/HomeAutomationNetDaemon.dll",
+            "program": "${workspaceFolder}/bin/Debug/net10.0/HomeAutomationNetDaemon.dll",
             "args": [],
             "cwd": "${workspaceFolder}",
             "env": {
