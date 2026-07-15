@@ -6,7 +6,6 @@ using Ical.Net;
 using Ical.Net.CalendarComponents;
 using Ical.Net.DataTypes;
 using Microsoft.Extensions.Configuration;
-using NodaTime.Extensions;
 
 namespace HomeAutomationNetDaemon.Apps.WorkFromHome;
 
@@ -70,7 +69,7 @@ public class CalendarSynchronizer(
 
     public BusyStatus GetBusyStatus(TimeOnly time)
     {
-        var events = _currentBusyTimeSlots.Where(busyTime => busyTime.Start <= time && busyTime.End >= time).ToArray();
+        var events = _currentBusyTimeSlots.Where(busyTime => busyTime.Start <= time && busyTime.End > time).ToArray();
 
         return events switch
         {
@@ -126,12 +125,8 @@ public class CalendarSynchronizer(
         );
     }
 
-    private static TimeOnly ConvertToLocalTime(CalDateTime calDateTime) =>
-        calDateTime switch
-        {
-            { IsUtc: true } => calDateTime.AsUtc.ToLocalDateTime().TimeOfDay.ToTimeOnly(),
-            var _ => TimeOnly.FromDateTime(calDateTime.ToTimeZone("Europe/Warsaw").Value)
-        };
+    internal static TimeOnly ConvertToLocalTime(CalDateTime calDateTime) =>
+        TimeOnly.FromDateTime(calDateTime.ToTimeZone("Europe/Warsaw").Value);
 
     private record BusyTime(TimeOnly Start, TimeOnly End, BusyStatus BusyStatus);
 }

@@ -10,6 +10,7 @@
     </PropertyGroup>
     
     <ItemGroup>
+        <Compile Remove="tests/**/*.cs" />
         <None Update="$(MSBuildProjectDir)appsettings.Development.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
             <CopyToPublishDirectory>Never</CopyToPublishDirectory>
@@ -21,6 +22,10 @@
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
             <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
         </None>
+    </ItemGroup>
+
+    <ItemGroup>
+        <InternalsVisibleTo Include="HomeAutomationNetDaemon.Tests" />
     </ItemGroup>
     <Target Name="AfterPublishMessage" AfterTargets="Publish">
         <Message Text="Publish done! Copy all content in directory: $(PublishDir) to the `/config/netdaemon4' folder for add-on or your custom folder to deploy." Importance="high" />
