@@ -1,5 +1,6 @@
+using System.Reactive;
 using System.Reactive.Concurrency;
-using System.Threading.Tasks;
+using System.Reactive.Disposables;
 using HomeAssistantGenerated;
 using NetDaemon.Extensions.Scheduler;
 using NetDaemon.HassModel.Entities;
@@ -7,11 +8,12 @@ using NetDaemon.HassModel.Entities;
 namespace HomeAutomationNetDaemon.Apps.WorkFromHome;
 
 [NetDaemonApp]
-public class WorkFromHomeLedCalendarSchedule
+public class WorkFromHomeLedCalendarSchedule : IDisposable
 {
     private readonly Entities entities;
     private readonly CalendarSynchronizer calendarSynchronizer;
     private readonly ILogger<WorkFromHomeLedCalendarSchedule> logger;
+    private readonly CompositeDisposable subscriptions = [];
     private BusyStatus currentBusyStatus;
 
     public WorkFromHomeLedCalendarSchedule(
@@ -24,14 +26,22 @@ public class WorkFromHomeLedCalendarSchedule
         this.entities = entities;
         this.calendarSynchronizer = calendarSynchronizer;
         this.logger = logger;
-        
-        // synchronize calendar every x minutes
-        scheduler.RunEvery(TimeSpan.FromMinutes(10), DateTimeOffset.Now, 
-            () => Task.Run(async () => await calendarSynchronizer.SynchronizeCalendar()));
+
+        // Synchronize serially so a slow refresh cannot overlap the next one.
+        subscriptions.Add(
+            Observable.Timer(scheduler.Now, TimeSpan.FromMinutes(10), scheduler)
+                .Select(_ => Observable.FromAsync(calendarSynchronizer.SynchronizeCalendar)
+                    .Catch<Unit, Exception>(e =>
+                    {
+                        logger.LogError(e, "Calendar synchronization failed");
+                        return Observable.Empty<Unit>();
+                    }))
+                .Concat()
+                .Subscribe());
 
         // initialize the working at home state and then listen for changes
         var workingAtHome = entities.InputBoolean.WorkingAtHome.IsOn();
-        entities.InputBoolean.WorkingAtHome.StateChanges()
+        subscriptions.Add(entities.InputBoolean.WorkingAtHome.StateChanges()
             .Subscribe(state =>
             {
                 var newState = state.New?.IsOn() ?? false;
@@ -51,18 +61,19 @@ public class WorkFromHomeLedCalendarSchedule
                 {
                     CheckBusyStatus();
                 }
-            });
+            }));
         
         // check if the user is working at home and if the user is busy
-        scheduler.RunEvery(TimeSpan.FromSeconds(30), DateTimeOffset.Now, () =>
-        {
-            if (!workingAtHome)
+        subscriptions.Add(
+            scheduler.RunEvery(TimeSpan.FromSeconds(30), scheduler.Now, () =>
             {
-                return;
-            }
-            
-            CheckBusyStatus();
-        });
+                if (!workingAtHome)
+                {
+                    return;
+                }
+
+                CheckBusyStatus();
+            }));
     }
 
     private void CheckBusyStatus()
@@ -81,12 +92,7 @@ public class WorkFromHomeLedCalendarSchedule
 
     private BusyStatus GetBusyStatus()
     {
-        // get DateTime for Europe/Warsaw timezone
-        var warsawTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Europe/Warsaw");
-        var utcNow = DateTime.UtcNow;
-        var warsawTime = TimeZoneInfo.ConvertTimeFromUtc(utcNow, warsawTimeZone);
-        var time = TimeOnly.FromDateTime(warsawTime);
-        return calendarSynchronizer.GetBusyStatus(time);
+        return calendarSynchronizer.GetBusyStatus();
     }
     
     private void AdjustLedToBusyState(BusyStatus busyStatus)
@@ -96,7 +102,7 @@ public class WorkFromHomeLedCalendarSchedule
             logger.LogDebug("Adjusting led to busy state");
             entities.Light.LedStripOfficeLight.TurnOn(brightnessPct:80, rgbColor: [255, 0, 0]);
             entities.Light.OfficeDeskLamp.TurnOn(brightnessPct: 80, rgbColor: [255, 0, 0]);
-        } 
+        }
         else if (busyStatus == BusyStatus.BusyTentative)
         {
             logger.LogDebug("Adjusting led to busy tentative state");
@@ -110,4 +116,6 @@ public class WorkFromHomeLedCalendarSchedule
             entities.Light.OfficeDeskLamp.TurnOn(brightnessPct: 10, rgbColor: [0, 255, 0]);
         }
     }
+
+    public void Dispose() => subscriptions.Dispose();
 }

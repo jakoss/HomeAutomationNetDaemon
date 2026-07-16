@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using Ical.Net;
 using Ical.Net.CalendarComponents;
@@ -12,12 +13,15 @@ namespace HomeAutomationNetDaemon.Apps.WorkFromHome;
 public class CalendarSynchronizer(
     IHttpClientFactory httpClientFactory,
     IConfiguration configuration,
-    ILogger<CalendarSynchronizer> logger)
+    ILogger<CalendarSynchronizer> logger,
+    TimeProvider? timeProvider = null)
 {
+    private static readonly TimeZoneInfo WarsawTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Europe/Warsaw");
+    private readonly TimeProvider _timeProvider = timeProvider ?? TimeProvider.System;
     private volatile List<BusyTime> _currentBusyTimeSlots = [];
     private volatile Dictionary<string, List<BusyTime>> _busyTimeSlotsByCalendar = new(StringComparer.Ordinal);
     
-    public async Task SynchronizeCalendar()
+    public async Task SynchronizeCalendar(CancellationToken cancellationToken = default)
     {
         var calendarUrls = configuration.GetSection("WorkFromHome:CalendarUrls")
             .GetChildren()
@@ -43,7 +47,11 @@ public class CalendarSynchronizer(
         {
             try
             {
-                synchronizedSlotsByCalendar[calendarUrl] = await GetBusyTimeSlotsAsync(client, calendarUrl);
+                synchronizedSlotsByCalendar[calendarUrl] = await GetBusyTimeSlotsAsync(client, calendarUrl, cancellationToken);
+            }
+            catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+            {
+                throw;
             }
             catch (Exception e)
             {
@@ -67,7 +75,16 @@ public class CalendarSynchronizer(
         logger.LogDebug("{CalendarCount} calendars synchronized into {SlotCount} busy slots", calendarUrls.Length, _currentBusyTimeSlots.Count);
     }
 
+    public BusyStatus GetBusyStatus() => GetBusyStatus(_timeProvider.GetUtcNow());
+
     public BusyStatus GetBusyStatus(TimeOnly time)
+    {
+        var warsawToday = TimeZoneInfo.ConvertTime(_timeProvider.GetUtcNow(), WarsawTimeZone).Date;
+        var localDateTime = DateTime.SpecifyKind(warsawToday.Add(time.ToTimeSpan()), DateTimeKind.Unspecified);
+        return GetBusyStatus(localDateTime.ToUtc(WarsawTimeZone));
+    }
+
+    private BusyStatus GetBusyStatus(DateTimeOffset time)
     {
         var events = _currentBusyTimeSlots.Where(busyTime => busyTime.Start <= time && busyTime.End > time).ToArray();
 
@@ -80,9 +97,12 @@ public class CalendarSynchronizer(
         };
     }
 
-    private async Task<List<BusyTime>> GetBusyTimeSlotsAsync(HttpClient client, string calendarUrl)
+    private async Task<List<BusyTime>> GetBusyTimeSlotsAsync(
+        HttpClient client,
+        string calendarUrl,
+        CancellationToken cancellationToken)
     {
-        var calendarString = await client.GetStringAsync(calendarUrl);
+        var calendarString = await client.GetStringAsync(calendarUrl, cancellationToken);
 
         logger.LogDebug("Parsing calendar...");
         // Outlook can export this non-standard timezone identifier.
@@ -93,40 +113,49 @@ public class CalendarSynchronizer(
         var calendar = Calendar.Load(calendarString)
             ?? throw new InvalidOperationException("Failed to parse calendar");
 
-        var today = new CalDateTime(DateTime.Today, "Europe/Warsaw");
-        var busyTimeSlotsForOneTimeEvents = calendar.Events
-            .Where(e => e.DtStart?.Date == today.Date)
-            .Select(ConvertToBusyTime);
+        var warsawToday = TimeZoneInfo.ConvertTime(_timeProvider.GetUtcNow(), WarsawTimeZone).Date;
+        var dayStart = warsawToday.ToUtc(WarsawTimeZone);
+        var dayEnd = warsawToday.AddDays(1).ToUtc(WarsawTimeZone);
+        var longestEventDuration = calendar.Events
+            .Select(calendarEvent => calendarEvent.EffectiveDuration.ToTimeSpanUnspecified())
+            .DefaultIfEmpty(TimeSpan.Zero)
+            .Max();
+        var occurrenceSearchStart = new CalDateTime((dayStart - longestEventDuration).UtcDateTime);
+        var occurrenceSearchEnd = new CalDateTime(dayEnd.UtcDateTime);
 
-        var busyTimeSlotsForRecurrentEvents = calendar.GetOccurrences<CalendarEvent>(today)
-            .Where(e => e.Source is CalendarEvent && e.Period.StartTime.Date == today.Date)
-            .Select(e => e.Source)
-            .Cast<CalendarEvent>()
-            .Select(ConvertToBusyTime);
-
-        return busyTimeSlotsForOneTimeEvents
-            .Concat(busyTimeSlotsForRecurrentEvents)
+        return calendar.GetOccurrences<CalendarEvent>(occurrenceSearchStart)
+            .TakeWhileBefore(occurrenceSearchEnd)
+            .Where(occurrence => occurrence.Source is CalendarEvent calendarEvent && IsBlocking(calendarEvent))
+            .Select(ConvertToBusyTime)
+            .Where(slot => slot.Start < dayEnd && slot.End > dayStart)
             .OrderBy(slot => slot.Start)
             .ToList();
     }
-    
-    private static BusyTime ConvertToBusyTime(CalendarEvent calendarEvent)
+
+    private static bool IsBlocking(CalendarEvent calendarEvent)
     {
+        var outlookBusyStatus = calendarEvent.Properties["X-MICROSOFT-CDO-BUSYSTATUS"]?.Value?.ToString();
+        return calendarEvent.IsActive
+            && !string.Equals(calendarEvent.Transparency, "TRANSPARENT", StringComparison.OrdinalIgnoreCase)
+            && !string.Equals(outlookBusyStatus, "FREE", StringComparison.OrdinalIgnoreCase);
+    }
+
+    private static BusyTime ConvertToBusyTime(Occurrence occurrence)
+    {
+        var calendarEvent = (CalendarEvent) occurrence.Source;
         var status = calendarEvent.Properties["X-MICROSOFT-CDO-BUSYSTATUS"]?.Value;
         var busyStatus = status switch
         {
             "TENTATIVE" => BusyStatus.BusyTentative,
             var _ => BusyStatus.Busy
         };
+        var endTime = occurrence.Period.EffectiveEndTime ?? occurrence.Period.StartTime;
         return new BusyTime(
-            ConvertToLocalTime(calendarEvent.DtStart!),
-            ConvertToLocalTime(calendarEvent.DtEnd!),
+            occurrence.Period.StartTime.ToUtc(WarsawTimeZone),
+            endTime.ToUtc(WarsawTimeZone),
             busyStatus
         );
     }
 
-    internal static TimeOnly ConvertToLocalTime(CalDateTime calDateTime) =>
-        TimeOnly.FromDateTime(calDateTime.ToTimeZone("Europe/Warsaw").Value);
-
-    private record BusyTime(TimeOnly Start, TimeOnly End, BusyStatus BusyStatus);
+    private record BusyTime(DateTimeOffset Start, DateTimeOffset End, BusyStatus BusyStatus);
 }

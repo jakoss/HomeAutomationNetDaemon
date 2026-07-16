@@ -1,8 +1,14 @@
 using System.Net;
+using System.Reactive.Linq;
+using HomeAssistantGenerated;
 using HomeAutomationNetDaemon.Apps.WorkFromHome;
 using Ical.Net.DataTypes;
+using Microsoft.Reactive.Testing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging.Abstractions;
+using NetDaemon.HassModel;
+using NetDaemon.HassModel.Entities;
+using NSubstitute;
 
 namespace HomeAutomationNetDaemon.Tests;
 
@@ -17,7 +23,7 @@ public class CalendarSynchronizerTests
     {
         var utc = new CalDateTime(new DateTime(2026, 7, 15, 13, 30, 0, DateTimeKind.Utc));
 
-        var result = CalendarSynchronizer.ConvertToLocalTime(utc);
+        var result = utc.ToLocalTime(WarsawTimeZone);
 
         await Assert.That(result).IsEqualTo(new TimeOnly(15, 30));
     }
@@ -27,7 +33,7 @@ public class CalendarSynchronizerTests
     {
         var utc = new CalDateTime(new DateTime(2026, 1, 15, 14, 30, 0, DateTimeKind.Utc));
 
-        var result = CalendarSynchronizer.ConvertToLocalTime(utc);
+        var result = utc.ToLocalTime(WarsawTimeZone);
 
         await Assert.That(result).IsEqualTo(new TimeOnly(15, 30));
     }
@@ -37,7 +43,7 @@ public class CalendarSynchronizerTests
     {
         var warsaw = new CalDateTime(new DateTime(2026, 7, 15, 15, 30, 0), "Europe/Warsaw");
 
-        var result = CalendarSynchronizer.ConvertToLocalTime(warsaw);
+        var result = warsaw.ToLocalTime(WarsawTimeZone);
 
         await Assert.That(result).IsEqualTo(new TimeOnly(15, 30));
     }
@@ -49,7 +55,7 @@ public class CalendarSynchronizerTests
             new DateTime(2026, 7, 15, 15, 30, 0),
             "Central European Standard Time");
 
-        var result = CalendarSynchronizer.ConvertToLocalTime(outlookTime);
+        var result = outlookTime.ToLocalTime(WarsawTimeZone);
 
         await Assert.That(result).IsEqualTo(new TimeOnly(15, 30));
     }
@@ -59,7 +65,7 @@ public class CalendarSynchronizerTests
     {
         var indiaTime = new CalDateTime(new DateTime(2026, 7, 15, 19, 0, 0), "India Standard Time");
 
-        var result = CalendarSynchronizer.ConvertToLocalTime(indiaTime);
+        var result = indiaTime.ToLocalTime(WarsawTimeZone);
 
         await Assert.That(result).IsEqualTo(new TimeOnly(15, 30));
     }
@@ -208,6 +214,142 @@ public class CalendarSynchronizerTests
     }
 
     [Test]
+    public async Task FailedRefreshOnNextDayDoesNotReplayPreviousDaysEvents()
+    {
+        var clock = new ManualTimeProvider(WarsawUtc(2026, 7, 15, 10, 0));
+        var server = new StubCalendarServer()
+            .Respond(CalendarOne, Calendar(LocalEvent(new DateTime(2026, 7, 15), 11, 0, 11, 30)))
+            .Fail(CalendarOne);
+        var synchronizer = CreateSynchronizer([CalendarOne], server, clock);
+
+        await synchronizer.SynchronizeCalendar();
+        await Assert.That(synchronizer.GetBusyStatus(new TimeOnly(11, 15))).IsEqualTo(BusyStatus.Busy);
+
+        clock.Advance(TimeSpan.FromDays(1));
+        await synchronizer.SynchronizeCalendar();
+
+        await Assert.That(synchronizer.GetBusyStatus(new TimeOnly(11, 15))).IsEqualTo(BusyStatus.Free);
+    }
+
+    [Test]
+    public async Task UtcEventStartingOnPreviousUtcDateIsIncludedOnWarsawDate()
+    {
+        var clock = new ManualTimeProvider(WarsawUtc(2026, 7, 15, 0, 45));
+        var startUtc = new DateTime(2026, 7, 14, 22, 30, 0, DateTimeKind.Utc);
+        var synchronizer = CreateSynchronizer(
+            [CalendarOne],
+            new StubCalendarServer().Respond(CalendarOne, Calendar(Event(startUtc, startUtc.AddMinutes(30)))),
+            clock);
+
+        await synchronizer.SynchronizeCalendar();
+
+        await Assert.That(synchronizer.GetBusyStatus(new TimeOnly(0, 45))).IsEqualTo(BusyStatus.Busy);
+    }
+
+    [Test]
+    public async Task OvernightEventRemainsBusyAfterMidnight()
+    {
+        var clock = new ManualTimeProvider(WarsawUtc(2026, 7, 15, 0, 30));
+        var overnightEvent = """
+            BEGIN:VEVENT
+            UID:overnight
+            DTSTAMP:20260101T000000Z
+            DTSTART;TZID=Europe/Warsaw:20260714T233000
+            DTEND;TZID=Europe/Warsaw:20260715T010000
+            END:VEVENT
+            """;
+        var synchronizer = CreateSynchronizer(
+            [CalendarOne],
+            new StubCalendarServer().Respond(CalendarOne, Calendar(overnightEvent)),
+            clock);
+
+        await synchronizer.SynchronizeCalendar();
+
+        await Assert.That(synchronizer.GetBusyStatus(new TimeOnly(0, 30))).IsEqualTo(BusyStatus.Busy);
+    }
+
+    [Test]
+    public async Task AllDayEventIsBusyForTheWholeWarsawDay()
+    {
+        var clock = new ManualTimeProvider(WarsawUtc(2026, 7, 15, 12, 0));
+        var allDayEvent = """
+            BEGIN:VEVENT
+            UID:all-day
+            DTSTAMP:20260101T000000Z
+            DTSTART;VALUE=DATE:20260715
+            DTEND;VALUE=DATE:20260716
+            END:VEVENT
+            """;
+        var synchronizer = CreateSynchronizer(
+            [CalendarOne],
+            new StubCalendarServer().Respond(CalendarOne, Calendar(allDayEvent)),
+            clock);
+
+        await synchronizer.SynchronizeCalendar();
+
+        await Assert.That(synchronizer.GetBusyStatus(new TimeOnly(12, 0))).IsEqualTo(BusyStatus.Busy);
+    }
+
+    [Test]
+    [Arguments("TRANSP:TRANSPARENT")]
+    [Arguments("STATUS:CANCELLED")]
+    [Arguments("X-MICROSOFT-CDO-BUSYSTATUS:FREE")]
+    public async Task NonBlockingEventDoesNotProduceBusyStatus(string property)
+    {
+        var clock = new ManualTimeProvider(WarsawUtc(2026, 7, 15, 9, 15));
+        var synchronizer = CreateSynchronizer(
+            [CalendarOne],
+            new StubCalendarServer().Respond(
+                CalendarOne,
+                Calendar(LocalEvent(new DateTime(2026, 7, 15), 9, 0, 9, 30, property))),
+            clock);
+
+        await synchronizer.SynchronizeCalendar();
+
+        await Assert.That(synchronizer.GetBusyStatus(new TimeOnly(9, 15))).IsEqualTo(BusyStatus.Free);
+    }
+
+    [Test]
+    public async Task ScheduledCalendarRefreshesDoNotOverlap()
+    {
+        var releaseResponses = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var server = new StubCalendarServer()
+            .Block(CalendarOne, releaseResponses.Task)
+            .Block(CalendarOne, releaseResponses.Task);
+        var synchronizer = CreateSynchronizer([CalendarOne], server);
+        var haContext = Substitute.For<IHaContext>();
+        haContext.GetState(Arg.Any<string>()).Returns((EntityState?) null);
+        haContext.StateAllChanges().Returns(Observable.Never<StateChange>());
+        var scheduler = new TestScheduler();
+        scheduler.AdvanceTo(DateTimeOffset.Now.UtcTicks);
+        var app = new WorkFromHomeLedCalendarSchedule(
+            new Entities(haContext),
+            scheduler,
+            synchronizer,
+            NullLogger<WorkFromHomeLedCalendarSchedule>.Instance);
+
+        try
+        {
+            scheduler.AdvanceBy(TimeSpan.FromSeconds(1).Ticks);
+            await WaitUntilAsync(() => server.RequestCount(CalendarOne) >= 1);
+
+            scheduler.AdvanceBy(TimeSpan.FromMinutes(10).Ticks);
+            await WaitUntilAsync(() => server.RequestCount(CalendarOne) >= 2, TimeSpan.FromMilliseconds(500));
+
+            await Assert.That(server.RequestCount(CalendarOne)).IsEqualTo(1);
+        }
+        finally
+        {
+            if (app is IDisposable disposable)
+            {
+                disposable.Dispose();
+            }
+
+            releaseResponses.TrySetResult();
+        }
+    }
+
+    [Test]
     public async Task FailureOfOneCalendarDoesNotDiscardSuccessfulCalendar()
     {
         var today = DateTime.Today;
@@ -269,7 +411,8 @@ public class CalendarSynchronizerTests
 
     private static CalendarSynchronizer CreateSynchronizer(
         IReadOnlyList<string> urls,
-        StubCalendarServer server)
+        StubCalendarServer server,
+        TimeProvider? timeProvider = null)
     {
         var values = urls
             .Select((url, index) => new KeyValuePair<string, string?>($"WorkFromHome:CalendarUrls:{index}", url));
@@ -280,7 +423,23 @@ public class CalendarSynchronizerTests
         return new CalendarSynchronizer(
             server,
             configuration,
-            NullLogger<CalendarSynchronizer>.Instance);
+            NullLogger<CalendarSynchronizer>.Instance,
+            timeProvider);
+    }
+
+    private static DateTimeOffset WarsawUtc(int year, int month, int day, int hour, int minute)
+    {
+        var local = new DateTime(year, month, day, hour, minute, 0, DateTimeKind.Unspecified);
+        return new DateTimeOffset(TimeZoneInfo.ConvertTimeToUtc(local, WarsawTimeZone));
+    }
+
+    private static async Task WaitUntilAsync(Func<bool> condition, TimeSpan? timeout = null)
+    {
+        var stopAt = DateTime.UtcNow + (timeout ?? TimeSpan.FromSeconds(5));
+        while (!condition() && DateTime.UtcNow < stopAt)
+        {
+            await Task.Delay(10);
+        }
     }
 
     private static string Calendar(params string[] events) => $$"""
@@ -323,23 +482,36 @@ public class CalendarSynchronizerTests
 
     private sealed class StubCalendarServer : IHttpClientFactory
     {
-        private readonly Dictionary<string, Queue<Func<HttpResponseMessage>>> _responses = new(StringComparer.Ordinal);
+        private readonly Dictionary<string, Queue<Func<Task<HttpResponseMessage>>>> _responses = new(StringComparer.Ordinal);
         private readonly Dictionary<string, int> _requestCounts = new(StringComparer.Ordinal);
 
         public int TotalRequestCount => _requestCounts.Values.Sum();
 
         public StubCalendarServer Respond(string url, string content)
         {
-            Add(url, () => new HttpResponseMessage(HttpStatusCode.OK)
+            Add(url, () => Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK)
             {
                 Content = new StringContent(content)
-            });
+            }));
             return this;
         }
 
         public StubCalendarServer Fail(string url)
         {
-            Add(url, () => new HttpResponseMessage(HttpStatusCode.ServiceUnavailable));
+            Add(url, () => Task.FromResult(new HttpResponseMessage(HttpStatusCode.ServiceUnavailable)));
+            return this;
+        }
+
+        public StubCalendarServer Block(string url, Task release)
+        {
+            Add(url, async () =>
+            {
+                await release;
+                return new HttpResponseMessage(HttpStatusCode.OK)
+                {
+                    Content = new StringContent(Calendar())
+                };
+            });
             return this;
         }
 
@@ -347,18 +519,18 @@ public class CalendarSynchronizerTests
 
         public HttpClient CreateClient(string name) => new(new Handler(this));
 
-        private void Add(string url, Func<HttpResponseMessage> response)
+        private void Add(string url, Func<Task<HttpResponseMessage>> response)
         {
             if (!_responses.TryGetValue(url, out var queue))
             {
-                queue = new Queue<Func<HttpResponseMessage>>();
+                queue = new Queue<Func<Task<HttpResponseMessage>>>();
                 _responses[url] = queue;
             }
 
             queue.Enqueue(response);
         }
 
-        private HttpResponseMessage Send(HttpRequestMessage request)
+        private Task<HttpResponseMessage> SendAsync(HttpRequestMessage request)
         {
             var url = request.RequestUri!.AbsoluteUri;
             _requestCounts[url] = RequestCount(url) + 1;
@@ -374,7 +546,16 @@ public class CalendarSynchronizerTests
         {
             protected override Task<HttpResponseMessage> SendAsync(
                 HttpRequestMessage request,
-                CancellationToken cancellationToken) => Task.FromResult(server.Send(request));
+                CancellationToken cancellationToken) => server.SendAsync(request);
         }
+    }
+
+    private sealed class ManualTimeProvider(DateTimeOffset utcNow) : TimeProvider
+    {
+        private DateTimeOffset _utcNow = utcNow;
+
+        public override DateTimeOffset GetUtcNow() => _utcNow;
+
+        public void Advance(TimeSpan duration) => _utcNow += duration;
     }
 }
