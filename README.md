@@ -6,7 +6,7 @@ This is generated using NetDaemon runtime version 5 and .NET 10.
 ## Getting started
 Please see [netdaemon.xyz](https://netdaemon.xyz/docs) more information about getting starting developing apps for Home Assistant using NetDaemon.
 
-Please add code generation features in `program.cs` when using code generation features by removing comments!
+Please add code generation features in `src/HomeAutomationNetDaemon/Program.cs` when using code generation features by removing comments!
 
 ## Use the code generator
 See https://netdaemon.xyz/docs/hass_model/hass_model_codegen
@@ -14,7 +14,7 @@ See https://netdaemon.xyz/docs/hass_model/hass_model_codegen
 ## Work-from-home calendar availability
 
 Configure every ICS feed that should affect the office availability lights in
-`appsettings.json`. Events from all configured calendars are combined: any busy
+`src/HomeAutomationNetDaemon/appsettings.json`. Events from all configured calendars are combined: any busy
 event results in **Busy**, otherwise any tentative event results in **BusyTentative**,
 and a time without events is **Free**.
 

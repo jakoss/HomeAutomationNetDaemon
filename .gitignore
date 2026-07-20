@@ -3,6 +3,7 @@ bin
 appsettings.Development.json
 .vs
 *.gen
+TestResults/
 .idea
 #appsettings.json
 #HomeAssistantGenerated.cs
