@@ -6,9 +6,9 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/bin/Debug/net10.0/HomeAutomationNetDaemon.dll",
+            "program": "${workspaceFolder}/src/HomeAutomationNetDaemon/bin/Debug/net10.0/HomeAutomationNetDaemon.dll",
             "args": [],
-            "cwd": "${workspaceFolder}",
+            "cwd": "${workspaceFolder}/src/HomeAutomationNetDaemon",
             "env": {
                 "DOTNET_ENVIRONMENT": "Development",
                 "ASPNETCORE_ENVIRONMENT": "Development"

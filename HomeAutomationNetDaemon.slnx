@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/HomeAutomationNetDaemon/HomeAutomationNetDaemon.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/HomeAutomationNetDaemon.Tests/HomeAutomationNetDaemon.Tests.csproj" />
+  </Folder>
+</Solution>
