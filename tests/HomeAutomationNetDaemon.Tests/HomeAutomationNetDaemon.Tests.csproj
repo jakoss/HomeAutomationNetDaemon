@@ -9,7 +9,7 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.Reactive.Testing" Version="7.0.0" />
-        <PackageReference Include="NSubstitute" Version="6.1.0" />
+        <PackageReference Include="NSubstitute" Version="6.2.0" />
 
         <PackageReference Include="TUnit" Version="1.64.13" />
         <ProjectReference Include="../../src/HomeAutomationNetDaemon/HomeAutomationNetDaemon.csproj" />
