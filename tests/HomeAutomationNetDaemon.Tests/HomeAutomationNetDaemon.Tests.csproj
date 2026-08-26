@@ -11,7 +11,7 @@
         <PackageReference Include="Microsoft.Reactive.Testing" Version="7.0.0" />
         <PackageReference Include="NSubstitute" Version="6.2.0" />
 
-        <PackageReference Include="TUnit" Version="1.65.51" />
+        <PackageReference Include="TUnit" Version="1.65.68" />
         <ProjectReference Include="../../src/HomeAutomationNetDaemon/HomeAutomationNetDaemon.csproj" />
     </ItemGroup>
 </Project>
